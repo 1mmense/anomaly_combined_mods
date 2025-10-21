@@ -1,0 +1,26 @@
+{
+	"WTF_VERSION": "4.2",
+	"CREDITS": "GhenTuong - idea and initial implementation\\nIgigog - support",
+	"entities": [
+	{
+		"section_name":"$ igi_utils.random_table_value(igi_helper.db_ini:collect_section(|this.mutants_section|))",
+		"mutants_section": "$ 'gt_mutant_'..wtf_gt_tasks.scale_to_player()",
+		"id": "init$ utils_obj.create_squad(|this.section_name|, |smart.name|).id",
+		"init": "init$ igi_helper.init_squad(|this.id|)",
+		"to_description": true
+	},
+
+	{
+		"ids": "$ igi_finder.get_smarts(1,1)",
+		"id": "$ wtf.shuffle(|this.ids|)[1] or false",
+		"CONTROLLER":"@$ igi_target_assault.Assault",
+		"name": "$ alife_object(|this.id|):name()",
+		"link_id": "smart",
+		"to_description": true
+	}
+	],
+	"icon": "ui_iconsTotal_mutant",
+	"quest_givers": [
+		{"Mechanic": true}
+	]
+}

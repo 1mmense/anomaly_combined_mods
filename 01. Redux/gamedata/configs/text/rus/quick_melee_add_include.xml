@@ -1,0 +1,14 @@
+	<string id="ui_mcm_menu_quick_melee">
+		<text>Быстрый удар</text>
+	</string>
+	
+	<string id="ui_mcm_quick_melee_keybind">
+		<text>Клавиша быстрой атаки</text>
+	</string>
+	<string id="ui_mcm_quick_melee_normal_dmg">
+		<text>Множитель обычного урона</text>
+	</string>
+	<string id="ui_mcm_quick_melee_critical_dmg">
+		<text>Множитель критического урона</text>
+	</string>
+	

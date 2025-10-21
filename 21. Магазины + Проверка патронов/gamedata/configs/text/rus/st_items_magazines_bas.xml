@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+    
+<!--
+Pistols and MP's
+-->
+
+	<string id="st_mag_sr1m_9x21">
+		<text>Обычный магазин 9x21 для СР-1М</text>
+	</string>
+	<string id="st_mag_sr1m_9x21_descr">
+		<text>
+		Обычный магазин 9x21 для СР-1М, вмещает 18 патронов. СР-1М это последняя разработка РФ в сфере пистолетов, стреляющая проприетарным патроном 9x21, который также используется ПП СР-2 "Вереск".
+		</text>
+	</string>
+	
+	<string id="st_mag_sr1m_9x21ext">
+		<text>Увеличенный магазин 9x21 для СР-1М</text>
+	</string>
+	<string id="st_mag_sr1m_9x21ext_descr">
+		<text>
+		Увеличенный магазин 9x21 для СР-1М, вмещает 26 патронов. СР-1М это последняя разработка РФ в сфере пистолетов, стреляющая проприетарным патроном 9x21, который также используется ПП СР-2 "Вереск".
+		</text>
+	</string>
+	
+	<string id="st_mag_pl15_9x19_fmj">
+		<text>Обычный магазин 9x19 для ПЛ-15</text>
+	</string>
+	<string id="st_mag_pl15_9x19_fmj_descr">
+		<text>
+		Обычный магазин 9x19 для ПЛ-15, вмещает 16 патронов.
+		</text>
+	</string>
+	
+		<string id="st_mag_pl15_9x19_fmjext">
+		<text>Увеличенный магазин 9x19 для ПЛ-15</text>
+	</string>
+	<string id="st_mag_pl15_9x19_fmjext_descr">
+		<text>
+		Увеличенный магазин 9x19 для ПЛ-15, вмещает 24 патрона.
+		</text>
+	</string>
+	
+	<string id="st_mag_sigp220_11.43x23_fmj">
+		<text>Обычный магазин .45ACP для SIG P220</text>
+	</string>
+	<string id="st_mag_sigp220_11.43x23_fmj_descr">
+		<text>
+		Обычный магазин .45ACP для SIG P220, вмещает 12 патронов.
+		</text>
+	</string>
+	
+	<string id="st_mag_sigp220_11.43x23_fmjext">
+		<text>Увеличенный магазин .45ACP для SIG P220</text>
+	</string>
+	<string id="st_mag_sigp220_11.43x23_fmjext_descr">
+		<text>
+		Увеличенный магазин .45ACP для SIG P220, вмещает 20 патронов.
+		</text>
+	</string>
+	
+	<string id="st_mag_sig226_9x19_fmj">
+		<text>Обычный магазин 9x19 для SIG P226</text>
+	</string>
+	<string id="st_mag_sig226_9x19_fmj_descr">
+		<text>
+		Обычный магазин 9x19 для SIG P226, вмещает 15 патронов.
+		</text>
+	</string>
+	
+	<string id="st_mag_sig226_9x19_fmjext">
+		<text>Увеличенный магазин 9x19 для SIG P226</text>
+	</string>
+	<string id="st_mag_sig226_9x19_fmjext_descr">
+		<text>
+		Увеличенный магазин 9x19 для SIG P226, вмещает 20 патронов.
+		</text>
+	</string>
+	
+	<string id="st_mag_usptac_9x19_fmj">
+		<text>Обычный магазин 9x19 для USP</text>
+	</string>
+	<string id="st_mag_usptac_9x19_fmj_descr">
+		<text>
+		Обычный магазин 9x19 для USP, вмещает 22 патрона.
+		</text>
+	</string>
+	
+	<string id="st_mag_usptac_9x19_fmjext">
+		<text>Увеличенный магазин 9x19 для USP</text>
+	</string>
+	<string id="st_mag_usptac_9x19_fmjext_descr">
+		<text>
+		Увеличенный магазин 9x19 для USP, вмещает 30 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_wp99_9x19_fmj">
+		<text>Обычный магазин 9x19 для Walther P99</text>
+	</string>
+	<string id="st_mag_wp99_9x19_fmj_descr">
+		<text>
+		Обычный магазин 9x19 для Walther P99, вмещает 16 патронов.
+		</text>
+	</string>
+	
+		<string id="st_mag_wp99_9x19_fmjext">
+		<text>Увеличенный магазин 9x19 для Walther P99</text>
+	</string>
+	<string id="st_mag_wp99_9x19_fmjext_descr">
+		<text>
+		Увеличенный магазин 9x19 для Walther P99, вмещает 24 патрона.
+		</text>
+	</string>
+	
+	<string id="st_mag_p220_9x19_u2p2bas">
+		<text>Стандартный магазин 9x19 P220 Custom Nine</text>
+	</string>
+	<string id="st_mag_p220_9x19_u2p2bas_descr">
+		<text>
+		Стандартный магазин 9x19 P220 Custom Nine, вмещает 19 патронов
+		</text>
+	</string>
+
+</string_table>

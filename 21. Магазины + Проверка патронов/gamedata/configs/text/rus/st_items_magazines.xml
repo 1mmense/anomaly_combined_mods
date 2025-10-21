@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<!--COMMON-->
+	<string id="st_mag_weapon_jammed">
+		<text>Оружие заклинило</text>
+	</string>
+	<string id="st_mag_eject_magazine">
+		<text>извлечь магазин</text>
+	</string>
+	<string id="st_mag_unload_ammo">
+		<text>разрядить</text>
+	</string>
+	<string id="st_mag_loadout_remove">
+		<text>убрать из разгрузки</text>
+	</string>
+	<string id="st_mag_loadout_add">
+		<text>добавить в разгрузку</text>
+	</string>
+
+	<string id="st_mag_retool">
+		<text>сменить калибр</text>
+	</string>
+	
+	<string id="st_mag_err_retool">
+		<text>Нельзя сменить калибр заряженного магазина! Разрядите магазин перед сменой калибра.</text>
+	</string>
+	<!-- MCM -->
+	
+	<string id="ui_mcm_menu_magazines">
+		<text>Магазины</text>
+	</string>
+	<string id="ui_mcm_menu_magazines_title">
+		<text>Anomaly Magazines</text>
+	</string>
+	<string id="ui_mcm_magazines_title">
+		<text>Anomaly Magazines Redux</text>
+	</string>
+	<string id="ui_mcm_magazines_lootquality">
+		<text>Качество лута</text>
+	</string>
+	<string id="ui_mcm_magazines_lootquality_desc">
+		<text>Множитель шанса найти хорошие патроны в магазинах и улучшенные магазины.</text>
+	</string>
+	<string id="ui_mcm_magazines_ignore_loaddelay">
+		<text>Выключить зависимость скорости заряжания/разряжания от магазина</text>
+	</string>
+	<string id="ui_mcm_magazines_ignore_loaddelay_desc">
+		<text>После включения будет использовать одинаковое количество времени для заряжания/разряжания любого магазина. \nЭта настройка меняет скорость заряжания/разряжания на 1 патрон в секунду. \nСлайдеры ниже всё ещё будут действовать.</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_loadtime_factor">
+		<text>Фактор времени заряжания магазина</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_loadtime_factor_desc">
+		<text>Множитель для врмемни заряжания магазина. \nЕсли включена настройка "Выключить зависимость скорости заряжания/разряжания от магазина" то будет исчисляться в секундах.</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unloadtime_factor">
+		<text>Фактор времени разряжания магазина</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unloadtime_factor_desc">
+		<text>Множитель скорости разряжания магазина. \nЕсли включена настройка "Выключить зависимость скорости заряжания/разряжания от магазина" то будет исчисляться в секундах.</text>
+	</string>
+	<string id="ui_mcm_magazines_debug">
+		<text>Включить логирование для отладки</text>
+	</string>
+	<string id="ui_mcm_magazines_debug_desc">
+		<text>Включает логирование для отладки в консоли.</text>
+	</string>
+	<string id="ui_mcm_magazines_empty_mags_stack">
+		<text>Складывать пустые магазины в инвентаре вместе</text>
+	</string>
+	<string id="ui_mcm_magazines_empty_mags_stack_desc">
+		<text>После включения одинаковые пустые магазины будут складываться вместе в инвентаре, а не лежать по отдельности.</text>
+	</string>
+	<string id="ui_mcm_magazines_sort_inv">
+		<text>Сортировать инвентарь при обновлении состояния магазинов</text>
+	</string>
+	<string id="ui_mcm_magazines_sort_inv_desc">
+		<text>Выключите если вам мешают перемещающиеся в инвентаре магазины при обновлении их состояния.</text>
+	</string>
+	<string id="ui_mcm_magazines_highlight_color">
+		<text>Цвет подсветки</text>
+	</string>
+	<string id="ui_mcm_magazines_highlight_color_desc">
+		<text>Цвет подсветки для магазинов, находящихся в разгрузке.</text>
+	</string>
+
+	<string id="ui_mcm_magazines_highlight_clr_a">
+		<text>Прозрачность подсветки</text>
+	</string>
+	<string id="ui_mcm_magazines_highlight_clr_a_desc">
+		<text>Сколько фона интерфейса видно через подсветку. При меньших значениях подсветка становится более прозрачной.</text>
+	</string>
+
+	<string id="ui_mcm_lst_ram_orange">
+		<text>Оранжевый</text>
+	</string>
+	<string id="ui_mcm_lst_ram_pink">
+		<text>Розовый</text>
+	</string>
+	<string id="ui_mcm_lst_ram_blond">
+		<text>Блонд</text>
+	</string>
+	<string id="ui_mcm_lst_ram_white">
+		<text>Белый</text>
+	</string>
+	<string id="ui_mcm_lst_ram_brown">
+		<text>Коричневый</text>
+	</string>
+	<string id="ui_mcm_lst_ram_blue">
+		<text>Синий</text>
+	</string>
+
+	<string id="ui_mcm_magazines_show_hud">
+		<text>Включить отображение магазинов на интерфейсе</text>
+	</string>
+	<string id="ui_mcm_magazines_show_hud_desc">
+		<text>После включения на интерфейсе возле счётчика патронов будут видны магазины в разгрузке.</text>
+	</string>
+	<string id="ui_mcm_magazines_icon_text">
+		<text>Включить название патрона на интерфейсе</text>
+	</string>
+	<string id="ui_mcm_magazines_icon_text_desc">
+		<text>После включения на интерфейсе будет видно название последнего заряженного в магазин патрона.</text>
+	</string>
+	<string id="ui_mcm_magazines_ammo_icon">
+		<text>Включить иконки патронов на интерфейсе</text>
+	</string>
+	<string id="ui_mcm_magazines_ammo_icon_desc">
+		<text>После включения на интерфейсе будет видна иконка последнего заряженного в магазин патрона.</text>
+	</string>
+	<string id="ui_mcm_magazines_retain_round">
+		<text>Включить заряжание патрона в патронник</text>
+	</string>
+	<string id="ui_mcm_magazines_retain_round_desc">
+		<text>После включения оружие сможет выстрелить ещё один раз после изъятия магазина из оружия.</text>
+	</string>
+	<string id="ui_mcm_magazines_fast_loading">
+		<text>Включить быстрое заряжание/разряжание в хранилищах</text>
+	</string>
+	<string id="ui_mcm_magazines_fast_loading_desc">
+		<text>После включение заряжание/разряжание патронов в хранилищах будет происходить моментально, прям как в Escape from Tarkov.</text>
+	</string>
+	<string id="ui_mcm_magazines_ejection">
+		<text>Действие с пустыми магазинами</text>
+	</string>
+	<string id="ui_mcm_magazines_ejection_desc">
+		<text>Определяет куда уйдут магазины, после того как они разрядились</text>
+	</string>
+	<string id="ui_mcm_lst_ground">
+		<text>Выкинуть на землю</text>
+	</string>
+
+	<string id="ui_mcm_lst_ruck">
+		<text>Вернуть в рюкзак</text>
+	</string>
+
+	<string id="ui_mcm_lst_loadout">
+		<text>Оставить в разгрузке</text>
+	</string>
+	
+	<string id="ui_mcm_magazines_mag_unequip_trs">
+		<text>Считать пустым %</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unequip_trs_desc">
+		<text>Используется для параметров "Вернуть в рюкзак" или "Выкинуть на землю"\nМагазины ниже этого % будут считаться пустыми.</text>
+	</string>
+	<!--MAGAZINES-->
+
+	<string id="st_dot">
+		<text>•</text>
+	</string>
+	<string id="st_mag_bonus">
+		<text>(Костюм:%x + Дополнительный:%x)<!--alt:> (%s + %s)<--></text>
+	</string>
+	<string id="st_mag_small">
+		<text>Маленькие магазины:</text>
+	</string>
+	<string id="st_mag_medium">
+		<text>Средние магазины:</text>
+	</string>
+	<string id="st_mag_large">
+		<text>Большие магазины:</text>
+	</string>
+	<string id="st_mag_base">
+		<text>Основа магазина</text>
+	</string>
+	<string id="st_mag_base_descr">
+		<text>Основа магазина.</text>
+	</string>
+	
+	<string id="st_mag_size">
+		<text>Размер магазина:</text>
+	</string>
+	<string id="st_mag_size_small">
+		<text>Маленький</text>
+	</string>
+	<string id="st_mag_size_medium">
+		<text>Средний</text>
+	</string>
+	<string id="st_mag_size_large">
+		<text>Большой</text>
+	</string>
+
+	<string id="st_mag_loaded">
+		<text>Заряженный магазин:</text>
+	</string>
+	<string id="st_mag_loaded_none">
+		<text>ВНИМАНИЕ: магазин отсутствует</text>
+	</string>
+	
+	<string id="st_mag_ammo_loaded_count">
+		<text>Заряжено патронов:</text>
+	</string>
+
+	<string id="article_mags">
+		<text>Магазины</text>
+	</string>
+	<string id="article_mags_text">
+		<text>
+			%c[pda_green]Mags Redux%c[ui_gray_1]\n \n
+			\nДобро пожаловать в использование Mags Redux. Это руководство охватывает большинство функций и изменений, которые вы можете ожидать при использовании этого мода.
+			\nДля пользователей старых Магазинов (от Wuut), вы можете ожидать незначительных изменений в геймплее. Большая часть функциональности осталась прежней.\n \n
+			
+			%c[pda_green]I. Как заряжать и стрелять из оружия%c[ui_gray_1]\n
+			\n• Оружие, которое в реальной жизни логично использует магазины, требует их использования.
+			\n   • Оружие, которое не использует магазины, будет вести себя как в ваниле (дробовики, некоторые болтовые винтовки, револьверы).
+			\n• Патроны должны быть заряжены в магазины вручную. В описании магазина будет указано, какие патроны с ним совместимы. Чтобы загрузить патроны, перетащите элемент патронов в магазин. Это запустит процедуру загрузки, в ходе которой патроны будут загружаться один за другим.
+			\n   • Чтобы отменить эту процедуру, щелкните в любом месте.
+			\n• Чтобы поместить магазин в инвентарь, щелкните на нем правой кнопкой мыши. Появится опция "Добавить в магазин". Фон журнала изменит цвет и появится значок: это означает, что журнал добавлен в инвентарь.
+			\n	 • Если вы держите в руках подходящее оружие, перезарядка оружия будет использовать магазин из вашего инвентаря.
+			\n	 • Мод попытается автоматически выбрать магазин, который а) имеет наибольший размер и б) имеет верхний патрон, равный вашему типу патронов.
+			\n• Магазины также можно вставлять и выбрасывать вручную. Щелкните правой кнопкой мыши на оружии, чтобы найти возможность извлечь магазин. 
+			\n• Колесо патронов можно использовать для смены магазинов. Магазины классифицируются по верхнему патрону.\n \n
+			
+			%c[pda_green]II. Где найти магазины%c[ui_gray_1]\n
+			\n• Продавцы, которые продают оружие, продают и магазины. Журналы также могут быть проданы им за гроши.
+			\n• У NPC будет пара магазинов для их оружия и немного патронов.
+			\n   • У NPC, особенно у NPC высокого ранга, есть небольшой шанс получить улучшенные магазины. Эти магазины быстрее заряжаются, имеют большую емкость или и то, и другое.\n\n
+
+			
+			%c[pda_green]III. Объяснение возможностей MCM.%c[ui_gray_1]\n
+			\n• Качество лута: Влияет на количество выпавших патронов, наполняемость и шанс получить улучшенные патроны.
+			\n• Коэффициент времени загрузки/разгрузки: Множитель на скорость загрузки/выгрузки патронов в магазины.
+			\n• Быстрая загрузка: Позволяет мгновенно разгружать/загружать магазины только в тайнике.
+			\n• Один в патроннике: Сохраняет патрон в патроннике при смене магазина, как в реальной жизни. 
+		</text>
+	</string>
+	
+</string_table>

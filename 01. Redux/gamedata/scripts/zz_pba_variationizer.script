@@ -1,0 +1,19 @@
+if perk_based_artefacts and perk_based_artefacts.artefact_props then
+	local props = perk_based_artefacts.artefact_props
+
+	if props.af_bat then
+		local af_bat = props.af_bat
+		local get_random_artefact = af_bat.get_random_artefact
+
+		af_bat.get_random_artefact = function(self, sec, arts_table)
+			local new_sec = get_random_artefact(self, sec, arts_table)
+
+			if artefact_variationizer.valid_artys[new_sec] then
+				return new_sec .. "_variationizer" .. math.random(artefact_variationizer.max_artefacts)
+			else
+				return new_sec
+			end
+		end
+		
+	end
+end

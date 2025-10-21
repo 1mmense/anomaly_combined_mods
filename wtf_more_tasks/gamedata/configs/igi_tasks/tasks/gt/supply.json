@@ -1,0 +1,54 @@
+{
+	"preconditions": [
+		"igi_actions.rank('midgame')"
+	],
+	"entities": [
+	{
+		"entity_type":"location",
+		"search_for": "smart",
+		"where":"1,1",
+		"target":"assault",
+		"link_id": "smart"
+	},
+
+	{
+		"amount":2,
+		"faction":"&Faction('enemy of taskgiver and enemy of actor')&",
+		"entity_type":"squad",
+		"section_name":"&TableValueByKey('gt_guard', '[this.faction]')&",
+		"to_create": true,
+		"where": "[smart.id]"
+	},
+
+	{
+		"entity_type":"item",
+		"amount":2,
+		"section_name":"&ChooseOne('gt_package_medicine','gt_package_ammunition')&",
+		"target":"return",
+		"to_create": true,
+		"where": "[smart.id]",
+		"mark": "treasure_unique"
+	}
+	],
+	"icon": "ui_inGame2_Osobiy_zakaz",
+	"quest_givers": [
+		{"Mechanic": true},
+		{"Petrenko": true},
+		{"Beard": true},
+		{"Spore": true},
+		{"Kuznetsov": true},		
+		{"Sidorovich": true},
+		{"Olivius": true},
+		{"Sultan": true},
+		{"Sakharov": true},
+		{"Barkeep": true},
+		{"Dushman": true},
+		{"Aslan": true},
+		{"Skinflint": true},
+		{"Lukash": true},
+		{"Hermann": true},
+		{"Eidolon": true},
+		{"Krolik": true},
+		{"Fanatic": true}		
+	]
+}

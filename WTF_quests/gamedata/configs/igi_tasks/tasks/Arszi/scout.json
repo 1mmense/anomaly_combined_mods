@@ -1,0 +1,28 @@
+{
+	"WTF_VERSION": "4.2",
+	"CREDITS": "Arszi - idea and initial implementation\\nIgigog - support",
+	"entities": [
+	{
+		"CONTROLLER":"@$ igi_target_visit.Visit",
+		"GEN": "@$ igi_generate.Split('ids', 'id')",
+
+		"curr_level":"$ level.name()",
+		"path":"$ parse_names(|this.path_string|)",
+		"path_string": "$ igi_utils.random_table_value(igi_helper.db_ini:collect_section('arszi_scout_' .. |this.curr_level|))",
+		"ids": "$ wtf.map(|this.path|, function(n) return SIMBOARD.smarts_by_names[n].id end)",
+
+		"subtask": true,
+		"to_description": true
+	}
+	],
+	"quest_givers": [
+		{"Leader": true, "Agroprom": true, "Army": true},
+        {"Trader": true, "Bar": true, "Duty": true},
+        {"Leader": true, "DeadCity": true, "Mercenary": true},
+        {"Leader": true, "ClearSky": true, "Marsh": true},
+        {"Leader": true, "Freedom": true, "AW": true},
+        {"Trader": true, "Monolith": true, "Pripyat2": true},
+        {"Fanatic": true}
+	],
+	"icon": "ui_inGame2_Put_v_pripyat"
+}

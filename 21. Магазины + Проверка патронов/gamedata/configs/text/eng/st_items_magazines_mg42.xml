@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+
+    <string id="st_mag_mg42_7.92x33">
+		<text>Standard 7.92x57 MG42 Belt</text>
+	</string>
+	<string id="st_mag_mg42_7.92x33_descr">
+		<text>
+			Belt for the MG42, holds 100 rounds. No box, drape it over your shoulder and hope it doesn't get caught on something.
+		</text>
+	</string>
+
+</string_table>

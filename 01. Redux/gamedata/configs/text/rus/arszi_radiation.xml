@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+  <string id="st_underground">
+      <text>Вы под землей и не можете чувствовать погоду снаружи.</text>
+  </string>
+
+   <string id="st_weather_is">
+      <text>Погода -</text>
+  </string>
+
+  <string id="st_wind_power_no_wind">
+      <text>Вы не чувствуете ветра. Штиль.</text>
+  </string>
+
+  <string id="st_wind_power_slight_breeze">
+      <text>Вы чувствуете легкий бриз.</text>
+  </string>
+
+  <string id="st_wind_power_weak">
+      <text>Вы чувствуете слабый ветерок.</text>
+  </string>
+
+  <string id="st_wind_power_moderate">
+      <text>Вы чувствуете средний ветер.</text>
+  </string>
+
+  <string id="st_wind_power_strong">
+      <text>Вы чувствуете сильный ветер.</text>
+  </string>
+
+  <string id="st_wind_power_very_strong">
+      <text>Дует очень сильный ветер.</text>
+  </string>
+
+  <string id="st_wind_power_storm">
+      <text>Дует штормовой ветер и вы слышите сильный вой.</text>
+  </string>
+
+  <string id="st_wind_power_storm">
+      <text>Дует штормовой ветер и вы слышите сильный вой.</text>
+  </string>
+
+<string id="st_direction">
+      <text>Дует со стороны</text>
+  </string>
+
+  <string id="st_direction_north">
+      <text>севера.</text>
+  </string>
+
+  <string id="st_direction_north_east">
+      <text>северо-востока.</text>
+  </string>
+
+  <string id="st_direction_east">
+      <text>востока.</text>
+  </string>
+
+  <string id="st_direction_south_east">
+      <text>юго-востока.</text>
+  </string>
+
+  <string id="st_direction_south">
+      <text>юга.</text>
+  </string>
+
+  <string id="st_direction_south_west">
+      <text>юго-запада.</text>
+  </string>
+
+  <string id="st_direction_west">
+      <text>запада.</text>
+  </string>
+
+  <string id="st_direction_north_west">
+      <text>северо-запада.</text>
+  </string>
+
+  <string id="st_clear">
+      <text>ясная</text>
+  </string>
+
+  <string id="st_partly_clear">
+      <text>частично ясная</text>
+  </string>
+
+  <string id="st_foggy">
+      <text>туманная</text>
+  </string>
+
+  <string id="st_cloudy">
+      <text>облачная</text>
+  </string>
+
+  <string id="st_rain">
+      <text>дождливая</text>
+  </string>
+
+  <string id="st_storm">
+      <text>штормовая</text>
+  </string>
+
+  <!--WEATHER REPORT-->
+  <string id="st_warning_medium_to_strong">
+      <text>Ветер стал штормовым и раздувает радиоактивную пыль! Ищите укрытие сталкеры! Снаружи опасно!</text>
+  </string>
+
+  <string id="st_warning_none_to_medium">
+      <text>Ветер становится сильнее, будьте осторожны!</text>
+  </string>
+
+  <string id="st_warning_strong_to_medium">
+      <text>Ветер немного успокоился, но всё ещё сильный. Пока не теряйте бдительности!</text>
+  </string>
+
+  <string id="st_warning_medium_to_none">
+      <text>Ветер ослаб, можем расслабиться пока...</text>
+  </string>
+
+  <!--RED FOREST CAKE-->
+    <!--CLEAR-->
+    <string id="st_weather_clear_from_partly">
+      <text>Чудо: на небе почти ни облачка! Наслаждайтесь солнечным светом, пока он есть.</text>
+    </string>
+
+    <string id="st_weather_clear_from_foggy">
+      <text>Туман рассеялся, открыв яркий солнечный день.</text>
+    </string>
+
+    <string id="st_weather_clear_from_cloudy">
+      <text>Облака пропали, давайте снова наслаждаться чистым небом! Никакого каламбура...</text>
+    </string>
+
+    <string id="st_weather_clear_from_rain">
+      <text>Дождь кончился, скоро мы увидим чистое небо! Простите за каламбур...</text>
+    </string>
+
+    <string id="st_weather_clear_from_storm">
+      <text>Буря утихает, и уже видно, как сквозь нее пробивается солнце!</text>
+    </string>
+
+    <!--PARTLY-->
+    <string id="st_weather_partly_from_clear">
+      <text>Погода в настоящее время: переменная облачность. 60% вероятность тумана или конденсации через несколько часов.</text>
+    </string>
+
+    <string id="st_weather_partly_from_foggy">
+      <text>Туман рассеивается. Ветер дует со скоростью 8-16 км/ч. Погода в настоящее время: переменная облачность.</text>
+    </string>
+
+    <string id="st_weather_partly_from_cloudy">
+      <text>Облака начали рассеиваться. Но не думайте, что это надолго.</text>
+    </string>
+
+    <string id="st_weather_partly_from_rain">
+      <text>Дождевые тучи начали рассеиваться. Мы наблюдаем быстрое рассеивание облаков, переходящее в частичную облачность.</text>
+    </string>
+
+    <string id="st_weather_partly_from_storm">
+      <text>Грозовые тучи начали рассеиваться, ожидайте более спокойной погоды в ближайшие несколько часов. Если, конечно, не произойдет выброс...</text>
+    </string>
+
+    <!--FOGGY-->
+    <string id="st_weather_foggy_from_clear">
+      <text>Уровень влажности неожиданно вырос. Туман поглотил Зону. Проверяйте стволы и остерегайтесь мутантов.</text>
+    </string>
+
+    <string id="st_weather_foggy_from_partly">
+      <text>Уровень влажности повышается. Мы переходим от частичной облачности к туману. Не торопитесь и не стреляйте почем зря.</text>
+    </string>
+
+    <string id="st_weather_foggy_from_cloudy">
+      <text>Хорошая новость: вы не увидите на небе ни облачка. Плохая: это из-за тумана.</text>
+    </string>
+
+    <string id="st_weather_foggy_from_rain">
+      <text>Конденсация сменилась с дождя на туман. Не снимайте шарф или респиратор, если у вас слабые легкие.</text>
+    </string>
+
+    <string id="st_weather_foggy_from_storm">
+      <text>Мы перешли от грозы к туману. Ожидайте, что уровень влажности будет продолжать расти в течение следующих нескольких часов, но не ожидайте, что сегодня вы получите много витамина D.</text>
+    </string>
+
+    <!--CLOUDY-->
+    <string id="st_weather_cloudy_from_clear">
+      <text>Мы наблюдали резкое повышение влажности. Ожидайте, что облачная погода сохранится в течение следующих нескольких часов.</text>
+    </string>
+
+    <string id="st_weather_cloudy_from_partly">
+      <text>Похоже, тучи сгущаются. Если они не прояснятся в ближайшие несколько часов, ожидайте дождя.</text>
+    </string>
+
+    <string id="st_weather_cloudy_from_foggy">
+      <text>Погода сменилась с туманной на облачную. Ожидайте похолодания.</text>
+    </string>
+
+    <string id="st_weather_cloudy_from_rain">
+      <text>Осадки прекратились. Ожидайте повышения температуры земли и влажности. Над головой все еще висят густые облака.</text>
+    </string>
+
+    <string id="st_weather_cloudy_from_storm">
+      <text>Ожидайте, что облачный покров будет плотным, но спокойным в течение следующих нескольких часов. Вероятность того, что небо прояснится сегодня, составляет 40%.</text>
+    </string>
+
+    <!--RAIN-->
+    <string id="st_weather_rain_from_clear">
+      <text>Внезапный ливень обрушился на Зону. Есть 20% шанс, что станет еще хуже.</text>
+    </string>
+
+    <string id="st_weather_rain_from_partly">
+      <text>Облачный покров быстро сгустился, и мы наблюдаем внезапный ливень. Надеюсь, ваш костюм водонепроницаемый.</text>
+    </string>
+
+    <string id="st_weather_rain_from_cloudy">
+      <text>Температура падает. Ожидайте умеренных или сильных осадков в течение следующих нескольких часов.</text>
+    </string>
+
+    <string id="st_weather_rain_from_foggy">
+      <text>Хорошая новость: туман рассеялся! К сожалению, теперь идет дождь.</text>
+    </string>
+
+    <string id="st_weather_rain_from_storm">
+      <text>Если вы выйдете наружу, вы заметите, что погода больше не холодная, влажная и штормовая: теперь она просто холодная и мокрая!</text>
+    </string>
+
+    <!--STORM-->
+    <string id="st_weather_storm_from_clear">
+      <text>Если вы устроили пикник на обочине, то вас жаль. Сегодняшнюю солнечную погоду прервала жуткая гроза. Ожидайте, что это надолго.</text>
+    </string>
+
+    <string id="st_weather_storm_from_partly">
+      <text>Облачный покров быстро сгустился, и я уже вижу вспышки молний! Прячьте свои гаджеты.</text>
+    </string>
+
+    <string id="st_weather_storm_from_cloudy">
+      <text>Температура земли быстро падает. Ожидайте сильных штормов: берегите свою электронику.</text>
+    </string>
+
+    <string id="st_weather_storm_from_rain">
+      <text>После приятного освежающего дождя почему бы не насладиться надвигающейся грозой? С другой стороны, есть 60% - ная вероятность того, что она пройдет через несколько часов.</text>
+    </string>
+
+    <string id="st_weather_storm_from_foggy">
+      <text>Туман только что унесло... грозой. Температура земли стремительно падает.</text>
+    </string>
+	
+	<!--NIGHT-->
+    <string id="st_weather_clear_from_partly_night">
+      <text>Чудо: на небе почти нет облаков! Наслаждайтесь созерцанием звезд.</text>
+    </string>
+
+    <string id="st_weather_clear_from_foggy_night">
+      <text>Туман рассеялся, открыв яркое звездное небо.</text>
+    </string>
+
+    <string id="st_weather_clear_from_storm_night">
+      <text>Буря утихает, и я уже вижу, как сквозь нее пробивается луна!</text>
+    </string>
+
+    <string id="st_weather_storm_from_clear_night">
+      <text>Если вы устроили пикник на обочине, то мне вас жаль. Сегодняшнюю романтичную погоду прервала жуткая гроза. Ожидайте, что это надолго.</text>
+    </string>
+	
+</string_table>

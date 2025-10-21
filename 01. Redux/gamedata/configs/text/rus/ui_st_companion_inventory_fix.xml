@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+
+	
+    <string id="ui_mcm_menu_companion_inv">
+        <text>Инвентарь</text>
+    </string>
+    <string id="ui_mcm_menu_companion_inv_title">
+        <text>Разблокировка инвентаря напарника</text>
+    </string>
+	<string id="ui_mcm_companion_inv_show_all">
+		<text>Показать каждый предмет в инвентаре напарников.</text>
+	</string>
+
+	<string id="ui_mcm_companion_inv_show_all_desc">
+		<text> [Чит] Это покажет все предметы, даже технические и анимационные. Эта опция окрасит предметы в красный цвет. </text>
+	</string>
+	<string id="ui_mcm_companion_inv_show_klep">
+		<text>Показать предметы, которые напарник приобрел.</text>
+	</string>
+
+	<string id="ui_mcm_companion_inv_show_klep_desc">
+		<text> Эта опция покажет все предметы, которые напарник приобрел во время службы на вас, кроме тех, с которыми он начал. Эта опция окрасит предметы в желтый цвет. </text>
+	</string>
+
+
+
+
+</string_table>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="ui_mcm_scop_title">
+		<text>Adjustable Scopes HUD</text>
+	</string>	
+	<string id="ui_mcm_menu_scop">
+		<text>Прицелы</text>
+	</string>
+
+	<string id="ui_mcm_scop_iron_fov">
+		<text>Прицелы и встроенные 3D-прицелы</text>
+	</string>
+	<string id="ui_mcm_scop_iron_fov_desc">
+		<text>Более низкие значения приближают прицел при использовании металлических прицелов и встроенных трехмерных прицелов</text>
+	</string>
+
+	<string id="ui_mcm_scop_scop_fov">
+		<text>3D прицелы</text>
+	</string>
+	<string id="ui_mcm_scop_scop_fov_desc">
+		<text>Более низкие значения приближают прицел при использовании 3D-прицелов</text>
+	</string>
+
+	<string id="ui_mcm_scop_bad_scop_fov">
+		<text>Плохие 3D оптические прицелы</text>
+	</string>
+	<string id="ui_mcm_scop_bad_scop_fov_desc">
+		<text>Из-за технических ограничений некоторые прицелы, такие как ACOG, Susat по умолчанию должны располагаться дальше, чтобы они выглядели нормально. Этот параметр предназначен для них</text>
+	</string>
+
+</string_table>

@@ -1,0 +1,208 @@
+--Author: Arszi
+--Sound effects: DesmanMetzger
+--Last Change: 2021.04.24
+--Scheme to do psy_armed animation for NPCs controlled by a Controller
+--------------------------------------------
+controllable_stalker_evid =  19999
+controllable_stalker_actid = 19999
+--------------------------------Action Base Evaluator ---------------------------------------------------------------------
+
+class "evaluator_controllable_stalker" (property_evaluator)
+function evaluator_controllable_stalker:__init(storage, name) super (nil, name)
+	self.st = storage
+end
+
+function evaluator_controllable_stalker:evaluate()
+	local best_enemy = self.object:best_enemy()
+	if (best_enemy) then
+		if (not arszi_controller.targets_master_or_minion(self.object:id(), best_enemy:id())) then
+			return false
+		end
+	end
+
+	return xr_logic.is_active(self.object, self.st) or false
+end
+
+--------------------------------------Action Base --------------------------------------------------------------------------------
+class "action_controllable_stalker" (action_base)
+function action_controllable_stalker:__init(npc_name, action_name, storage) super (nil, action_name)
+	self.st = storage
+end
+
+function action_controllable_stalker:initialize()
+	action_base.initialize(self)
+end
+
+function action_controllable_stalker:execute()
+	action_base.execute(self)
+	local state = ""
+
+	local v_controlled = arszi_controller.get_controlled_table()[self.object:id()]
+	if (not v_controlled) then return end
+
+	local master = v_controlled.master and level.object_by_id(v_controlled.master)
+	if (not master) then return end
+
+	local controlled = level.object_by_id(self.object:id())
+	if (not controlled) then return end
+
+	if (arszi_controller.is_controlled_story(self.object:id())) then
+		if (master:best_enemy()) then
+			state = "wounded"
+		else
+			state = "patrol"
+		end
+	else
+		if (arszi_controller.is_combat_ignore(self.object:id())) then
+			state = "wounded"
+		else
+			state = "patrol"
+		end
+	end
+
+		--NPC will agonize for X seconds on fresh control, override
+		if (v_controlled.freshly_controlled_time) then
+			local current_time = game.get_game_time()
+
+			if (not self.agony_sound) then
+				if (string.match(controlled:section(), "devushka")) then
+					local random = math.random(1, 3)
+					self.agony_sound = sound_object("arszi_psy\\psy_suffering_hip_"..random)
+				else
+					local random = math.random(1, 8)
+					self.agony_sound = sound_object("arszi_psy\\psy_suffering_"..random)
+				end
+			end
+
+			if (self.agony_sound and not self.agony_sound:playing()) then
+				self.agony_sound:play_at_pos(self.object, self.object:position(), 0, sound_object.s3d)
+				self.agony_sound.volume = 5
+			end
+
+			if (self.agony_sound and (not self.agony_sound:playing())) then
+				self.agony_sound = nil
+			end
+
+			if (current_time:diffSec(v_controlled.freshly_controlled_time) < 60) then
+				state = "psy_armed"				
+			else
+				v_controlled.freshly_controlled_time = nil
+
+				if (self.agony_sound) then
+					self.agony_sound:stop()
+					self.agony_sound = nil
+				end
+			end
+		end
+
+		--Force NPC on the ground if it does not want to behave... X-Ray engine memory object bug
+		if (not v_controlled.freshly_controlled_time) then
+			local best_enemy = self.object:best_enemy()
+			if (best_enemy and (arszi_controller.targets_master_or_minion(self.object:id(), best_enemy:id()))) then
+				state = "wounded"
+			end
+		end
+
+	if (state ~= "patrol") then
+		if (state_mgr.get_state(self.object) ~= state) then
+			state_mgr.set_state(self.object,state)
+			self.anim_changed_at = game.get_game_time()
+			self.new_animaion = true
+		end
+	else
+		if (state_mgr.get_state(self.object) ~= state) then
+			state_mgr.set_state(self.object,state)
+			self.anim_changed_at = game.get_game_time()
+			self.new_animaion = true
+		end
+
+		--The engine won't wait until the controlled stand up after the wounded animation. Give some time.
+		if (self.new_animaion) then
+			if (game.get_game_time():diffSec(self.anim_changed_at) <= 30) then
+				return
+			end
+		end
+		self.new_animaion = false
+
+		--Check if NPC is controlled by a controller
+		if (v_controlled and v_controlled.master) then
+			--If there is no master object, return
+			local master = level.object_by_id(v_controlled.master)
+			if (not master) then return end
+
+			--Setup controlled NPC to move
+			controlled:set_mental_state(anim.free)
+			controlled:set_movement_type(move.walk)
+			controlled:set_sight(look.path_dir,nil,0)
+			controlled:set_path_type(game_object.level_path)
+							
+			local master_level_vertex_id = master:level_vertex_id()
+			
+			--If controller is in reach, stop
+			if (is_target_reached(controlled:position(), master:position())) then
+				controlled:set_movement_type(move.stand)
+				return
+			end
+			
+			--Send them towards the Controller
+			utils_obj.send_to_nearest_accessible_vertex(controlled, master_level_vertex_id)
+			controlled:set_desired_position(master:position())
+		end
+	end
+end
+
+function action_controllable_stalker:finalize()
+	action_base.finalize(self)
+end
+
+function is_target_reached(position_1, position_2)
+	return get_distance(position_1, position_2) < 4
+end
+
+function get_distance(position_1, position_2)
+    local x = math.abs(position_1.x - position_2.x)
+    local z = math.abs(position_1.z - position_2.z)
+    local distance = math.sqrt((x * x) + (z * z))
+    return distance
+end
+-------------------------- Scheme Handlers ------------------------------------------------------------
+
+function set_scheme(npc, ini, scheme, section, gulag_name)
+	local st = xr_logic.assign_storage_and_bind(npc,ini,"controllable_stalker",section)
+end
+
+function add_to_binder(npc, ini, scheme, section, storage)
+	if not npc then return end
+	local manager = npc:motivation_action_manager()
+	if not manager then return end
+
+	local wp = world_property
+	
+	local evaluator = evaluator_controllable_stalker(storage, "evaluator_controllable_stalker")
+	local action = action_controllable_stalker(npc, "action_controllable_stalker", storage)
+	if not evaluator or not action then return end
+	
+	manager:add_evaluator(controllable_stalker_evid,evaluator)
+	
+	action:add_precondition( wp(controllable_stalker_evid, true) )
+	action:add_effect( wp(controllable_stalker_evid, false) )
+	action:add_effect( wp(xr_evaluators_id.state_mgr + 4, false) )	
+	
+	manager:add_action(controllable_stalker_actid,action)
+	
+	xr_logic.subscribe_action_for_events(npc, storage, action)
+	
+	action:add_precondition( wp(stalker_ids.property_alive,true) )
+
+	action = manager:action(xr_actions_id.alife)
+	if action then action:add_precondition( wp(controllable_stalker_evid, false) ) end
+
+	action = manager:action(xr_actions_id.state_mgr + 2)
+	if action then action:add_precondition( wp(controllable_stalker_evid, false) ) end
+end
+
+function trace_this(to_trace)
+	--local log_file = io.open("log_arszi_xr_controllable_stalker.txt", "a")
+	--log_file:write(to_trace.."\n")
+	--log_file:close(log_file)
+end

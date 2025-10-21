@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+
+    <string id="st_mag_mg42_7.92x33">
+		<text>Стандартный магазин для 7.92x57 MG42 лента картриджа калибр 7.92x57</text>
+	</string>
+	<string id="st_mag_mg42_7.92x33_descr">
+		<text>
+			Ремень для MG42, вмещает 100 патронов. Нет коробки, перекиньте его через плечо и надейтесь, что он не зацепится за что-нибудь.
+		</text>
+	</string>
+
+</string_table>

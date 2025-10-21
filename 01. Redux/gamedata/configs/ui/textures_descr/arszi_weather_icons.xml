@@ -1,0 +1,13 @@
+<!--These icons were made by Meatchunk, I would like to say a huge thank you for him!-->
+<w>
+    <file name="ui\arszi_radiation\arszi_weather_icons">
+
+	<texture id="ui_weather_clear" x="0" y="0" width="512" height="256" />
+	<texture id="ui_weather_partly" x="0" y="256" width="512" height="256" />
+	<texture id="ui_weather_foggy" x="0" y="512" width="512" height="256" />
+	<texture id="ui_weather_cloudy" x="0" y="768" width="512" height="256" />
+	<texture id="ui_weather_rain" x="0" y="1024" width="512" height="256" />
+	<texture id="ui_weather_storm" x="0" y="1280" width="512" height="256" />
+
+   </file>
+</w>

@@ -1,0 +1,676 @@
+local ini_parts   = itms_manager.ini_parts
+get_config = arti_outfits_mcm.get_config
+gc = game.translate_string
+-- id of current outfit
+local current_outfit = 0
+-- copied parts condition for current outfit
+local current_outfit_parts = {}
+-- actor's current damage immunities
+local current_outfit_immunity = {}
+
+-- damage 2 immunity:
+local d2i = {
+    ["chemical_burn"] = "chemical_burn_immunity",
+    ["shock"] = "shock_immunity",
+    ["burn"] = "burn_immunity",
+    ["strike"] = "strike_immunity",
+    ["wound"] = "wound_immunity",
+    ["fire_wound"] ="fire_wound_immunity",
+    ["explosion"] = "explosion_immunity"
+}
+-- immunity 2 modifiers (damage reduction)
+-- these can't exceed 1 otherwise the parts die faster than the suit
+-- 1 = helmet, 2 = fabric, 3 = retardants, 4 = ballistics, 5 = exo upports
+-- chemical - extra damage to support, all others equal
+-- shock - rip your servos
+-- burn - fabrics only, partially melt ballistics
+-- wound (animal)- lots of damage to fabrics/retardants, negligible for supports/helm
+-- explosion - fucks up everything i guess
+-- fire_wound (bullet) - more damage to ballistics, less to everything else (it's just punching sewable holes)
+-- strike - what even is this lmao
+local i2m = {
+    -- ["chemical_burn_immunity"] = {1.4, 2.2, 0.3, 3, 3},
+    -- ["shock_immunity"] = {0.2, 0.2, 0.2, 0.2, 4},
+    -- ["burn_immunity"] =  {1, 4, 0.5, 2, 0.5},
+    -- ["strike_immunity"] =  {1, 1, 1, 1, 1},
+    -- ["wound_immunity"] = {0, 3, 3, 1, 0},
+    -- ["fire_wound_immunity"] = {1.5, 1.5, 1.5, 1, 0.5},
+    -- ["explosion_immunity"] = {2, 2, 2, 1, 1}
+    
+    ["chemical_burn_immunity"] =    {0.8, 0.7, 0.3, 1,   1  },
+    ["shock_immunity"] =            {0.2, 0.2, 0.2, 0.2, 1  },
+    ["burn_immunity"] =             {0.5, 1,   0.5, 0.7, 0.5},
+    ["wound_immunity"] =            {0,   1,   1,   0.3, 0  },
+    ["explosion_immunity"] =        {1,   1,   1,   0.5, 0.5},
+    ["fire_wound_immunity"] =       {1,   1,   1,   0.7, 0.5},
+    ["strike_immunity"] =           {1,   1,   1,   1,   1  }
+}
+
+local parts_map = {}
+
+function print_dbg(text, ...) 
+	if get_config("debug") then
+		printf("arti_outfits | %s | " .. text, time_global(), ...)
+	end
+end
+
+local function dump_immunities()
+    if get_config("debug") and current_outfit ~= 0 then
+        for k,v in pairs(current_outfit_immunity) do
+            print_dbg("Current player immunity to %s: %s", k, v)
+        end
+    end
+end
+
+-- fetch parts for a given outfit
+-- if the outfit is the current outfit, returns those cached parts
+-- this will also validate and reset part conditions if for some reason they were nil'd out
+function get_parts(outfit)
+    if not has_parts(outfit) then return nil end
+    local is_current = outfit:id() == current_outfit and current_outfit_parts
+    if is_current then 
+        return current_outfit_parts
+    else
+        local fetched_parts = dup_table(item_parts.get_parts_con(outfit, nil, true))
+        if is_empty(fetched_parts) then
+            -- force re-evaluation if parts are somehow nil
+            item_parts.set_parts_con(outfit:id(), nil)
+            fetched_parts = dup_table(item_parts.get_parts_con(outfit, nil, true))
+        end
+        return fetched_parts
+    end
+end
+
+function has_parts(outfit)
+    if outfit and IsOutfit(outfit)then
+        local parts = ini_parts:r_string_ex("con_parts_list", outfit:section())
+		return parts ~= nil
+	else 
+		return false
+	end
+end
+
+function is_part(sec)
+    return string.find(sec, "prt_o") or string.find(sec, "helm_")
+end
+
+function is_worn(obj)
+    local outfit_id = db.actor:item_in_slot(7) and db.actor:item_in_slot(7):id() or 0
+    return obj:id() == outfit_id 
+end
+
+function actor_item_to_slot(outfit)
+    -- why the fuck is workbench like this
+    if not outfit or type(outfit) == "number" then return end
+    print_dbg("to slot %s", outfit:section())
+    if is_worn(outfit) then
+        if has_parts(outfit) then
+            current_outfit = outfit:id()
+            print_dbg("Current outfit set to %s", outfit:section())
+            current_outfit_parts = dup_table(item_parts.get_parts_con(outfit, nil, true))
+            update_immunities()
+            dump_immunities()
+        else
+            print_dbg("outfit has no parts, purging")
+            current_outfit = outfit:id()
+            empty_table(current_outfit_parts)
+            empty_table(current_outfit_immunity)
+        end
+    end
+end
+
+function actor_item_to_ruck(obj)
+    if not db.actor:item_in_slot(7) then
+        print_dbg("no outfit, purging")
+        current_outfit = 0
+        empty_table(current_outfit_parts)
+        empty_table(current_outfit_immunity)
+    end
+end
+
+function check_reset_parts(outfit)
+    actor_item_to_slot(outfit)
+end
+
+-- immunities work in a reverse fashion - damage taken times immunity equals damage to armor. the lower the immunity, the less armor damage you take
+function update_immunities()
+    if current_outfit ~= 0 then
+        local outfit = db.actor:item_in_slot(7)
+        local immunities_sec =  SYS_GetParam(0,outfit:section(),"immunities_sect")
+        for k,v in pairs(d2i) do        
+            current_outfit_immunity[k] = SYS_GetParam(2, immunities_sec, v, 0)
+        end
+    end
+end
+
+local dtype = {
+	[hit.burn]          = "burn",
+	[hit.strike]        = "strike",
+	[hit.shock]         = "shock",
+	[hit.wound]         = "wound",
+	[hit.chemical_burn] = "chemical_burn",
+	[hit.explosion]     = "explosion",
+	[hit.fire_wound]    = "fire_wound",
+}
+
+-- categories of damage are: fabrics, retardants, ballistics, helms, support
+local PART_DMG_COEF = 0.9
+function actor_on_before_hit(shit,bone_id)
+    if current_outfit ~= 0 then
+        dump_immunities()
+        local immunity_name = d2i[dtype[shit.type]]
+        local immunity_val = current_outfit_immunity[dtype[shit.type]]
+        if immunity_name then
+            local coef = get_config("damage") or PART_DMG_COEF
+            local damage_to_armor = immunity_val * shit.power * coef
+            -- in case actor got headshot only damage the attached helmet
+            local helmet_only = (bone_id == 15 and shit.type == hit.fire_wound)
+            print_dbg("Actor took %s type damage with power %s. Actor immunity against damage is %s. Total condition damage is %s.", dtype[shit.type], shit.power, immunity_val, damage_to_armor)
+            degrade_parts(dtype[shit.type], damage_to_armor, helmet_only)
+        end
+    end
+end
+
+-- apply amount damage to all parts of the outfit
+-- if it is lower than certain threshold, ignore it altogether
+-- todo helmet damage should be affected by helmet immunities?
+local DAMAGE_THRESHOLD = 0.1
+function degrade_parts(type, amount, helmet_only)
+    print_dbg("Degrading parts, actor took %s amount of %s type damage. Player shot in head? %s", amount, type, helmet_only)
+    if is_empty(current_outfit_parts) then return end
+    for k,v in pairs(current_outfit_parts) do
+        local rank = rank_component(k)
+        print_dbg("Checking damage for component %s", k)
+        -- ignore non-part entries
+        if not is_part(k) then
+        -- bullets only damage helmet, or armor, not both
+        elseif (type == "fire_wound" and ((rank == 1 and helmet_only) or (rank ~= 1 and not helmet_only))) or type ~= "fire_wound" then
+            -- modify damage amt against part types and apply to part (out of 100)
+            local final_damage = math.floor(100 * amount * (i2m[d2i[type]][rank]))
+            if final_damage > DAMAGE_THRESHOLD then
+                current_outfit_parts[k] = clamp(v - final_damage , 0, 99) 
+                print_dbg("Component %s took %s damage, condition now %s", k, final_damage, current_outfit_parts[k])
+            else
+                print_dbg("Component %s took no damage", k)
+            end
+        end
+    end
+    item_parts.set_parts_con(current_outfit, current_outfit_parts)
+end
+
+-- glues, emergency - nothing
+-- basic sewing - fabrics only, 50%
+-- advanced/heavy - fabrics and retardants, 50-75%
+-- repairkit - 100% any, 
+local repair_item_restoration = {
+    ["sewing_kit_b"] = {20, {["prt_o_fabrics"] = true}},
+    ["sewing_kit_a"] = {30, {["prt_o_fabrics"] = true, ["prt_o_retardant"] = true}},
+    ["sewing_kit_h"] = {40,{["prt_o_fabrics"] = true, ["prt_o_retardant"] = true}},
+    ["helmet_repair_kit"] = {50, {["prt_o_fabrics"] = true, ["prt_o_retardant"] = true, ["prt_o_ballistic"] = true}},
+    ["light_repair_kit"] = {50, {["prt_o_fabrics"] = true, ["prt_o_retardant"] = true, ["prt_o_ballistic"] = true}},
+    ["medium_repair_kit"] = {50,{["prt_o_fabrics"] = true, ["prt_o_retardant"] = true, ["prt_o_ballistic"] = true}},
+    ["heavy_repair_kit"] = {50, {["prt_o_fabrics"] = true, ["prt_o_retardant"] = true, ["prt_o_ballistic"] = true}},
+    ["exo_repair_kit"] = {50, {["prt_o_fabrics"] = true, ["prt_o_retardant"] = true, ["prt_o_ballistic"] = true, ["prt_o_support"] = true}},
+}
+
+function part_compatible(part_name, repair_name)
+    local repair_stats = repair_item_restoration[repair_name]
+    if not repair_stats then return false end
+    return part_matching(part_name, repair_stats[2])
+end
+
+-- get the multiplier to part restoration of the support item used
+-- part is not used in suit: 30% bonus
+-- part is used in suit: 200% (!) bonus
+-- part is fabric: bonus divided by 3
+function get_bonus(part, repair_name, outfit_parts)
+    -- validate repair item
+    local repair_stats = repair_item_restoration[repair_name]
+    if not repair_stats then 
+        print_dbg("Passed repair item has no max condition restoration")
+        return 1 
+    end
+    restore_base = repair_stats[1]
+    restore_parts = repair_stats[2]
+    -- validate part (can be nil)
+    if not part then 
+        print_dbg("Passed support item is nil")
+        return 1 
+    end
+    local part_name = part:section()
+    if not is_part(part_name) then return 1 end
+    local part_cond = part:condition()
+    local part_entry = parts_map[part_name]
+    local bonus = 0
+    print_dbg("Part: name is %s, condition %s, entry is %s, value in outfit parts: %s", part_name, part_cond, part_entry, outfit_parts[part_name])
+    if part_entry and restore_parts[part_entry] then
+        -- support item is outfit part - provide up to 30% if non-matching, or 200% if matching
+        bonus = outfit_parts[part_name] ~= nil and 2 or 0.3
+        bonus = bonus * part_cond
+        if rank_component(part_name) == 2 then
+            bonus = bonus / 3
+        end
+    end
+    print_dbg("Bonus multiplier for part %s is %s", part_name, bonus)
+    return 1 + bonus
+end
+
+function part_matching(part_name, part_list)
+    local part_type = parts_map[part_name]
+    return part_list[part_type]
+end
+function rank_component(name)
+    if string.find(name, "prt_o_support") then
+        return 5
+    elseif string.find(name, "prt_o_ballistic") then
+        return 4
+    elseif string.find(name, "prt_o_retardant") then
+        return 3
+    elseif string.find(name, "prt_o_fabrics") then
+        return 2
+    else
+        return 1
+    end
+end
+local functor = function(t,a,b) 
+    local rank_a = a and rank_component(a) or 0
+    local rank_b = b and rank_component(b) or 0
+    if rank_a ~= rank_b then return rank_a > rank_b
+    else
+        return a > b 
+    end
+end
+
+-- restore max condition to the outfit in question
+function repair_parts(outfit, repair_item, support_part)
+    local id = outfit:id()
+    local sec = outfit:section()
+    print_dbg("Repairing %s with %s and %s", sec, repair_item, support_part and support_part:section() or "none")
+    local outfit_parts = get_parts(outfit)
+    local new_outfit_parts = apply_parts_repair(outfit_parts, repair_item, support_part, true)
+    
+    item_parts.set_parts_con(id, new_outfit_parts)
+    check_reset_parts(outfit)
+end
+
+-- compute the projected value of the new outfit parts given the repair item + support part
+function apply_parts_repair(outfit_parts_original, repair_item, support_part, print)
+    print_dbg("Calculating parts repair with %s and support %s", repair_item, support_part and support_part:section() or "none")
+    local repair_class = repair_item_restoration[repair_item]
+    if not repair_class then 
+        print_dbg("Repair item does not restore max condition, returning")
+        return outfit_parts_original 
+    end
+    local outfit_parts = {}
+    copy_table(outfit_parts, outfit_parts_original)
+    local remaining_cond = repair_class[1] * get_bonus(support_part, repair_item, outfit_parts)
+    remaining_cond = math.ceil(remaining_cond)
+    local repairable = repair_class[2]
+    local str = ""
+    print_dbg("Total condition to be restored: %s", remaining_cond)
+    for k,v in spairs(outfit_parts, functor) do
+        if remaining_cond == 0 then
+            break
+        elseif string.find(k, "prt_o") then
+            if part_matching(k, repairable) then 
+                local max_restorable = 99 - v
+                local restored = remaining_cond > max_restorable and max_restorable or remaining_cond
+                outfit_parts[k] = v + restored
+                remaining_cond = remaining_cond - restored
+                print_dbg("Restored %s condition to %s, condition now %s, remaining condition is %s.", restored, k, outfit_parts[k], remaining_cond)
+                if restored > 0 then
+                    local part_name = gc(ini_sys:r_string_ex(k, "inv_name"))
+                    local string = strformat(gc("st_part_repaired"), part_name, outfit_parts[k])
+                    str = str .. string .. "\\n"
+                end
+
+            end
+        end
+    end
+    if str ~= "" and print then
+        news_manager.send_tip(db.actor, str, nil, "swiss_knife", 6000)
+    end
+    return outfit_parts
+end
+
+-- used by item repair to get the projected max condition
+-- get the new parts after applying the repair and average them out
+function get_projected_max(outfit, repair_item, support_part)
+    print_dbg("repair sec is %s", repair_item)
+    
+    if not has_parts(outfit) then return 100 end
+    local outfit_parts = get_parts(outfit)
+    local new_outfit_parts = apply_parts_repair(outfit_parts, repair_item, support_part,false)
+    return average_cond(new_outfit_parts)
+end
+
+function tech_restore_parts(outfit)
+    local outfit_parts = get_parts(outfit)
+    for k,v in pairs(outfit_parts) do
+        outfit_parts[k] = 100
+    end
+    item_parts.set_parts_con(outfit:id(), outfit_parts)
+    check_reset_parts(outfit)
+end
+
+-- take an average of all the parts and derive the max condition
+function average_cond(parts)
+    local total = 0
+    local num = 0
+    -- print_dbg("Averaging condition of %s parts", #parts)
+    if not parts or is_empty(parts) then return 100 end
+    for k,v in pairs(parts) do
+        if is_part(k) then
+            -- print_dbg("Adding %s to total condition %s", v, total)
+            total = total + v
+            num = num + 1
+        end
+    end
+    local final_cond = 20 + math.floor(0.8*(total/num))
+    if final_cond > 97 then final_cond = 100 end
+    return final_cond
+end
+
+-- Compute max condition of outfit based on parts condition (from 100)
+function get_max_condition(outfit)
+    if not has_parts(outfit) then return 100 end
+    -- print_dbg("Checking for id %s, current is %s", outfit:id(), current_outfit)
+    local outfit_parts = get_parts(outfit)
+    if outfit_parts and not is_empty(outfit_parts) then
+        return average_cond(outfit_parts)
+    else
+        return 100
+    end
+end
+
+-- Round off the condition of the outfit (to be applied after parts repairs are done)
+function cap_condition(outfit)
+    local outfit_max_condition = get_max_condition(outfit)/100
+    if outfit:condition() > outfit_max_condition then
+        outfit:set_condition(outfit_max_condition)
+    end
+    check_reset_parts(outfit)
+end
+
+-- special case for ui
+function ui_max_condition(outfit)
+    local cond = get_max_condition(outfit)
+    if cond < 100 then cond = cond + 1 end
+    return cond
+end
+
+-- for reattaching helmet, burn one use of helmet repair kit to swap   
+function on_item_drag_dropped(helmet, outfit, slot_from, slot_to)
+    if not has_parts(outfit) then return end
+    if not IsHeadgear(helmet) then return end
+
+	local helmet_sec = helmet and helmet:section() or nil
+    local outfit_sec = outfit and outfit:section() or nil
+    local outfit_parts = dup_table(item_parts.get_parts_con(outfit, nil, true))
+    local helmet_kit = db.actor:object("helmet_repair_kit")
+    if not helmet_kit then
+        news_manager.send_tip(db.actor, gc("st_no_helmkit"), nil, "swiss_knife", 6000)
+        return
+    end
+
+    local found_helmet = nil
+    local num_parts = 0
+    for k,v in pairs(outfit_parts) do
+        num_parts = num_parts + 1
+        if k == helmet_sec and v < 99 then
+            found_helmet = k
+        end
+    end
+
+    if found_helmet then
+        local helm_to_spawn = alife_create(found_helmet, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id(), false)
+        local data = utils_stpk.get_item_data(helm_to_spawn)
+        data.condition = outfit_parts[found_helmet]/100
+        utils_stpk.set_item_data(data,helm_to_spawn)
+        alife():register(helm_to_spawn)
+
+        outfit_parts[found_helmet] = math.floor(helmet:condition() * 100)
+
+        local contribution = (helmet:condition() * 0.8) / (num_parts - 1)
+        print_dbg("Helmet contribution to condition: "..contribution)
+        outfit:set_condition(outfit:condition() + contribution)
+        cap_condition(outfit)
+
+        utils_item.discharge(helmet_kit)
+        alife_release_id(helmet:id())
+        item_parts.set_parts_con(outfit:id(), outfit_parts)
+        check_reset_parts(outfit)
+        news_manager.send_tip(db.actor, gc("st_helm_success"), nil, "swiss_knife", 6000)
+    else
+        -- not found, return error
+        news_manager.send_tip(db.actor, gc("st_no_helm"), nil, "swiss_knife", 6000)
+    end
+end
+
+-- UNUSED
+-- return a new condition based on the new parts conditions + old outfit condition
+function calc_new_cond(outfit, new_parts, all_parts, max_cond)
+    local parts = str_explode(ini_parts:r_string_ex("con_parts_list", outfit:section()), ",")
+    local max_cond = all_parts and average_cond(all_parts) or get_max_condition(outfit)
+    local current_cond = math.floor(outfit:condition() * 100)
+    local condition_per_part = math.floor(80/#parts)
+    print_dbg("Outfit: %s. Current condition: %s. Max condition: %s. Condition per part: %s", outfit:section(), current_cond, max_cond, condition_per_part)
+    local tot_restored = 0
+    for k,v in pairs(new_parts) do
+        -- update new current condition and max condition
+        local old_cond = all_parts[k]
+        tot_restored = tot_restored + math.floor((condition_per_part*v)/100)
+        print_dbg("calc_new_cond: part contribution: %s. total condition restored: %s", v, tot_restored)
+    end
+    current_cond = current_cond + tot_restored
+    if current_cond > max_cond then current_cond = max_cond end
+    print_dbg("Final outfit condition is %s", current_cond)
+    return current_cond
+end
+
+-- UNUSED
+function set_new_cond(outfit, new_parts, all_parts)
+    local cond = calc_new_cond(outfit, new_parts, all_parts)/100
+    outfit:set_condition(cond)
+    current_outfit = 0
+    updated = time_global() - 1
+end
+
+
+OnUIRepair = ui_inventory.UIInventory.RMode_RepairYes
+
+function ui_inventory.UIInventory:RMode_RepairYes()
+    
+	local obj = level.object_by_id(self.upgr.id)
+    OnUIRepair(self)
+    if has_parts(obj) then
+		tech_restore_parts(obj)
+	end
+end
+
+EvaluateParts = item_parts.evaluate_parts
+
+function item_parts.evaluate_parts(obj)
+    local sec = obj:section()
+	sec = ini_sys:r_string_ex(sec,"parent_section") or sec -- for weapons with scopes
+	local id = obj:id()
+	local m_con = math.ceil(obj:condition() * 100) -- default condition of the item
+	
+	local parts = ini_parts:r_string_ex("con_parts_list",sec)
+	if parts then
+		parts = str_explode(parts,",")
+		
+		local data = se_load_var(id, obj:name(), "parts")
+
+		-- Savegame compatibility. Recalculate with changed parts
+		if data and data[sec] then
+			for i=1,#parts do
+				if (not data[parts[i]]) then
+					empty_table(data)
+					break
+				end
+			end
+		end
+		-- premature terminate if data exists for outfits
+		if data and IsOutfit(obj) and not is_empty(parts)  then return
+        else
+            EvaluateParts(obj)
+		end
+    end
+end
+
+local outfit_repairs = {
+    ["outfit"] = true,
+    ["outfit_novice"] = true,
+    ["outfit_light"] = true,
+    ["outfit_medium"] = true,
+    ["outfit_heavy"] = true,
+    ["outfit_exo"] = true,
+}
+
+local weight_by_parts = {1, 0.5, 0.9, 1.3, 2}
+
+function get_repair_parts_cost(outfit)
+    local parts = item_parts.get_parts_con(outfit)
+    local cond = outfit:condition()
+    local cost = ini_sys:r_u32(outfit:section(), "cost")
+    local total_missing_cond = 0
+    local total_cond = 0
+    local cond_by_parts = {}
+    for k,v in pairs(parts) do
+        if is_part(k) then
+            if v < 99 then
+                local rank = rank_component(k)
+                local diff = 99 - v
+                if not cond_by_parts[rank] then 
+                    cond_by_parts[rank] = diff
+                else
+                    cond_by_parts[rank] = cond_by_parts[rank] + diff
+                end
+                total_missing_cond = total_missing_cond + diff
+                print_dbg("%s (rank %s) is missing %s condition. total missing for this category is %s", k, rank, diff, cond_by_parts[rank])
+            end
+            total_cond = total_cond + 99
+        end
+    end
+
+    if is_empty(cond_by_parts) then return 0 end
+
+    local percent_missing = total_missing_cond / total_cond
+    print_dbg("Missing %s percentage out of %s", total_missing_cond, total_cond)
+    local sum_adjust = 0
+    for k,v in pairs(cond_by_parts) do
+        -- determine cost multiplier assuming it's out of 100
+        sum_adjust = sum_adjust + ((v/total_missing_cond) * weight_by_parts[k])
+        print_dbg("Adjusted multiplier after factoring in %s (%s cond) is %s", k, v, sum_adjust)
+    end
+    -- scale to actual missing percentage
+    sum_adjust = sum_adjust * percent_missing
+    return cost * sum_adjust
+end
+
+local repair_id
+HowMuch = inventory_upgrades_mp.how_much_repair
+
+function inventory_upgrades_mp.how_much_repair( item_name, item_condition )
+    local type = SYS_GetParam(0, item_name, "repair_type") or "none"
+    if outfit_repairs[type] and inventory_upgrades_mp.section_has_parts(item_name) then
+        print_dbg("Getting cost for %s", item_name)
+        local cost = ini_sys:r_u32(item_name, "cost")
+        local class = ini_sys:r_string_ex(item_name, "class")
+        local cof = game_difficulties.get_eco_factor("repair") or 1.67
+
+        local obj = repair_id and level.object_by_id(repair_id) or nil
+        local base_cost = cost * (1 - item_condition)
+        if obj then
+            base_cost = base_cost / 2
+            base_cost = base_cost + get_repair_parts_cost(obj)
+        end
+        --return math.floor( cost * factor * math.pow(1 - item_condition , 1.63) )
+        return math.floor( base_cost * cof ) -- CoP formula
+    else
+        return HowMuch(item_name, item_condition)
+    end
+end
+-- i need that fucking id
+function ui_inventory.UIInventory:RMode_OnRepair()
+	self:Print(nil, "RMode_OnRepair")
+	
+	if (not self.upgr.id) then
+		return
+	end
+	
+	local obj = level.object_by_id(self.upgr.id)
+	if (not obj) then
+		return
+	end
+	
+	local sec = obj:section()
+	local cond = obj:condition()
+	repair_id = self.upgr.id
+	local can_afford = inventory_upgrades.can_afford_repair_item(sec , cond)
+	local str = inventory_upgrades.question_repair_item( sec, cond, true )
+	if (str == nil) then
+		str = game.translate_string("st_upgr_cant_do")
+	end
+	
+	if can_afford then
+		self.message_box:InitMessageBox("message_box_yes_no")
+	else
+		self.message_box:InitMessageBox("message_box_ok")
+	end
+	self.message_box:SetText(str)
+	self.message_box:ShowDialog(true)
+end
+
+local clr_g  = utils_xml.get_color("d_green")
+local clr_y  = utils_xml.get_color("yellow")
+local clr_o  = utils_xml.get_color("d_orange")
+local clr_r  = utils_xml.get_color("d_red")
+
+local clr_b  = utils_xml.get_color("d_cyan")
+local clr_b1 = utils_xml.get_color("pda_blue")
+local clr_b2 = utils_xml.get_color("d_blue")
+local clr_p  = utils_xml.get_color("d_purple")
+
+local clr_w  = utils_xml.get_color("pda_white")
+
+local clr_1  = utils_xml.get_color("ui_gray_2")
+local clr_2  = utils_xml.get_color("ui_gray_1")
+
+BuildFooter = ui_item.build_desc_footer
+function ui_item.build_desc_footer(obj, sec, str)
+    str = BuildFooter(obj, sec, str)
+    if repair_item_restoration[sec] then
+        str = str:sub(1, -3)
+        local rest = repair_item_restoration[sec]
+        local repair = {}
+        for k,v in pairs(rest[2]) do
+            repair[#repair+1] = k
+        end
+        str = str .. clr_o .. " " .. gc("st_dot") .. " " .. clr_1 .. " " .. gc("st_total_repair") .. " " .. rest[1].. "-" .. 3*rest[1] .. "%\\n"
+        str = str .. clr_o .. "  " .. gc("st_dot") .. " " .. clr_1 .. " " .. gc("st_can_repair") .. " " .. gc("st_type_"..repair[1])
+        for i=2,#repair  do
+            str = str .. ", " .. gc("st_type_"..repair[i])
+        end
+        str = str .. "\\n\\n"
+    end
+    return str
+end
+-- end monke
+
+
+function on_game_start()
+    for i=1,20 do
+        parts_map["prt_o_ballistic_"..i] = "prt_o_ballistic"
+        parts_map["prt_o_retardant_"..i] = "prt_o_retardant"
+    end
+    for i=1,4 do
+        parts_map["prt_o_fabrics_"..i] = "prt_o_fabrics"
+    end
+    parts_map["prt_o_support"] = "prt_o_support"
+	RegisterScriptCallback("ActorMenu_on_item_drag_drop",on_item_drag_dropped)
+    RegisterScriptCallback("actor_on_before_hit",actor_on_before_hit)
+	RegisterScriptCallback("actor_item_to_slot",actor_item_to_slot)
+	RegisterScriptCallback("actor_item_to_ruck",actor_item_to_ruck)
+end

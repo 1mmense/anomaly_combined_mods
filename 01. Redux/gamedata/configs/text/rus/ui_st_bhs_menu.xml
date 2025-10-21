@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+    <string id="bhs_menu_option">
+		<text>Дополнительные опции</text>
+	</string>
+	
+	<string id="bhs_menu_option_text_hud">
+		<text>Опции текстового HUD</text>
+	</string>
+	
+	<string id="ui_mcm_body_health_system_healing_items_option">
+		<text>Медикаменты лечат части тела</text>
+	</string>
+	<string id="ui_mcm_body_health_system_healing_items_option_desc">
+		<text>• Включает или отключает возможность лечить части тела с помощью медикаментов.\n
+		• Не влияет на описание медикаментов.\n
+		• Требуется перезагрузка.</text>
+	</string>
+	
+	<string id="ui_mcm_body_health_system_regen_option">
+		<text>Время автоматической регенерации частей тела</text>
+	</string>
+	<string id="ui_mcm_body_health_system_regen_option_desc">
+		<text>• Время в минутах после которого повреждённая часть тела восстановит 1 пункт здоровья.\n
+		• Значение равное 0 (ноль) отключает автоматическую регенерацию.\n
+		• Требуется перезагрузка.</text>
+	</string>
+	
+	<string id="ui_mcm_body_health_system_damagescale_option">
+		<text>Множитель урона по частям тела</text>
+	</string>
+	<string id="ui_mcm_body_health_system_damagescale_option_desc">
+		<text>• Требуется перезагрузка.</text>
+	</string>
+	
+	<string id="ui_mcm_body_health_system_easy_healing_option">
+		<text>Отключить механику временного здоровья(!)</text>
+	</string>
+	<string id="ui_mcm_body_health_system_easy_healing_option_desc">
+		<text>• Не рекомендуется к включению, так как на данный момент не имеет адекватной реализации в плане механики и баланса.\n
+		• Не влияет на описание медикаментов.\n
+		• Требуется перезагрузка.</text>
+	</string>
+	
+	<string id="ui_mcm_body_health_system_hud_vertical_spacing_option">
+		<text>Позиция HUD по вертикали</text>
+	</string>
+	
+	<string id="ui_mcm_body_health_system_show_player_name_option">
+		<text>Отображать имя персонажа над HUD</text>
+	</string>
+	
+	<string id="ui_mcm_body_health_system_hide_if_healthy_option">
+		<text>Скрывать показатели здоровья при 100% состоянии</text>
+	</string>
+	
+</string_table>

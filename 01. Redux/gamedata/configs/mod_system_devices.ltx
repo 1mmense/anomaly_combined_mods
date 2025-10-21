@@ -1,0 +1,183 @@
+![tch_detector]
+visual                                                 = dynamics\devices\dev_detector_1\dev_detector_1.ogf
+
+;;--======< Echo detector >======--
+![detector_simple]
+visual			                                       = dynamics\devices\dev_detector_1\dev_detector_1.ogf
+icons_texture                                          = ui\ui_icon_devicez
+inv_grid_width     = 1
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 0
+
+upgr_icon_path								           = ui\ui_actor_devicez
+upgr_icon_x								 	           = 650
+upgr_icon_y								 	           = 200
+upgr_icon_width						 	 	           = 150
+upgr_icon_height						 	           = 100
+
+![detector_simple_hud]
+item_position				                           = -0.072424,0.030392,-0.012213
+item_orientation			                           = 324.640503,-189.627350,-183.009415
+
+item_visual                   	                       = dynamics\devices\dev_detector_1\dev_detector_1_hud
+
+;;--======< Bear detector >======--
+![detector_advanced]
+visual			                                       = dynamics\devices\dev_detector_2\dev_detector_2.ogf
+icons_texture                                          = ui\ui_icon_devicez
+inv_grid_width     = 1
+inv_grid_height    = 1
+inv_grid_x         = 1
+inv_grid_y         = 0
+upgr_icon_path								           = ui\ui_actor_devicez
+upgr_icon_x								 	           = 800
+upgr_icon_y								 	           = 200
+upgr_icon_width						 	 	           = 150
+upgr_icon_height						 	           = 100
+
+![detector_advanced_hud]
+item_position				                           = -0.078949,0.039172,-0.019197
+item_orientation			                           = 320.606964,-194.089020,-186.572464
+
+item_visual                   	                       = dynamics\devices\dev_detector_2\dev_detector_2_hud
+
+;;--======< Veles detector >======--
+![detector_elite]
+visual			                                       = dynamics\devices\dev_detector_4\dev_detector_4.ogf
+icons_texture                                          = ui\ui_icon_devicez
+inv_grid_width     = 1
+inv_grid_height    = 1
+inv_grid_x         = 2
+inv_grid_y         = 0
+upgr_icon_path								           = ui\ui_actor_devicez
+upgr_icon_x								 	           = 800
+upgr_icon_y								 	           = 400
+upgr_icon_width						 	 	           = 150
+upgr_icon_height						 	           = 100
+
+; elite x                                              ="0.00096" y="0.0035"
+ui_p			                                       = -0.02904,0.01,0.0364
+ui_r			                                       = 0,90,0
+af_radius		                                       = 30
+af_vis_radius		                                   = 5
+tier                                                   = 4
+
+
+![detector_elite_hud]
+item_position				                           = -0.071685,0.036188,-0.009934
+item_orientation			                           = 314.589233,-186.420761,-189.323669
+
+item_visual                   	                       = dynamics\devices\dev_detector_4\dev_detector_4_hud
+
+;;--======< Svarog detector >======--
+![detector_scientific]
+visual			                                       = dynamics\devices\dev_detector_4\dev_detector_4.ogf
+icons_texture                                          = ui\ui_icon_devicez
+inv_grid_width     = 1
+inv_grid_height    = 1
+inv_grid_x         = 3
+inv_grid_y         = 0
+upgr_icon_path								           = ui\ui_actor_devicez
+upgr_icon_x								 	           = 800
+upgr_icon_y								 	           = 400
+upgr_icon_width						 	 	           = 150
+upgr_icon_height						 	           = 100
+
+![detector_scientific_hud]
+item_position				                           = -0.071685,0.036188,-0.009934
+item_orientation			                           = 314.589233,-186.420761,-189.323669
+
+item_visual                   	                       = dynamics\devices\dev_detector_4\dev_detector_4_hud
+
+;;--======< Anomaly measurement device >======--
+![detector_anomaly]
+visual                              	               = dynamics\devices\dev_detector_8\dev_detector_8.ogf
+inv_name                                               = st_detector8
+inv_name_short                                         = st_detector8
+description                                            = st_detector8_descr
+icons_texture                                          = ui\ui_icon_devicez
+inv_grid_width     = 1
+inv_grid_height    = 1
+inv_grid_x         = 4
+inv_grid_y         = 0
+
+upgr_icon_path								           = ui\ui_actor_devicez
+upgr_icon_x								 	           = 500
+upgr_icon_y								 	           = 200
+upgr_icon_width						 	 	           = 150
+upgr_icon_height						 	           = 100
+
+class                                                 = D_CUSTOM
+custom_ui_pos                                         = -0.0242,0.02947,-0.0219
+custom_ui_rot                                         = 0,90,0
+custom_ui_func										   = tasks_measure.get_UI
+;custom_ui_bone										   = cover
+
+![detector_anomaly_hud]
+item_visual                                            = dynamics\devices\dev_detector_8\dev_detector_8_hud
+
+;;--======< Radio receiver >======--
+![detector_radio]
+visual                              	               = dynamics\devices\dev_detector_09\dev_detector_09.ogf
+icons_texture                                          = ui\ui_icon_devicez
+inv_grid_width     = 1
+inv_grid_height    = 1
+inv_grid_x         = 5
+inv_grid_y         = 0
+upgr_icon_path								           = ui\ui_actor_devicez
+upgr_icon_x								 	           = 500
+upgr_icon_y								 	           = 300
+upgr_icon_width						 	 	           = 200
+upgr_icon_height						 	           = 100
+
+class                                                 = D_CUSTOM
+custom_ui_pos                                         = -0.025, 0.0372, 0.037;-0.0228,0.0225,0.0415
+custom_ui_rot                                         = 0,88.5,0
+custom_ui_func										   = item_radio.get_UI
+;custom_ui_bone										   = cover
+
+
+![detector_radio_hud]
+item_visual                                            = dynamics\devices\dev_detector_09\dev_detector_09_hud
+
+;;--======< Geiger Counter >======--
+![detector_geiger]
+visual                                                 = dynamics\devices\dev_dosimeter\dosimeter.ogf
+icons_texture                                          = ui\ui_icon_devicez
+inv_grid_width     = 1
+inv_grid_height    = 1
+inv_grid_x         = 9
+inv_grid_y         = 0
+
+upgr_icon_path			                               = ui\ui_actor_devicez
+upgr_icon_x				                               = 700
+upgr_icon_y				                               = 300
+upgr_icon_width			                               = 150
+upgr_icon_height		                               = 100
+
+![detector_geiger_hud]
+attach_place_idx                                       = 1
+
+item_position                                          = -0.075000,0.036188,-0.015934
+item_orientation                                       = 325.589233,-190.420761,-185.323669
+item_visual                                            = dynamics\devices\dev_dosimeter\dosimeter_hud
+
+;;--==========================< Flashlight >=============================
+![device_flashlight]
+icons_texture                                          = ui\ui_icon_devicez
+inv_grid_width     = 1
+inv_grid_height    = 1
+inv_grid_x         = 6
+inv_grid_y         = 0
+upgr_icon_path								           = ui\ui_actor_devicez
+upgr_icon_x								 	           = 850
+upgr_icon_y								 	           = 300
+upgr_icon_width						 	 	           = 150
+upgr_icon_height						 	           = 100
+
+![device_flashlight_hud]
+item_position 							               = -0.075, 0.030, -0.013
+item_orientation 						               = -30, 3.5,99
+item_visual                                            = dynamics\devices\dev_tactical_torch\surefire_black_hud
+fire_direction							               = 1.5,-1.5,4.5

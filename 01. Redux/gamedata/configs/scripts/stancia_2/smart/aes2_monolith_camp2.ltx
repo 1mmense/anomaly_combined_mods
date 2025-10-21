@@ -1,0 +1,19 @@
+[smart_terrain]
+squad_id = 2
+max_population = 2
+respawn_params = respawn@aes2_monolith_camp2
+respawn_idle = 60000
+
+
+[respawn@aes2_monolith_camp2]
+spawn_monolith
+
+[spawn_monolith]
+spawn_squads = monolith_sim_squad_advanced, monolith_sim_squad_veteran, monolith_sim_squad_veteran
+spawn_num = {-hidden_threat_disabled +hidden_threat_task_6_stage_6 -aes2_monolith_camp_2_isg_squad_death} 0, 2
+
+;--- Hidden Threat ---
+[exclusive]
+aes2_monolith_camp_2_isg_sniper_1 = stancia_2\aes2_monolith_camp2_hidden_threat_logic.ltx
+aes2_monolith_camp_2_isg_sniper_2 = stancia_2\aes2_monolith_camp2_hidden_threat_logic.ltx
+aes2_monolith_camp_2_isg_sniper_3 = stancia_2\aes2_monolith_camp2_hidden_threat_logic.ltx

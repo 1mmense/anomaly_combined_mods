@@ -1,0 +1,29 @@
+{
+	"entities": [
+		{
+		"entity_type":"item",
+		"where":"[stash.id]",
+		"target":"return",
+		"amount":1,
+		"section_name": "drx_sl_quest_item_3",
+		"to_create": true
+		},
+
+		{
+		"entity_type":"location",
+		"search_for": "stash",
+		"search_distance":"1,2",
+		"amount":1,
+		"to_create": false,
+		"link_id": "stash"
+		}
+	],
+	"on_first_run": [
+		"treasure_manager.set_random_stash(nil, nil, nil, [stash.id])"
+	],
+	"quest_givers": [
+		{"Nimble": true},
+		{"Spore": true}
+	],
+	"icon": "ui_inGame2_PD_Torgovets_informatsiey"
+}

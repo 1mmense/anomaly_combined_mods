@@ -1,0 +1,82 @@
+-- clr_icon_1 = GetARGB(255, 255, 255, 255)
+-- clr_icon_2 = GetARGB(70, 255, 255, 255)
+-- ico_width = (is_widescreen() and 0.8 or 1)
+-- ico_size, rw, rh, _le = 0.7, 1, 1, 50
+
+-- utils_xml.set_icon = function(sec, hidden, XML_temp, XML_box, XML_box_small)
+-- 	if not (XML_temp and XML_box) then
+-- 		callstack()
+-- 		printe("!ERROR utils_xml.set_icon | XML_box or XML_temp doesn't exist")
+-- 		return
+-- 	end
+
+-- 	if not (sec and ini_sys:section_exist(sec)) then
+-- 		XML_box:Show(false)
+-- 		callstack()
+-- 		printe("!ERROR utils_xml.set_icon | section [%s] doesn't exist in system ini", sec)
+-- 		return
+-- 	end
+
+-- 	-- Icon
+-- 	local ico = utils_xml.get_item_axis(sec)
+-- 	XML_box:InitTexture(utils_xml.get_icons_texture(sec))
+-- 	XML_box:SetTextureRect(Frect():set(ico.x1, ico.y1, ico.x2, ico.y2))
+-- 	XML_box:SetTextureColor(hidden and clr_icon_2 or clr_icon_1)
+-- 	XML_box:SetStretchTexture(true)
+-- 	XML_box:Show(true)
+
+-- 	local pos = XML_temp:GetWndPos()
+-- 	local _w = XML_temp:GetWidth()
+-- 	local _h = XML_temp:GetHeight()
+
+-- 	local ratio = ico.w / ico.h
+-- 	local h, w
+-- 	ico.w = ico.w * ico_size * ico_width
+-- 	ico.h = ico.h * ico_size
+
+-- 	for i = 1, 2 do
+-- 		local w_t, h_t = 0, 0
+-- 		local resize = false
+-- 		if ico.w > _w then -- if icon width is bigger than frame width
+-- 			w_t = ico.w - _w
+-- 			resize = true
+-- 		end
+-- 		if ico.h > _h then -- if icon height is bigger than frame height
+-- 			h_t = ico.h - _h
+-- 			resize = true
+-- 		end
+
+-- 		if resize then -- resize is required
+-- 			if w_t >= h_t then -- if icon width is the big number (or square), use it as a base for resizing
+-- 				w = _w
+-- 				h = w / ratio
+-- 			elseif w_t < h_t then -- if icon width is the big number, use it as a base for resizing
+-- 				h = _h
+-- 				w = h * ratio
+-- 			end
+-- 		else -- no resize
+-- 			w = ico.w
+-- 			h = ico.h
+-- 		end
+-- 	end
+
+-- 	-- demonized: HD Inventory Icons Framework
+-- 	local scale = SYS_GetParam(2, sec, "inv_grid_scale", 1)
+-- 	w = math.ceil(w / scale)
+-- 	h = math.ceil(h / scale)
+
+-- 	local offset_x = (_w - w) / 2
+-- 	local offset_y = (_h - h) / 2
+-- 	XML_box:SetWndSize(vector2():set(w, h))
+-- 	XML_box:SetWndPos(vector2():set(pos.x + offset_x, pos.y + offset_y))
+
+-- 	local ico_layer = ini_sys:r_string_ex(sec, "1icon_layer")
+-- 	if XML_box_small and ico_layer then
+-- 		local ico_layer_x = ini_sys:r_float_ex(sec, "1icon_layer_x")
+-- 		local ico_layer_y = ini_sys:r_float_ex(sec, "1icon_layer_y")
+-- 		local ico_layer_scale = ini_sys:r_float_ex(sec, "1icon_layer_scale")
+-- 		if (ico_layer_x == 0) and (ico_layer_y == 0) and (ico_layer_scale == 1) then
+-- 			set_icon(ico_layer, hidden, XML_temp, XML_box_small)
+-- 		end
+-- 	end
+-- end

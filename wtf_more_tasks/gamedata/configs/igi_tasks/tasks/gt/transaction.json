@@ -1,0 +1,70 @@
+{
+	"preconditions": [
+		"igi_actions.rank('endgame')"
+	],
+	"entities": [
+	{
+		"where":"1,1",
+		"entity_type":"location",
+		"search_for": "smart",
+		"target":"assault",
+		"link_id": "smart"
+	},
+
+	{
+		"faction":"&Faction('enemy of taskgiver and enemy of actor')&",
+		"section_name":"&TableValueByKey('gt_guard', '[this.faction]')&",
+		"entity_type":"squad",
+		"to_create": true,
+		"where": "[smart.id]",
+		"link_id": "enemy"
+	},
+
+	{
+		"faction":"&Faction('enemy of [enemy.faction]')&",
+		"section_name":"&TableValueByKey('gt_guard', '[this.faction]')&",
+		"entity_type":"squad",
+		"to_create": true,
+		"where": "[smart.id]",
+		"link_id": "traitor"
+	},
+
+	{
+		"entity_type":"item",
+		"amount":2,
+		"section_name":"&ChooseOne('gt_package_weapon','gt_package_artifact')&",
+		"target":"return",
+		"to_description":true,
+		"mark": "treasure_unique",
+		"to_create": true,
+		"where": "[smart.id]"
+	}],
+	"actions": [
+	{
+		"when": [
+			"igi_actions.is_online([traitor.id])"
+		],
+		"run": "igi_actions.change_faction([traitor.id], '[enemy.faction]')"
+	}],
+	"icon": "ui_inGame2_Sdelka",
+	"quest_givers": [
+		{"Mechanic": true},
+		{"Petrenko": true},
+		{"Beard": true},
+		{"Spore": true},
+		{"Kuznetsov": true},		
+		{"Sidorovich": true},
+		{"Olivius": true},
+		{"Sultan": true},
+		{"Sakharov": true},
+		{"Barkeep": true},
+		{"Dushman": true},
+		{"Aslan": true},
+		{"Skinflint": true},
+		{"Lukash": true},
+		{"Hermann": true},
+		{"Eidolon": true},
+		{"Krolik": true},
+		{"Fanatic": true}		
+	]
+}

@@ -1,0 +1,146 @@
+;
+;   Storyline: Hidden Threat
+;   Version:   1.0
+;   Autor:     Longreed
+;	Last Edit: 26/10/2021
+;
+
+[sl_ht_accounting_report]:tch_quest
+$spawn 									 = "quest_items\sl_ht_accounting_report"
+visual                                   = dynamics\equipments\quest\notes_writing_book_1.ogf
+
+inv_weight                               = 0.05
+inv_grid_width                           = 2
+inv_grid_height                          = 1
+inv_grid_x                               = 8
+inv_grid_y                               = 15
+
+inv_name                                 = st_sl_ht_accounting_report_name
+inv_name_short                           = st_sl_ht_accounting_report_name
+description                              = st_sl_ht_accounting_report_desc
+
+can_trade                                = false
+cost                                     = 0
+quest_item      	                     = true
+
+[sl_ht_spooner_quest_package]:tch_quest
+$spawn                                   = "quest_items\sl_ht_spooner_quest_package"
+kind			                         = i_quest
+visual                                   = dynamics\equipments\quest\safe_container.ogf
+story_id                                 = sl_ht_spooner_quest_package
+inv_weight                               = 4.61
+inv_grid_width                           = 2
+inv_grid_height                          = 2
+inv_grid_x                               = 4
+inv_grid_y                               = 11
+inv_name                                 = st_sl_ht_spooner_quest_package_name
+inv_name_short                           = st_sl_ht_spooner_quest_package_name
+description                              = st_sl_ht_spooner_quest_package_desc
+can_trade                                = false
+cost                                     = 0
+use1_functor         		             = itms_manager.menu_unpack
+use1_action_functor  		             = itms_manager.ht_use_spooner_package_random
+
+[tch_ht_quest_mine_blow]:mine_actor
+blast                                   = 0.2
+frag_hit			              		= 0.0
+explode_particles                       = explosions\explosion_mine
+
+[sl_ht_walkie_talkie]:tch_quest
+$spawn 									 = "quest_items\sl_ht_walkie_talkie"
+visual                                   = dynamics\devices\dev_fmradio\dev_fmradio.ogf
+
+inv_weight                               = 0.01
+inv_grid_width                           = 1
+inv_grid_height                          = 1
+inv_grid_x                               = 2
+inv_grid_y                               = 43
+
+inv_name                                 = st_sl_ht_walkie_talkie_name
+inv_name_short                           = st_sl_ht_walkie_talkie_name
+description                              = st_sl_ht_walkie_talkie_desc
+
+can_trade                                = false
+cost                                     = 0
+quest_item      	                     = true
+
+[sl_ht_pda_isg_leader]:tch_quest
+$spawn                                   = "devices\sl_ht_pda_isg_leader"
+visual                                   = dynamics\devices\dev_pda\dev_pda.ogf
+
+kind			                         = i_quest
+
+inv_weight                               = 0.1
+inv_grid_width                           = 1
+inv_grid_height                          = 1
+inv_grid_x                               = 7
+inv_grid_y                               = 3
+
+inv_name                                 = st_sl_ht_pda_isg_leader_name
+inv_name_short                           = st_sl_ht_pda_isg_leader_name
+description                              = st_sl_ht_pda_isg_leader_desc
+
+can_trade                                = false
+cost                                     = 0
+quest_item      	                     = true
+
+[sl_ht_usb_quest_task_4]:tch_quest
+$spawn                                   = "devices\sl_ht_usb_quest_task_4"
+visual                                   = dynamics\devices\dev_flash_2\dev_flash_2.ogf
+
+kind			                         = i_quest
+
+inv_weight                               = 0.01
+inv_grid_width                           = 1
+inv_grid_height                          = 1
+inv_grid_x                               = 9
+inv_grid_y                               = 3
+
+inv_name                                 = st_sl_ht_usb_quest_task_4_name
+inv_name_short                           = st_sl_ht_usb_quest_task_4_name
+description                              = st_sl_ht_usb_quest_task_4_desc
+
+can_trade                                = false
+cost                                     = 0
+quest_item      	                     = true
+
+[sl_ht_case_quest_task_5]:tch_quest
+$spawn                                   = "devices\sl_ht_case_quest_task_5"
+visual                                   = equipments\item_merger.ogf
+
+kind			                         = i_quest
+
+inv_weight                               = 2.15
+inv_grid_width                           = 2
+inv_grid_height                          = 1
+inv_grid_x                               = 2
+inv_grid_y                               = 16
+
+inv_name                                 = st_sl_ht_case_quest_task_5_name
+inv_name_short                           = st_sl_ht_case_quest_task_5_name
+description                              = st_sl_ht_case_quest_task_5_desc
+
+can_trade                                = false
+cost                                     = 0
+quest_item      	                     = true
+
+[sl_ht_voice_recorder_task_6]:tch_quest
+$spawn                                   = "devices\sl_ht_voice_recorder_task_6"
+visual                                   = dynamics\equipments\trade\radio.ogf
+
+kind			                         = i_quest
+
+inv_weight                               = 0.05
+inv_grid_width			                           = 1
+inv_grid_height			                           = 1
+inv_grid_x				                           = 5
+inv_grid_y				                           = 42
+
+inv_name                                 = st_sl_ht_voice_recorder_task_6_name
+inv_name_short                           = st_sl_ht_voice_recorder_task_6_name
+description                              = st_sl_ht_voice_recorder_task_6_desc
+
+can_trade                                = false
+cost                                     = 0
+quest_item      	                     = true
+

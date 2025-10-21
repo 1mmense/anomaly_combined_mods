@@ -1,0 +1,14 @@
+local ini_tables = igi_db.ini_tables
+
+itms_manager.gt_use_package = function (obj)
+	local sec = obj:section()
+	local content_key = ini_sys:r_string_ex(sec,"possible_content")
+	local finalized_key = content_key.."_"..tostring(igi_helper.scale_to_player(3))
+
+	local possible_content = ini_tables[content_key] or ini_tables[finalized_key]
+	local content = {}
+	for i=1, ini_sys:r_float_ex(sec, "amount_content") do
+		content[i] = possible_content:random()
+	end
+	utils_item.delay_event(content, {obj:id()}, "medkit_ai1", true, 5)
+end

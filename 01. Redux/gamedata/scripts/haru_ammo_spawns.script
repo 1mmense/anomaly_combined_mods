@@ -1,0 +1,69 @@
+local GetAmmo = utils_item.get_ammo
+local math_random = math.random
+
+function custom_ammo_spawn(npc)
+    if trader_autoinject.get_trader_type(npc) ~= trader_autoinject.SUPPLIER then return end
+    local supply_level = trader_autoinject.supply_level(npc, true) or 0
+    local to_spawn = {}
+	local function itr_ammo(owner, item)
+		if IsWeapon(item) and (not IsItem("fake_ammo_wpn", sec)) then
+			local ammo_table = GetAmmo(item:section(), item:id(), false)
+			-- tiers(k): 1 - fmj,    4 - hp,  7 - ap
+			-- types(%): 1 - normal, 2 - bad, 0 - verybad
+			for k, ammo in pairs(ammo_table) do
+				if k % 3 == 1 then 
+					if not to_spawn[ammo] then
+						to_spawn[ammo] = k > 1 and spawn_special(supply_level) or spawn_normal(supply_level)
+					else
+						to_spawn[ammo] = to_spawn[ammo] + (k > 1 and spawn_special(supply_level, true) or spawn_normal(supply_level, true))
+					end
+				end
+			end
+		elseif IsAmmo(item) then
+			alife_release(item)
+		end
+	end
+    npc:iterate_inventory(itr_ammo, npc)
+    trader_autoinject.spawn_items(npc, to_spawn)
+end
+
+local aaSP = 2 -- ammo amount special
+local aaN = 4 -- ammo amount normal
+
+function spawn_special(supply_level, additional)
+	if additional then 
+		return clamp(math_random(-1, 1), 0, 1)
+	else
+		return clamp(math_random(-aaSP, aaSP), 0, aaSP) + math_random(supply_level)
+	end
+end
+
+function spawn_normal(supply_level, additional)
+	if additional then
+		return math_random(1, 2)
+	else
+		return clamp(math_random(-aaN, aaN), 2, aaN) + (math_random(supply_level) * 2)
+	end
+end
+
+local use_special_ammo_spawns = true
+
+TraderAuto = trader_autoinject.update
+
+function trader_autoinject.update(npc)
+    TraderAuto(npc)
+    if use_special_ammo_spawns then
+        custom_ammo_spawn(npc)
+    end
+end
+
+function on_option_change()
+	aaSP = faction_economy_mcm.get_config("ammo_amount_special")
+	aaN = faction_economy_mcm.get_config("ammo_amount")
+    use_special_ammo_spawns = faction_economy_mcm.get_config("use_special_ammo_spawns")
+end
+
+function on_game_start()
+	RegisterScriptCallback("on_option_change", on_option_change)
+    on_option_change()
+end

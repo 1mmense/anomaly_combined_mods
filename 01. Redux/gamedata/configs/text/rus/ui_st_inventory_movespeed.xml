@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+
+	<string id="ui_inv_outfit_speed">
+		<text>Скорость движения</text>
+	</string>
+
+	
+	<!-- MCM -->
+	
+	<string id="ui_mcm_menu_speed">
+		<text>Скорость</text>
+	</string>
+	<string id="ui_mcm_menu_speed_title">
+		<text>Влияние оружия/брони на скорость передвижения</text>
+	</string>
+	<string id="ui_mcm_speed_title">
+		<text>Влияние оружия/брони на скорость передвижения</text>
+	</string>
+	<string id="ui_mcm_speed_encumbrance">
+		<text>Влияние веса на скорость</text>
+	</string>
+	<string id="ui_mcm_speed_encumbrance_desc">
+		<text>Бонус к скорости при небольшом весе (менее 25% от общего веса) и штрафы при перегрузе. (более 70%). \ n \ n Имейте в виду, что включение этой опции приведет к высокой скорости, если вы путешествуете налегке. Ну и дебаффы жесткие</text>
+	</string>
+	<string id="ui_mcm_speed_weapon">
+		<text>Влияние оружие на скорость бега</text>
+	</string>
+	<string id="ui_mcm_speed_weapon_desc">
+		<text>Если включено, оружие влияет на скорость передвижения, в зависимости от его типа и веса.</text>
+	</string>
+	<string id="ui_mcm_speed_debug">
+		<text>(Разработчик) Журнал консоли</text>
+	</string>
+	<string id="ui_mcm_speed_debug_desc">
+		<text>Печатает в консоле какую-то полезную хрень.</text>
+	</string>
+</string_table>

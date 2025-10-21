@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="st_colt_3x">
+		<text>Colt m16a1 Scope</text>
+	</string>
+	<string id="st_colt_3x_descr">
+		<text>\n \n%c[ui_gray_2]COMPATIBILITY:\n \n%c[d_cyan] • %c[ui_gray_2] selected NATO rifles\n \n%c[ui_gray_1]Detachable optical scope Colt M16A1\n \n%c[d_purple] • %c[ui_gray_2] Magnification: %c[ui_gray_1]2.0x\n%c[d_purple] • %c[ui_gray_2] Condition: %c[ui_gray_1]very good\n%c[d_purple] • %c[ui_gray_2] Reticule pattern: %c[ui_gray_1]trijicon</text>
+	</string>
+	
+</string_table>

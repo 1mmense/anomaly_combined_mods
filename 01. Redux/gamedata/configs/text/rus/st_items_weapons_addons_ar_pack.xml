@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="st_colt_3x">
+		<text>Прицел Colt</text>
+	</string>
+	<string id="st_colt_3x_descr">
+		<text>\n \n%c[ui_gray_2]СОВМЕСТИМОСТЬ:\n \n%c[d_cyan] • %c[ui_gray_2] M16A1\n \n%c[ui_gray_1]Съёмный оптический прицел, предназначенный для винтовки М16А1.\n \n%c[d_purple] • %c[ui_gray_2] Увеличение: %c[ui_gray_1]2.0x\n%c[d_purple] • %c[ui_gray_2] Состояние: %c[ui_gray_1]отличное\n%c[d_purple] • %c[ui_gray_2] Тип прицельной сетки: %c[ui_gray_1]trijicon</text>
+	</string>
+	
+</string_table>

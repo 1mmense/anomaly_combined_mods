@@ -1,0 +1,404 @@
+
+--[[
+Pinup Collect baed on item_map_kit by Tronex
+4/12/2020
+
+Unless there is an overriding licene in item_map_kit this work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+Author: RavenAscendant
+--]]
+
+
+
+----------------------------------------------------------------------
+-- UI Item Property
+----------------------------------------------------------------------
+function menu_pinup(obj) -- return "use" name
+	local p = obj:parent()
+	if not (p and p:id() == AC_ID) then return end
+
+	local sec = obj:section()
+	if IsPinup(sec) then
+		return game.translate_string("st_item_use")
+	end
+	
+	return nil
+end
+
+function func_pinup(obj)
+	local p = obj:parent()
+	if not (p and p:id() == AC_ID) then
+		return
+	end
+--			printf("IsPinup 32: " .. tostring(obj:section()))
+
+	local sec = obj:section()
+	if IsPinup(sec) then
+		start(obj, sec)
+	end
+end
+
+----------------------------------------------------------------------
+-- Callbacks
+----------------------------------------------------------------------
+local function actor_on_item_use(obj)
+	local sec = obj:section()
+	if IsPinup(sec) then
+		start(obj, sec)
+	end
+end
+
+----------------------------------------------------------------------
+local pinupsources = {} 	-- list of ingame items that can be used to collect pinup. I only plan for the two magazines, but maybe someone will add greeting cards.
+local pinuptocollect = {} 	-- revers look up table of pinup sections under the sources they list with entries in pinupcollected removed
+local pinupcollected = {} 	-- simple list of section names from the pinup .ltx(s) that have already been collected, stored to save data.
+local pinupdb = {} 			-- 
+
+local ini = nil
+
+
+function pins_save(m_data)
+	
+	m_data.pinupcollected = pinupcollected
+end 
+
+function pins_load(m_data)
+	pinupcollected = m_data.pinupcollected or {}
+
+end
+
+
+
+function on_game_start()
+	RegisterScriptCallback("actor_on_item_use",actor_on_item_use)
+	RegisterScriptCallback("save_state",pins_save)
+	RegisterScriptCallback("load_state",pins_load)
+	loadini()
+
+end
+
+
+
+function loadini()
+	if not ini then 
+		printf("Pinup load ini")
+		ini =  ini_file_ex("plugins\\pinup\\pinupbase.ltx") 
+		local sections = ini:get_sections()
+		for i,sec in ipairs(sections) do
+			if sec ~= "pinup_base" then-- skip the template.
+				local sources = ini:r_string_ex(sec,"item")
+				local items = str_explode(sources,",")
+				for j, item in ipairs(items) do
+					if not pinuptocollect[item] then pinuptocollect[item] = {} end
+					
+					if not pinupcollected[sec] then -- if we havn't collected it already add it to the source tables
+						pinuptocollect[item][#pinuptocollect[item]+1] = sec 
+					end
+					pinupsources[item] = true --smaller table to be referanced by UI menu only identifies valid sources regardless of how many pinups have been collected.
+				end
+				-- lastly build a db of the pinups so that ideally all the .ltx reading ahppens at load, not the inventory UI
+				pinupdb[sec] = {}
+				pinupdb[sec]["texture"] = ini:r_string_ex(sec,"texture")
+				pinupdb[sec]["path"] = ini:r_string_ex(sec,"path")
+				pinupdb[sec]["artist"] = ini:r_string_ex(sec,"artist")
+				pinupdb[sec]["desc"] = ini:r_string_ex(sec,"desc")
+			end
+		end
+		
+
+	end
+
+end
+
+function collect_pinup(sec)
+	if #pinuptocollect[sec] < 1 then return false end --if this source has no entries left we are done.
+	local r = math.random(#pinuptocollect[sec])
+	local pinup = pinuptocollect[sec][r]
+	--pinupcollected[pinup] = true moved to UI to ensure new pinup is last in index
+	for k, v in pairs(pinuptocollect) do  --remove the pinup from each source to prevent duplicates
+		table.remove(pinuptocollect[k],r)
+	end
+	return pinup
+end	
+
+
+function IsPinup(sec)
+--	printf("IsPinup 124: " .. tostring(sec))
+	loadini()
+	return pinupsources[sec]
+end
+
+
+
+GUI = nil -- instance, don't touch
+function start(obj, sec)
+	if (not obj) then
+		printf("!ERROR item_pinp_collect | no game object passed!")
+		return
+	end
+	
+	if (not sec) then
+		sec = obj:section()
+	end
+	
+	local hud = get_hud()
+	if (hud) then
+		hide_hud_inventory()
+	end
+	
+	if (not GUI) then
+		GUI = UIPinupCollect()
+	end
+	
+	if (GUI) and (not GUI:IsShown()) then
+		GUI:Reset(obj, sec)
+		GUI:ShowDialog(true)
+		Register_UI("UIPinupCollect","item_pinp_collect")
+	end
+end
+
+
+----------------------------------------------------------------------
+-- UI
+----------------------------------------------------------------------
+
+--I am not even going to pretend this isn't a minimaly modified UIMapKit from item_map_kit
+
+class "UIPinupCollect" (CUIScriptWnd)
+
+function UIPinupCollect:__init(owner,obj,section) super()
+	self:InitControls()
+	self:InitCallBacks()
+end
+
+function UIPinupCollect:__finalize()
+end
+
+function UIPinupCollect:InitControls()
+	self:SetWndRect			(Frect():set(0,0,1024,768))
+	self:SetAutoDelete(true)
+	
+	self.xml				= CScriptXmlInit()
+	local xml = self.xml
+	xml:ParseFile			("ui_items_pinup.xml")
+
+	self.dialog	= xml:InitStatic("fold", self)
+	self.dialog:InitTexture("ui_itm_map_frame")
+	self.dialog:SetStretchTexture(true)
+
+	self.box_left = xml:InitStatic("fold:box_left",self.dialog)
+	self.box_left:SetStretchTexture(true)
+	self.box_right = xml:InitStatic("fold:box_right",self.dialog)
+	self.box_right:SetStretchTexture(true)
+
+	-- Pin name
+	self.text_left = xml:InitTextWnd("fold:text_left", self.dialog)
+	self.text_right = xml:InitTextWnd("fold:text_right", self.dialog)
+
+	-- Button Ok
+	self.btn_ok_pic = xml:InitStatic("fold:btn_ok_pic", self.dialog)
+	self.btn_ok_pic:InitTexture("ui_button_ordinary_h")
+	self.btn_ok_pic:SetStretchTexture(true)
+	
+	self.btn_ok = xml:Init3tButton("fold:btn_ok", self.dialog)
+	self:Register(self.btn_ok,"btn_ok")
+	
+	-- Button Next
+	self.btn_next_pic = xml:InitStatic("fold:btn_next_pic", self.dialog)
+	self.btn_next_pic:InitTexture("ui_button_ordinary_h")
+	self.btn_next_pic:SetStretchTexture(true)
+
+	self.btn_next = xml:Init3tButton("fold:btn_next", self.dialog)
+	self:Register(self.btn_next,"btn_next")
+	
+	-- Button Previous
+	self.btn_previous_pic = xml:InitStatic("fold:btn_previous_pic", self.dialog)
+	self.btn_previous_pic:InitTexture("ui_button_ordinary_h")
+	self.btn_previous_pic:SetStretchTexture(true)
+
+	self.btn_previous = xml:Init3tButton("fold:btn_previous", self.dialog)
+	self:Register(self.btn_previous,"btn_previous")
+	--hint window
+	self.hint_wnd = xml:InitFrame("hint_wnd:background",self)
+	self.hint_wnd:SetAutoDelete(false)
+	self.hint_wnd_text = xml:InitTextWnd("hint_wnd:text",self.hint_wnd)
+	self.hint_wnd:Show(false)
+	self.tg_hint = 0
+	self.tg_hint_step = 500
+	
+end
+
+function UIPinupCollect:InitCallBacks()
+	self:AddCallback("btn_ok", ui_events.BUTTON_CLICKED, self.Close, self)
+	self:AddCallback("btn_next", ui_events.BUTTON_CLICKED, self.OnNext, self)
+	self:AddCallback("btn_previous", ui_events.BUTTON_CLICKED, self.OnPrevious, self)
+end
+
+function UIPinupCollect:Reset(obj, sec)
+	self.section = sec
+	self.object = obj
+	
+	self.pinup = collect_pinup(sec)
+	
+	
+		
+	
+	self.index = 1 -- general case start at the begining.
+	self.indexes = {}
+	self.pinups = pinupcollected
+	for k,v in pairs (self.pinups) do
+		if (v == true) then
+			self.indexes[#self.indexes+1] = k
+		end
+	end
+	
+	if self.pinup then
+	--	delete source
+		alife_release(obj)
+		pinupcollected[self.pinup] = true 			-- add new pinup to collection
+		self.indexes[#self.indexes+1] = self.pinup 	-- add new pinup to end of list so that as they flip thru when the get back to this they know they ave seen their entire collection
+		self.index = #self.indexes 					-- this will dispaly the new pinup on the left with nothing to the right, even if index is even. 
+														--buttons will corect for this. will make the first page flip a bit odd but i think dispalying the new pinup byitself is worth it 
+		utils_xml.set_msg("New Pinup Collected",true)
+	end
+
+	
+	
+	
+	
+	self.box_left:InitTexture(pinupdb[self.indexes[self.index]].path .. pinupdb[self.indexes[self.index]].texture)
+	self.text_left:SetText(game.translate_string(self.indexes[self.index]))
+	-- only show the right hand picture if there is one to show
+	if self.index < #self.indexes then
+		self.box_right:InitTexture(pinupdb[self.indexes[self.index+1]].path .. pinupdb[self.indexes[self.index+1]].texture)
+		self.text_right:SetText(game.translate_string(self.indexes[self.index+1]))
+		self.box_right:Show(true)
+	else --other wise hide it
+		self.box_right:Show(false)
+		self.text_right:SetText("")
+	end
+	local to_show = (#self.indexes > 1)
+	self.btn_next_pic:Show(to_show)
+	self.btn_next:Show(to_show)
+	self.btn_previous_pic:Show(to_show)
+	self.btn_previous:Show(to_show)
+	self:SetHint(false)
+end
+
+-- Callbacks
+function UIPinupCollect:OnNext()
+	self.index = self.index + 2
+	if (self.index > #self.indexes) then
+		self.index = 1
+	end
+	self.box_left:InitTexture(pinupdb[self.indexes[self.index]].path .. pinupdb[self.indexes[self.index]].texture)
+	self.text_left:SetText(game.translate_string(self.indexes[self.index]))
+	
+	-- only show the right hand picture if there is one to show
+	if self.index < #self.indexes then
+		self.box_right:InitTexture(pinupdb[self.indexes[self.index+1]].path .. pinupdb[self.indexes[self.index+1]].texture)
+		self.text_right:SetText(game.translate_string(self.indexes[self.index+1]))
+		self.box_right:Show(true)
+	else --other wise hide it
+		self.box_right:Show(false)
+		self.text_right:SetText("")
+	end
+end
+
+function UIPinupCollect:OnPrevious()
+	self.index = self.index - 1 - (self.index % 2) -- correction for new pinups always being displayed on left even if index is even.
+	if (self.index < 1) then
+	---	printf("Pinup 299: " .. (#self.indexes % 2))
+		self.index = #self.indexes - 1 + (#self.indexes % 2) -- if there is an even number of pictures we show the last two, if there is an odd number we only show the last
+	end
+	utils_obj.play_sound("interface\\inv_page")
+	self.box_left:InitTexture(pinupdb[self.indexes[self.index]].path .. pinupdb[self.indexes[self.index]].texture)
+	self.text_left:SetText(game.translate_string(self.indexes[self.index]))
+	
+	-- only show the right hand picture if there is one to show
+	if self.index < #self.indexes then
+		self.box_right:InitTexture(pinupdb[self.indexes[self.index+1]].path .. pinupdb[self.indexes[self.index+1]].texture)
+		self.text_right:SetText(game.translate_string(self.indexes[self.index+1]))
+		self.box_right:Show(true)
+	else --other wise hide it
+		self.box_right:Show(false)
+		self.text_right:SetText("")
+	end
+end
+
+function UIPinupCollect:Close()
+	utils_obj.play_sound("interface\\inv_close")
+	self:HideDialog()
+	
+	Unregister_UI("UIPinupCollect")
+end
+
+function UIPinupCollect:OnKeyboard(dik, keyboard_action)
+	local res = CUIScriptWnd.OnKeyboard(self,dik,keyboard_action)
+	if (res == false) then
+		local bind = dik_to_bind(dik)
+		if keyboard_action == ui_events.WINDOW_KEY_PRESSED then
+			if (dik == DIK_keys.DIK_ESCAPE) then
+				self:Close()
+			elseif (#self.indexes > 1) then
+				if (dik == DIK_keys.DIK_D) or (dik == DIK_keys.DIK_RIGHT) then
+					self:OnNext()
+				elseif (dik == DIK_keys.DIK_A) or (dik == DIK_keys.DIK_LEFT) then
+					self:OnPrevious()
+				end
+			end
+		end
+	end
+	return res
+end
+
+function UIPinupCollect:SetHint(text, pos)
+	if (not text) then
+		self.tg_hint = time_global()
+		self.hint_wnd:Show(false)
+		return
+	end
+	
+	if (time_global() < self.tg_hint + self.tg_hint_step) then
+		return
+	end
+	
+	self.hint_wnd:Show(true)
+	self.hint_wnd_text:SetText(text)
+	self.hint_wnd_text:AdjustHeightToText()
+	
+	local w = self.hint_wnd:GetWidth()
+	w = w >= 150 and w or 150
+	local h = self.hint_wnd_text:GetHeight()+44
+	h = h >= 265 and h or 265
+	self.hint_wnd:SetWndSize(vector2():set(w,h))
+	
+	pos = pos or GetCursorPosition()
+	pos.y = pos.y - self.hint_wnd:GetHeight()
+	pos.x = pos.x - self.hint_wnd:GetWidth()
+	self.hint_wnd:SetWndPos(pos)
+	
+	FitInRect(self.hint_wnd,Frect():set(0,0,1024,768),0,100)
+end
+
+function UIPinupCollect:Update()
+	CUIScriptWnd.Update(self)
+
+	-- Hint
+	local pin_window = nil
+	
+		if self.box_left:IsCursorOverWindow() then
+			pin_window = 0
+		elseif self.box_right:IsCursorOverWindow() and self.index <#self.indexes then
+			pin_window = 1
+		end
+		
+		if pin_window then
+			local str = game.translate_string(self.indexes[self.index + pin_window]) .. "\\n \\n" .. game.translate_string("st_pinup_artist")..": " .. game.translate_string(pinupdb[self.indexes[self.index + pin_window]].artist) .. "\\n \\n" .. game.translate_string("st_pinup_description") .. ": " .. game.translate_string(pinupdb[self.indexes[self.index + pin_window]].desc)
+			if str then
+				self:SetHint( str )
+			end
+			return
+		end
+	
+	self:SetHint(false)
+end

@@ -1,0 +1,39 @@
+{
+	"WTF_VERSION": "4.2",
+	"CREDITS": "\\nNerkokant - idea\\nIgigog - scripting\\nMich - KS23 Blowgun\\nBilly, Medic - descriptions",
+	"entities": [
+		{
+			"ids": "$ igi_finder.get_smarts(0,0)",
+			"id": "$ wtf.shuffle(|this.ids|)[1] or false",
+			"name": "$ alife_object(|this.id|):name()",
+			"link_id": "smart",
+			"to_description": true
+		},
+
+		{
+			"section_name":"simulation_flesh",
+			"id": "init$ utils_obj.create_squad(|this.section_name|, |smart.name|).id",
+			"init": "init$ igi_helper.init_squad(|this.id|)",
+			"CONTROLLER":"@$ igi_target_shoot.Shoot",
+        	"weapon": "wpn_igi_ks23_ecolog",
+			"to_description": true
+		},
+
+		{
+			"section_name":"wpn_igi_ks23_ecolog",
+			"id": "init$ alife_create_item(|this.section_name|, alife_object(0)).id",
+			"notify": "init$ news_manager.relocate_item(db.actor, \"in\", |this.section_name|, 1) or 1",
+			"CONTROLLER":"@$ igi_target_return.Return"
+		},
+
+		{
+			"section_name":"ammo_23_igi_eco",
+			"id": "init$ alife_create_item(|this.section_name|, alife_object(0)).id",
+			"notify": "init$ news_manager.relocate_item(db.actor, \"in\", |this.section_name|, 1) or 1"
+		}
+	],
+	"rewarder": "@$ igi_rewards.Static({money = 8000, goodwill = 50})",
+	"quest_givers": [
+		{"Ecolog": true, "Leader": true}
+	]
+}

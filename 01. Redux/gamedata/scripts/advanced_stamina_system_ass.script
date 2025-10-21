@@ -1,0 +1,397 @@
+local is_empty = is_empty
+local IsMoveState = IsMoveState
+local normalize = normalize
+local pairs = pairs
+local printf = printf
+local round_idp = round_idp
+local time_global = time_global
+
+local get_sleep_deprivation = actor_status_sleep.get_sleep_deprivation
+local get_water_deprivation = actor_status_thirst.get_water_deprivation
+
+local get_game_factor = game_difficulties.get_game_factor
+
+local max = math.max
+local min = math.min
+local floor = math.floor
+local random = math.random
+
+local string_find = string.find
+
+local table_sort = table.sort
+local table_concat = table.concat
+
+local add_speed = speed.add_speed
+local remove_speed = speed.remove_speed
+
+local last_pos_y = 0
+local tg = 0
+local tg_interval = 30
+
+local smoothed_values = {}
+
+--EMA smoothing for changing values
+local default_smoothing = 500
+local alpha_table = {}
+
+local function ema(key, value, def, steps)
+	local steps = steps or default_smoothing
+	if not alpha_table[steps] then alpha_table[steps] = 2.0 / (steps + 1) end
+
+	local smoothing_alpha = alpha_table[steps]
+	smoothed_values[key] = smoothed_values[key] and smoothed_values[key] + smoothing_alpha * (value - smoothed_values[key]) or def or value
+	--printf("EMA fired, key %s, target %s, current %s, going %s", key, value, smoothed_values[key], (value > smoothed_values[key] and "up" or "down"))
+	return smoothed_values[key]
+end
+
+local function dema(key, value, def, steps)
+	local e = ema(key, value, def, steps)
+	smoothed_values[key] = 2 * e - ema(key, e, def, steps)
+	--printf("DEMA fired, key %s, target %s, current %s, going %s", key, value, smoothed_values[key], (value > smoothed_values[key] and "up" or "down"))
+	return smoothed_values[key]
+end
+
+-- Load the settings
+local settings = {}
+local function load_defaults()
+	local op = advanced_stamina_system_mcm.op
+	for i, v in ipairs(op.gr) do
+		if v.def ~= nil then
+			settings[v.id] = v.def
+		end
+	end
+	if db and db.actor then
+		remove_speed("ASS_speed")
+		remove_speed("ASS_speed_hill")
+	end
+end
+
+local function load_settings()
+	load_defaults()
+	if ui_mcm then
+		for k, v in pairs(settings) do
+			settings[k] = ui_mcm.get("advanced_stamina_system/" .. k)
+		end
+	end
+end
+load_defaults()
+
+local materials_coeffs = { -- Coeffs for different materials
+	default = {
+		speed = 1, -- speed bonus, > 1 adds speed, < 1 reduces
+		stamina = 0, -- stamina drain, < 0 increases stamina drain, > 0 reduces
+	},
+	water = {
+		speed = 0.8,
+		stamina = -0.15,
+	},
+	bush = {
+		speed = 0.85,
+		stamina = -0.12,
+	},
+	asphalt = {
+		speed = 1.055,
+		stamina = 0.035,
+	},
+	concrete = {
+		speed = 1.04,
+		stamina = 0.0275,
+	},
+	stucco = {
+		speed = 1.04,
+		stamina = 0.0275,
+	},
+	metal = {
+		speed = 1.025,
+		stamina = 0.015,
+	},
+	wood = {
+		speed = 1.025,
+		stamina = 0.015,
+	},
+	floor = {
+		speed = 1.025,
+		stamina = 0.015,
+	},
+	earth = {
+		speed = 0.98,
+		stamina = 0,
+	},
+	grass = {
+		speed = 0.97,
+		stamina = -0.02,
+	},
+	road = {
+		speed = 1.055,
+		stamina = 0.035,
+	}
+}
+
+local cached_materials = { -- every actual materials with coeffs stored there
+
+}
+local current_material = materials_coeffs.default
+
+local function check_material(mat)
+	if cached_materials[mat] then
+		if settings.debug_mode then
+			printf("mat %s read from cache, speed %s, stamina %s", mat, cached_materials[mat].speed, cached_materials[mat].stamina)
+		end
+		return cached_materials[mat]
+	else
+		cached_materials[mat] = materials_coeffs.default
+		for k, v in pairs(materials_coeffs) do
+			if string_find(mat, k) then
+				if settings.debug_mode then
+					printf("found match for mat %s, key %s", mat, k)
+				end
+				cached_materials[mat] = v
+			end
+		end
+		if settings.debug_mode then
+			printf("mat %s written in cache, speed %s, stamina %s", mat, cached_materials[mat].speed, cached_materials[mat].stamina)
+		end
+		return cached_materials[mat]
+	end
+end
+
+local function actor_on_footstep(mat)
+	if settings.enable_material_drain then
+	    current_material = check_material(mat)
+	    add_speed("ASS_speed", current_material.speed, false, true)
+	end
+end
+
+local function array_keys(t, sorted, sort_func)
+	local res = {}
+	local res_count = 1
+	for k, v in pairs(t) do
+		res[res_count] = k
+		res_count = res_count + 1
+	end
+	if sorted then
+		if sort_func then
+			table_sort(res, sort_func)
+		else
+			table_sort(res)
+		end
+	end
+	return res
+end
+
+local thirst_table = {  -- LUT with stamina regen by thirst
+	[0] = 0.00015, -- this * (1000 / tg_interval, 33 by default) = extra regen/drain each second
+	[1400] = 0,
+	[2880] = -0.000150,  -- at this level vanilla thirst penalty kicks in
+	[4320] = -0.000150,
+	[5760] = -0.000150
+}
+local thirst_table_keys = array_keys(thirst_table, true)
+
+local sleep_table = {  -- LUT with stamina regen by sleep
+	[0] = 0.000225, -- this * (1000 / tg_interval, 33 by default) = extra regen/drain each second
+	[2250] = 0,
+	[5000] = -0.000120,
+	[6250] = -0.000180,  -- at this level vanilla sleep penalty kicks in
+	[7500] = -0.000180,
+	[8750] = -0.000180
+}
+local sleep_table_keys = array_keys(sleep_table, true)
+
+local function bisect_left(a, x, lo, hi)
+	local lo = lo or 1
+	local hi = hi or #a
+	
+	if lo < 0 then
+		printf('bisect, lo must be non-negative')
+		return
+	end
+
+	while lo < hi do
+		local mid = floor((lo + hi) * 0.5)
+		if a[mid] < x then 
+			lo = mid+1
+		else
+			hi = mid
+		end
+    end
+
+	return lo
+end
+
+local function lookup(t, key, tkeys)
+	if is_empty(t) then return 0 end
+
+	if not tkeys then
+		local tkeys = array_keys(t, true)
+	end
+
+	local tkeys_len = #tkeys
+	if key <= tkeys[1] then return t[tkeys[1]] end
+	if key >= tkeys[tkeys_len] then return t[tkeys[tkeys_len]] end
+
+	local where = bisect_left(tkeys, key)
+    local lo = tkeys[where-1] or tkeys[where]
+    local hi = tkeys[where]
+    if lo == hi then return t[lo] end
+
+    local delta = (key - lo) / (hi - lo)
+    local res = delta * t[hi] + (1 - delta) * t[lo]
+
+    --printf(res)
+    return res
+end
+
+blood_loss_level = 0
+
+local function actor_on_update()
+	local t = time_global()
+	if t < tg then return end
+	tg = tg + tg_interval
+
+	--printf("updater %s", floor(t / 1000))
+
+	local actor = db.actor
+	local power = actor.power
+	local health = actor.health
+	local pos_y = actor:position().y
+	local string_debug = {}
+
+	if settings.enable_thirst_drain and get_game_factor("thirst") then
+		local res = lookup(thirst_table, get_water_deprivation() * 10000, thirst_table_keys)
+		actor:change_power(res * settings.thirst_drain_modifier)
+		if settings.debug_mode then 
+			string_debug[#string_debug + 1] = "thirst: " .. tostring(round_idp(res, 5))
+		end
+	end
+
+	if settings.enable_sleep_drain and get_game_factor("sleep") then
+		local res = lookup(sleep_table, get_sleep_deprivation() * 10000, sleep_table_keys)
+		actor:change_power(res * settings.sleep_drain_modifier)
+		if settings.debug_mode then 
+			string_debug[#string_debug + 1] = "sleep: " .. tostring(round_idp(res, 5))
+		end
+	end
+
+	-- apply climb coeff
+	if settings.enable_uphill_drain and not (IsMoveState('mcJump') or IsMoveState('mcFall')) then
+		local coeff = 0.033
+		local coeff_downhill_reduction = 0.43 -- the result coeff will be coeff * coeff_downhill_reduction
+		local diff = pos_y - last_pos_y
+		local coeff = diff > 0 and coeff or coeff * coeff_downhill_reduction
+		local res = -diff * coeff * settings.uphill_drain_modifier 
+
+		if settings.debug_mode then 
+			string_debug[#string_debug + 1] = "climb stamina: " .. tostring(round_idp(res, 5))
+		end
+		
+		-- if (math.floor(t * 0.01) * 100) % 200 == 0 then
+		-- 	actor_menu.set_msg(1, string.format("pos_y %s\n last_pos_y %s\n diff %s\n res %s", round_idp(pos_y, 6), round_idp(last_pos_y, 6), round_idp(diff, 6), round_idp(res, 6)))
+		-- end
+
+		actor:change_power(res)
+	end
+
+	-- apply climb speed
+	if settings.enable_uphill_speed_modifier and not (IsMoveState('mcJump') or IsMoveState('mcFall')) and IsMoveState('mcAnyMove') then
+		local coeff = 2.3
+		local coeff_downhill_reduction = 0.45 -- the result coeff will be coeff * coeff_downhill_reduction
+		local diff = pos_y - last_pos_y
+
+		local coeff = diff > 0 and coeff or coeff * coeff_downhill_reduction
+		local res = 1 - diff * coeff * settings.uphill_speed_modifier_modifier
+		add_speed("ASS_speed_hill", res, false, true)
+
+		if settings.debug_mode then 
+			string_debug[#string_debug + 1] = "climb speed: " .. tostring(round_idp(res, 5))
+		end
+
+	end
+
+	-- apply material coeff
+	if settings.enable_material_drain and IsMoveState('mcAnyMove') then
+		actor:change_power(current_material.stamina * 0.005 * settings.material_drain_modifier)
+	end
+
+	-- apply satiety limit
+	if settings.enable_satiety_limit then
+		local satiety = ema("satiety", clamp(actor:cast_Actor():conditions():GetSatiety() + 0.1, 0.2, 1))
+		
+	    local satiety_limit_modifier = settings.satiety_limit_modifier
+		if satiety_limit_modifier < 1 then 
+	    	satiety = normalize(satiety, satiety_limit_modifier - 1, 1)
+	    end
+
+	    if power > satiety then
+	        actor.power = satiety
+	    end
+	end
+
+	-- apply blood loss health limit
+	if settings.enable_blood_loss_limit then
+		local coeff = 0.0002
+		local bleeding = actor.bleeding * coeff * settings.blood_loss_limit_modifier
+		blood_loss_level = blood_loss_level + bleeding
+		if settings.debug_mode then
+			string_debug[#string_debug + 1] = "blood_loss_level: " .. tostring(round_idp(blood_loss_level, 5))
+		end
+	else
+		blood_loss_level = 0
+	end
+
+	local blood_loss_limit = ema("blood_loss_limit", 1 - blood_loss_level, nil, 750)
+	if health > blood_loss_limit then
+		actor.health = blood_loss_limit
+	end
+	if settings.debug_mode then
+		string_debug[#string_debug + 1] = "blood_loss_limit: " .. tostring(round_idp(blood_loss_limit, 5))
+	end
+
+	if settings.debug_mode and (floor(t * 0.01) * 100) % 200 == 0 then
+		actor_menu.set_msg(1, table_concat(string_debug, ", "))
+	end
+
+	last_pos_y = pos_y
+end
+
+boosted_blood_loss_items = {
+	protein = 2.5,
+	glucose = 5,
+	glucose_s = 5.5,
+}
+
+function actor_on_item_use(obj, str)
+	local sec = obj:section()
+	local satiety_increase = SYS_GetParam(2, sec, "eat_satiety", 0)
+	printf("%s", satiety_increase)
+	if satiety_increase > 0 then
+		local coeff = 0.25
+		satiety_increase = satiety_increase * coeff * (boosted_blood_loss_items[sec] or 1)
+		local res = blood_loss_level - satiety_increase
+		blood_loss_level = res > 0 and res or 0
+	end
+end
+
+local function actor_on_first_update()
+	last_pos_y = db.actor:position().y
+	tg = time_global()
+	load_settings()
+    RegisterScriptCallback("actor_on_update", actor_on_update)
+    RegisterScriptCallback("actor_on_footstep", actor_on_footstep)
+end
+
+local function load_state(m_data)
+	blood_loss_level = m_data.ass_blood_loss_level or 0
+end
+
+local function save_state(m_data)
+	m_data.ass_blood_loss_level = blood_loss_level
+end
+
+function on_game_start()
+	RegisterScriptCallback("actor_on_item_use", actor_on_item_use)
+	RegisterScriptCallback("load_state", load_state)
+	RegisterScriptCallback("save_state", save_state)
+	RegisterScriptCallback("on_option_change", load_settings)
+    RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
+end

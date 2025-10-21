@@ -1,0 +1,37 @@
+local plyAimSound
+
+function actor_on_weapon_zoom_in()
+    local ply = db.actor
+    if not ( ply and ply:alive() ) then return end
+
+    local ct = time_global()
+
+    if not plyAimSound or ct > plyAimSound then
+
+        aimInSound = xr_sound.get_safe_sound_object( "weapons\\aimin\\aim_in_" .. tostring(math.random(10)))
+        aimInSound:play_no_feedback( ply, sound_object.s2d, 0, VEC_ZERO, 1 , 1)
+
+        plyAimSound = ct + 175
+    end
+end
+ 
+
+function actor_on_weapon_zoom_out()
+    local ply = db.actor
+    if not ( ply and ply:alive() ) then return end
+
+    local ct = time_global()
+
+    if not plyAimSound or ct > plyAimSound then
+
+        aimOutSound = xr_sound.get_safe_sound_object( "weapons\\aimout\\aim_out_" .. tostring(math.random(10)))
+        aimOutSound:play_no_feedback( ply, sound_object.s2d, 0, VEC_ZERO, 1 , 1)
+
+        plyAimSound = ct + 175
+    end
+end
+
+function on_game_start()
+    RegisterScriptCallback( "actor_on_weapon_zoom_in", actor_on_weapon_zoom_in )
+    RegisterScriptCallback( "actor_on_weapon_zoom_out", actor_on_weapon_zoom_out )
+end

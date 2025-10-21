@@ -1,0 +1,26 @@
+<w>
+	<detector_rfproxy>
+	
+		<!-- dial -->
+		<seg1	x = "0.013"		y = "0.013"	width="0.006"	height="0.013"	stretch="1"/>
+		<seg2	x = "0.019"		y = "0.013"	width="0.006"	height="0.013"	stretch="1"/>
+		<seg3	x = "0.025"		y = "0.013"	width="0.006"	height="0.013"	stretch="1"/>
+		
+		<area_b	x = "-0.001"		y = "0.018"	width="0.048"	height="0.02"	stretch="1">
+			<texture shader="hud\p3d" color="red">rf_screen</texture>
+		</area_b>
+		<area_r	x = "0.01"		y = "0.0001"	width="0.001"	height="0.0001"	stretch="1">
+			<texture shader="hud\p3d" color="red">rf_screen</texture>
+		</area_r>
+		
+		<!-- flashing diode -->
+		<led	x = "0.0321"		y = "-0.0105"	width="0.008"	height="0.008"	stretch="1">
+			<texture shader="hud\p3d" color="red">green_diod</texture>
+		</led>
+		
+		<!-- Signal Volume -->
+		<signal_ico	x = "0.00815"		y = "0.0029"	width="0.0145"		height="0.0023"	stretch="1"/>
+		<signal_vol	x = "0.02698"		y = "0.02397"	width="0.01358"	height="0.00331"	stretch="1"/>
+		
+	</detector_rfproxy>
+</w>

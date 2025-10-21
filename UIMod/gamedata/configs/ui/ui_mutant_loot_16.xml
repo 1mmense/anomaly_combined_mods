@@ -1,0 +1,41 @@
+<w>
+	<mutant_loot>
+		<background x="390" y="110" width="244" height="460" stretch="1">
+			<texture>ui_loot_window</texture>
+		</background>
+		<image  x="4" y="6" width="236" height="150" stretch="1"/>
+		<caption  x="160" y="160" width="196" height="30">
+			<text font="letterica18" align="c"/>
+		</caption>
+		<frame x="4" y="220" width="236" height="140" stretch="1">
+			<texture>ui_mutant_loot_frame</texture>
+		</frame>
+
+		<inv_form x="0" y="0" width="232" height="140"/>
+		<scrollbar_inv x="2" y="220" width="240" height="140" right_ident="0" left_ident="0" top_indent="0" bottom_indent="0" vert_interval="0" always_show_scroll="0"/>
+
+		<btn_loot x="53" y="367" width="136" height="25">
+			<text font="letterica16">ui_mm_loot_selected</text>
+			<texture>ui_button_ordinary</texture>
+		</btn_loot>
+		<btn_loot_all x="53" y="394" width="136" height="25">
+			<text font="letterica16">ui_mm_loot_all</text>
+			<texture>ui_button_ordinary</texture>
+		</btn_loot_all>
+		<btn_cancel x="53" y="421" width="136" height="25">
+			<text font="letterica16">ui_mm_cancel</text>
+			<texture>ui_button_ordinary</texture>
+		</btn_cancel>
+	</mutant_loot>
+	
+#include "ui\ui_inv_btn_35_16.xml"
+	
+	<hint_wnd x="0" y="0" width="240" height="100">
+	    <background x="0" y="0" width="240" height="100">
+		    <texture>ui_icons_PDA_tooltips</texture>
+	    </background>
+	    <text x="16" y="20" width="220" height="100">
+	    	<text font="letterica16" r="140" g="140" b="140" complex_mode="1" align="l" vert_align="t"/>
+	    </text>
+	</hint_wnd>
+</w>

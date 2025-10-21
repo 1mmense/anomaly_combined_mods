@@ -1,0 +1,3 @@
+if scopeRadii and scopeRadii.scopeRadii then
+	scopeRadii.scopeRadii.wpn_crosshair_colt_3x = 0.35
+end

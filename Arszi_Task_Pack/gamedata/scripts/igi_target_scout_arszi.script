@@ -1,0 +1,23 @@
+TARGET_NAME = "scout_arszi"
+PATTERN = "visit"
+
+function setup_location(smart_info, factions)
+	local actor_level = level.name()
+	local scout_paths = igi_db.SectionView("arszi\\scout_routes.ltx", actor_level):as_table()
+	local path = scout_paths["path_"..math.random(#scout_paths)]
+	for i, name in pairs(path) do
+		path[i] = SIMBOARD.smarts_by_names[name].id
+	end
+	
+	local smart_data = igi_models.create_SmartData(path)
+	local group_data = igi_models.create_GroupData(
+			smart_data,
+			smart_info.target,
+			smart_info.amount
+	)
+	
+	local smart = SIMBOARD.smarts[path[1]].smrt
+	local level_name = alife():level_name(game_graph():vertex(smart.m_game_vertex_id):level_id())
+	local desc = igi_models.create_DescriptionData(nil, nil, level_name)
+	return group_data, desc
+end

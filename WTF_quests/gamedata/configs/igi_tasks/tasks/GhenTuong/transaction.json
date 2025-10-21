@@ -1,0 +1,58 @@
+{
+	"WTF_VERSION": "4.2",
+	"CREDITS": "GhenTuong - idea and initial implementation\\nIgigog - support",
+	"preconditions": [
+		"$ db.actor:character_rank() >= 5000"
+	],
+	"entities": [
+	{
+		"ids": "$ igi_finder.get_smarts(1,1)",
+		"id": "$ wtf.shuffle(|this.ids|)[1] or false",
+		"CONTROLLER":"@$ igi_target_assault.Assault",
+		"name": "$ alife_object(|this.id|):name()",
+		"link_id": "smart",
+		"to_description": true
+	},
+
+	{
+		"faction":"$ igi_macros.Faction(|CACHE.task_giver_id|, 'enemy of taskgiver and enemy of actor')",
+		"section_name":"$ igi_helper.db_ini:r_value('gt_guard', |this.faction|)",
+		"id": "init$ utils_obj.create_squad(|this.section_name|, |smart.name|).id",
+		"init": "init$ igi_helper.init_squad(|this.id|)",
+		"link_id": "enemy",
+		"to_description": true
+	},
+
+	{
+		"faction":"$ igi_macros.Faction(|CACHE.task_giver_id|, 'enemy of |enemy.faction|')",
+		"section_name":"$ igi_helper.db_ini:r_value('gt_guard', |this.faction|)",
+		"id": "init$ utils_obj.create_squad(|this.section_name|, |smart.name|).id",
+		"init": "init$ igi_helper.init_squad(|this.id|)",
+		"actions": [
+			{
+				"when": "@$ igi_actions.is_online(|this.id|)",
+				"run": "@$ igi_actions.change_faction(|this.id|, |enemy.faction|) or false"
+			}
+		],
+		"to_description": true
+	},
+
+	{
+		"GEN": "@$ igi_generate.Amount(2)",
+		"section_name":"$ igi_utils.choose('gt_package_weapon','gt_package_artifact')",
+		"CONTROLLER":"@$ igi_target_return.Return",
+		"id": "init$ igi_helper.create_on_smart(|this.section_name|, |smart.id|)",
+		"to_description":true,
+		"actions": [
+			{
+				"when": "@$ true",
+				"run": "@$ igi_actions.update_mark(|this.id|, \"treasure_unique\") or true"
+			}
+		]
+	}
+	],
+	"icon": "ui_inGame2_Sdelka",
+	"quest_givers": [
+		{"Mechanic": true}
+	]
+}

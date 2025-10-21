@@ -1,0 +1,30 @@
+{
+	"preconditions": [
+		"igi_actions.goodwill(300)"
+	],
+	"entities": [
+	{
+		"only_enemies":true,
+		"search_in": {"npc_inv": true},
+		"target":"get",
+		"search_distance":"1,2",
+		"item_list":"f_gt_weapon_&ScaleToPlayer(3)&",
+		"entity_type":"item",
+		"to_create": false,
+		"link_id": "gun"
+	}
+	],
+	"actions": [
+	{
+		"when": [
+			"igi_actions.is_low_condition([gun.id], 45)"
+		],
+		"run": "igi_actions.repair([gun.id], &Random(70, 90)&)"
+	}],
+	"complexity": 0,
+	"icon": "ui_inGame2_Neizvestnoe_oruzhie",
+	"quest_givers": [
+		{"Mechanic": true},
+		{"Barkeep": true}
+	]
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="st_wpn_ddmv">
+		<text>DDM4 V7 AR15</text>
+	</string>
+	<string id="st_wpn_ddmv_descr">
+		<text>The DDM4 V7 AR15 style firearm features M-LOK attachment technology with the Daniel Defense MFR 15.0 rail. Built around a Cold Hammer Forged, 16 inch barrel, the V7 has a DD improved Flash Suppressor to reduce flash signature.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] M203 grenade launcher\n
+		%c[d_purple] • %c[ui_gray_2] 5.56x45 compatible suppressor\n \n</text>
+	</string>
+
+	<string id="st_wpn_m16a1">
+		<text>M16A1</text>
+	</string>
+	<string id="st_wpn_m16a1_descr">
+		<text> The classic M16A1 was the iconic rifle of the Vietnam War. It was issued to the vast majority of U.S. soldiers during the conflict, and its general success in combat led to its continued service in the U.S. armed forces in varied forms over the years.\n \n</text>
+	</string>
+	<string id="st_wpn_m16_m203">
+		<text>M16A4 Long M203</text>
+	</string>
+	<string id="st_wpn_m16_m203_descr">
+		<text>The M16 is the U.S. military designation for a family of rifles derived from the ArmaLite AR-15 and further developed by Colt starting in the 1960s. The M16 rifle family including the M16/A1/A2/A3/A4 has been the primary infantry rifle of the United States military since the 1960s. With its variants, it has been in use by 15 NATO countries, and is the most produced firearm in its calibre. The M16 is a lightweight, 5.56x45mm calibre, air cooled, gas operated, magazine fed assault rifle, with a rotating bolt, actuated by direct impingement gas operation. The rifle is made of steel, aluminium, and composite plastics.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 5.56x45 compatible suppressor\n
+		%c[d_purple] • %c[ui_gray_2] ACOG, Barska ES AC10632, EOTech scopes\n
+		%c[d_purple] • %c[ui_gray_2] M203 grenade launcher\n \n</text>
+	</string>
+	
+</string_table>

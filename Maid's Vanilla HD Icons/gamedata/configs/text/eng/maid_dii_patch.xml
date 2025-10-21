@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+	<string id ="ui_mcm_menu_dii_custom_layers_maid">
+		<text>Maid Indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_attachments_show">
+		<text>Toggle attachment labels</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aiorepair_show">
+		<text>Toggle repair indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_chevrontiers_show">
+		<text>Toggle chevron indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aiocontainers_show">
+		<text>Toggle containers indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aiocooking_show">
+		<text>Toggle cooking indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_repair_top_right_show">
+		<text>Toggle repair top right labels</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aioexplosives_show">
+		<text>Toggle explosives indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aiomainquest_show">
+		<text>Toggle quest items indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aiomanuals_show">
+		<text>Toggle crafting recipes indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aiomap_show">
+		<text>Toggle map indicator</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aionotes_show">
+		<text>Toggle notes indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aiopartsmisc_show">
+		<text>Toggle misc items indicators</text>
+	</string>
+	<string id ="ui_mcm_dii_maid_aiovaluable_show">
+		<text>Toggle valuables indicators</text>
+	</string>
+</string_table>

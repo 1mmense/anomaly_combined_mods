@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+    <string id="st_wpn_mg42">
+		<text>MG42</text>
+	</string>
+	<string id="st_wpn_mg42_descr">
+		<text>The MG 42 (shortened from German: Maschinengewehr 42, or "machine gun 42") is a 7.92×57mm Mauser general-purpose machine gun designed in Nazi Germany and used extensively by the Wehrmacht and the Waffen-SS during the second half of World War II. Entering production in 1942, it was intended to supplement and replace the earlier MG 34, which was more expensive and took much longer to produce, but both weapons were produced until the end of World War II.\n</text>
+	</string>
+
+</string_table>

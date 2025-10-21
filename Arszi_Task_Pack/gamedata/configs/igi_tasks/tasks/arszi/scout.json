@@ -1,0 +1,11 @@
+{
+	"preconditions": {
+	},
+	"disabled":false,
+	"setup": [
+		{
+		"entity_type":"location",
+		"target":"scout_arszi"
+		}
+	]
+}

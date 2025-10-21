@@ -1,0 +1,69 @@
+local c_ppe_max_intensity = 0.3 --Max intensity of the alcohol (radiation) PPE effect
+
+local opt = {}
+
+actor_effects.Update_Rad = function(actor) end
+
+local bleed_set = false
+local bleed_rad_eff = false
+local bleed_1_tg = 0
+local bleed_2 = false
+local bleed_removed
+actor_effects.Update_Bleeding = function(actor)
+	if (not opt.enable_bleed_effect) then
+		if (not bleed_removed) then
+			bleed_removed = true
+			level.remove_pp_effector(2012)
+			level.remove_pp_effector(2013)
+			level.remove_pp_effector(2015)
+		end
+		return
+	end
+	bleed_removed = false
+
+	if (actor.health < 0.21) and (bleed_set ~= true) then
+		level.add_pp_effector("alcohol.ppe",2012,true)
+		bleed_set = true
+	end
+	if (actor.health > 0.20) and (bleed_set ~= false) then
+		level.remove_pp_effector(2012)
+		bleed_set = false
+	end
+	if (actor.radiation > 0.3) and (bleed_rad_eff ~= true) then
+		level.add_pp_effector("alcohol.ppe",2013,true)		
+		bleed_rad_eff = true
+	end
+	if (bleed_rad_eff) then
+		level.set_pp_effector_factor(2013, get_ppe_intensity())
+	end
+	if (actor.radiation == 0) and (bleed_rad_eff ~= false) then
+		level.remove_pp_effector(2013)
+		bleed_rad_eff = false
+	end
+	if (actor.bleeding > 0.5) and (actor.health < 0.2) and bleed_1_tg < time_global() then
+		level.add_pp_effector("deimos1.ppe",2014,false)
+		bleed_1_tg = time_global() + math.random(4000,10000)
+	end
+	if (actor.bleeding > 0.5) and (actor.power < 0.25) and (bleed_2 ~= true) then
+		level.add_cam_effector("camera_effects\\pripyat_horror.anm",1001,false, "")
+		level.add_pp_effector("snd_shock.ppe",2015,true)
+		bleed_2 = true
+	end
+	if (actor.bleeding < 0.2) or (actor.power > 0.7) and (bleed_2 ~= false) then
+		level.remove_pp_effector(2015)
+		bleed_2 = false
+	end
+end
+
+function init_main_settings()
+	opt.enable_bleed_effect = ui_options.get("video/player/bleed_effect")
+end
+
+function on_game_start()
+    RegisterScriptCallback("on_option_change",init_main_settings)
+    init_main_settings()
+end
+
+function get_ppe_intensity()
+    return db.actor.radiation * c_ppe_max_intensity
+end

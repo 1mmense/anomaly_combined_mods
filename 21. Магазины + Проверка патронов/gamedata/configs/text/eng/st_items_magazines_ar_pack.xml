@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+ 	<string id="st_mag_m16a1d_5.45x39">
+		<text>5.56x45 20-round STANAG Magazine</text>
+	</string>
+	<string id="st_mag_m16a1d_5.45x39_descr">
+		<text>20-round STANAG magazine holding 5.56x45 rounds.</text>
+	</string>
+	
+	
+	<string id="st_mag_m16a1df_5.45x39">
+		<text>Fast-loading 5.56x45 STANAG Magazine</text>
+	</string>
+	<string id="st_mag_m16a1df_5.45x39_descr">
+		<text>Modern PMAG-style magazine holding 20 rounds. Considerably lighter than its steel counterpart, the ergonomic design facilitates quick loading of cartridges.</text>
+	</string>
+
+</string_table>

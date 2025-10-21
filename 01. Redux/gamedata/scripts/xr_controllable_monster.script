@@ -1,0 +1,317 @@
+--[[--------------------------------------------------
+	By Arszi
+	xr_controllabe_monster.script
+	scheme_type: active_section
+	Original script: GhenTuong
+----------------------------------------------------]]
+
+--Animation
+local c_anim_sit = "sit_idle"
+local c_anim_sit_cat = "lie_idle"
+
+local c_anim_walk = "walk_fwd"
+local c_anim_rush = "run_fwd"
+local c_anim_move = "run_fwd"
+local c_anim_path = "stand_idle"
+
+--Distance animation
+local c_walk_dist = 5
+local c_rush_dist = 100
+local c_target_reached_distance_meters = 3
+
+-----------------------------
+local level = level
+local alife = alife
+-----------------------------
+local keep_state_min_time = 2000
+
+
+local function init_custom_data(npc, ini, section, st, scheme)
+	st.path_index 		= load_var(npc,"path_index",1)
+	st.wait_delay		= nil
+end
+
+--[[----------------------------------------------------------------------------------------------------
+	Action
+------------------------------------------------------------------------------------------------------]]
+
+class "action_controllable_monster"
+
+function action_controllable_monster:__init(obj, storage)
+	self.current_target = nil
+	self.target_reached = false
+	self.point_position = nil
+	self.point_look_position = nil
+	self.object = obj
+	self.st = storage
+end
+
+function action_controllable_monster:evaluate()
+	local is_active = xr_logic.is_active(self.object, self.st) or false
+	local controlled = arszi_controller.get_controlled_table()[self.object:id()]
+
+	if (controlled and controlled.master) then
+		local master = level.object_by_id(controlled.master)
+		self.current_target = master
+	else
+		return false
+	end
+
+	return is_active and controlled
+end
+
+function action_controllable_monster:update(delta)
+	if not self:evaluate() then
+		return
+	end
+
+	if (self.current_target and is_target_reached(self.current_target:position(), self.object:position())) then
+		self.target_reached = true
+	else
+		self.target_reached = false
+	end
+
+	if (self:set_desired_target()) then
+
+		if (self.target_reached) then
+			self:state_sitting()
+		else
+			self:state_walking()
+		end
+	end
+end
+
+--[[----------------------------------------------------------------------------------------------------
+	Types
+------------------------------------------------------------------------------------------------------]]
+
+function action_controllable_monster:set_desired_target()
+	
+	local t = self.st.desired_target and empty_table(self.st.desired_target) or {}
+	t = self:get_current_waypoint()
+	
+	if not t.level_vertex_id then
+		return false
+	end
+
+	self.st.desired_target = t
+	return true
+end
+
+function action_controllable_monster:state_walking()
+	if not (self.st.desired_target.level_vertex_id) then
+		return
+	end
+	local next_index = self:next_waypoint_index()
+	if (self.object:level_vertex_id() ~= self.st.desired_target.level_vertex_id) or (next_index and (not self.st.desired_target.path or self.st.desired_target.path < 0)) then
+		if (self.object:level_vertex_id() == self.st.desired_target.level_vertex_id) then
+			self:increment_waypoint_index()
+			self.st.desired_target = self:get_current_waypoint()
+			if not (self.st.desired_target.level_vertex_id) then
+				return
+			end
+		end
+
+		local pos = vector():set(self.object:position())
+		pos = vector():set(pos.x,self.st.desired_target.position.y,pos.z)
+		self.dist_to_assist_pt = pos:distance_to(self.st.desired_target.position)
+
+		self:state_movement()
+		return
+	end
+	
+	--Wait ms before change to the next waypoint
+	if (self.st.desired_target.path ~= 0) then
+		if not self.st.desired_target.path then
+			self.st.desired_target.path = 0
+		end
+		local gt = time_global()
+		if not self.st.wait_delay then
+			self.st.wait_delay = gt + self.st.desired_target.path
+		end
+		if gt > self.st.wait_delay then
+			self:increment_waypoint_index()
+			return
+		end
+	else
+		self:increment_waypoint_index()
+		return
+	end
+	--Animation
+	self:state_standing()
+end
+
+--[[----------------------------------------------------------------------------------------------------
+	Utilities
+------------------------------------------------------------------------------------------------------]]
+
+function action_controllable_monster:state_movement()
+	--Delay
+	local gt = time_global()
+	if (self.keep_state_until and gt < self.keep_state_until) then 
+		return 
+	end 
+	self.keep_state_until = gt + keep_state_min_time
+	--Get animation
+	local new_state = c_anim_walk
+
+	if	new_state and move[new_state] and self.st.desired_target.level_vertex_id and self.st.desired_target.position then
+		xr_logic.mob_capture(self.object, true)
+		action(self.object, move(move[new_state], self.st.desired_target.level_vertex_id, self.st.desired_target.position), cond(cond.move_end))
+	end
+end
+
+function action_controllable_monster:state_standing()
+	--Delay.
+	--Execute right the way if object is moving.
+	local gt = time_global()
+	if not self.object:action() then
+		if (self.keep_state_until and gt < self.keep_state_until) then 
+			return 
+		end
+	end
+	self.keep_state_until = gt + keep_state_min_time
+	local new_state = self.st.desired_target.path_animation or c_anim_path
+	if new_state and anim[new_state] then
+		--printf("GhenTuong: %s %s | %s",self.object:name(),new_state,self.st.desired_target.look_position)
+		xr_logic.mob_capture(self.object, true)
+		if self.st.desired_target.look_position then
+			action(self.object, anim(anim[new_state], 0), look(look.point, vector():set(self.st.desired_target.look_position)), cond(cond.look_end))
+		else
+			action(self.object, anim(anim[new_state], 0), look(look.cur_dir), cond(cond.look_end))
+		end
+	end
+end
+
+function action_controllable_monster:state_sitting()
+	--Delay.
+	--Execute right the way if object is moving.
+	local gt = time_global()
+	if not self.object:action() then
+		if (self.keep_state_until and gt < self.keep_state_until) then 
+			return 
+		end
+	end
+	self.keep_state_until = gt + keep_state_min_time
+	local new_state = self.st.desired_target.path_animation or c_anim_path
+	if new_state and anim[new_state] then
+		--printf("GhenTuong: %s %s | %s",self.object:name(),new_state,self.st.desired_target.look_position)
+		xr_logic.mob_capture(self.object, true)
+
+		local sit_anim
+		if (self.object:clsid() == clsid.cat_s) then
+			sit_anim = c_anim_sit_cat
+		else
+			sit_anim = c_anim_sit
+		end
+
+		if self.st.desired_target.look_position then
+			action(self.object, anim(anim[sit_anim], 0), look(look.point, vector():set(self.st.desired_target.look_position)), cond(cond.look_end))
+		else
+			action(self.object, anim(anim[sit_anim], 0), look(look.cur_dir), cond(cond.look_end))
+		end
+	end
+end
+
+function action_controllable_monster:get_current_waypoint(use_var)
+	local st = db.storage[self.object:id()]
+	if (self.st.desired_target and self.st.path_index == self.st.desired_target.index and st.active_section == self.st.desired_target.active_section) then
+		return self.st.desired_target
+	end
+	
+	local t = {}
+	t.index = self.st.path_index
+	t.active_section = st.active_section
+	
+	if (self.current_target) then
+		t.look_position = self.current_target:position()
+		t.position = self.current_target:position()
+	else
+		t.look_position = nil
+		t.position = nil
+	end
+
+	
+	if t.position then
+		t.level_vertex_id = level.vertex_id(t.position)
+	end
+	
+	return t
+end
+
+function action_controllable_monster:next_waypoint_index()
+	local st = db.storage[self.object:id()]
+	local inc = self.st.path_reverse and -1 or 1
+	return st.active_section and st.ini:r_string_ex(st.active_section,"pt"..tostring(self.st.path_index+inc))
+end
+
+function action_controllable_monster:increment_waypoint_index()
+	local st = db.storage[self.object:id()]
+
+	local inc = self.st.path_reverse and -1 or 1
+	
+	local next_index = st.active_section and st.ini:r_string_ex(st.active_section,"pt"..self.st.path_index+inc)
+
+	if (next_index) then
+		self.st.path_index = self.st.path_index + inc
+		if (self.st.path_reverse and self.st.path_index == 1) then
+			self.st.path_reverse = nil
+		end
+	else
+		local new_section = "loop"
+		if (new_section and new_section ~= "nil" and new_section ~= "") then
+			if (new_section == "reverse") then
+				self.st.path_reverse = true
+				self.st.path_index = self.st.path_index - 1
+			elseif (new_section == "loop") then
+				self.st.path_index = 1
+			else
+				xr_logic.switch_to_section(self.object, st.ini, new_section)
+				self.st.path_index = 1
+			end
+		end
+	end
+	
+	self.st.wait_delay = nil
+	save_var(self.object,"path_index",self.st.path_index)
+end
+
+--Utility------------------------------------------------------------------------------------------------------
+function move_to_point(p)
+	local lvid = level.vertex_in_direction(level.vertex_id(device().cam_pos),device().cam_dir,r)
+	local pos = level.vertex_position(lvid)
+
+	self.point_position = pos
+	self.point_look_position = pos
+end
+
+function is_target_reached(position_1, position_2)
+	return get_distance(position_1, position_2) < c_target_reached_distance_meters
+end
+
+function get_distance(position_1, position_2)
+    local x = math.abs(position_1.x - position_2.x)
+    local z = math.abs(position_1.z - position_2.z)
+    local distance = math.sqrt((x * x) + (z * z))
+    return distance
+end
+
+--Scheme Handlers-----------------------------------------------------------------------
+function add_to_binder(npc, ini, scheme, section, storage)
+	trace_this("add_to_binder: "..npc:name())
+	local new_action = action_controllable_monster(npc, storage)
+	xr_logic.subscribe_action_for_events(npc, storage, new_action)
+end
+
+function set_scheme(npc, ini, scheme, section, gulag_name)
+	trace_this("set_scheme "..npc:name())
+	local st = xr_logic.assign_storage_and_bind(npc, ini, "controllable_monster", section)
+	st.logic = xr_logic.cfg_get_switch_conditions(ini, section, npc)
+	init_custom_data(npc, ini, section, st, "controllable_monster")
+end
+
+function trace_this(to_trace)
+	--local log_file = io.open("log_xr_controllable_monster.txt", "a")
+	--log_file:write(to_trace.."\n")
+	--log_file:close(log_file)
+end

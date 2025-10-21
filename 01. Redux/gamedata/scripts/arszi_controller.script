@@ -1,0 +1,1381 @@
+-------------------------------------------
+--Arszi Controller Overhaul 1.1
+--
+--Last modified 2021.04.24.
+--By Arszi
+--Sound effects: DesmanMetzger
+-------------------------------------------
+
+--LOAD CONTROLLED MONSTER/NPC AI SCHEMES
+LoadScheme("xr_controllable_monster", "controllable_monster", modules.stype_mobile)
+LoadScheme("xr_controllable_stalker", "controllable_stalker", modules.stype_stalker)
+
+--CONTROLLER SETTINGS------------------------------------------------------------
+local c_controller_control_player_enabled = false --Enables the jamming of the player's keyboard and mouse input
+local c_controller_spawn_minions_enabled = true --Enables spawning random minions for controller by default
+local c_controller_control_enabled = true --Enables the control ability to control mutants and NPCs
+
+local c_controller_actor_control_chance_reduction_per_meters = 4 --With every meters, control chance will be reduced against actor by x meters
+local c_maximum_psy_protection_against_control_actor = 0.3 --X is 100% psy protection, which makes player immune to mind control
+
+local c_controller_max_control_range_npc_monster = 50 --Hack to overcome engine limitations. Controller:see() won't work for zombied NPCs or monsters
+local c_controller_npc_control_chance_reduction_per_meters = 3 --With every meters, controll chance will be reduced for controllers by x meters
+local c_controller_max_controlled_number = 10 --Max number of NPCs and monsters the controller can controll
+
+local c_controller_spawned_minions_min = 4 --Min number of spawned minions for Controllers
+local c_controller_spawned_minions_max = 6 --Max number of spawned minions for Controllers
+
+local c_controller_psy_aura_max_damage = 0.1 --Maximal psy health damage 1 meters from the Controller
+local c_controller_psy_aura_range = 35 --Range of the controller's psy aura in meters
+
+local whitelist_factions_to_control = {
+    ["stalker"] = true,
+    ["bandit"] = true,
+    ["killer"] = true,
+    ["dolg"] = true,
+    ["freedom"] = true,
+    ["army"] = true,
+    ["ecolog"] = true,
+    ["csky"] = true,
+    ["isg"] = true,
+    ["renegade"] = true,
+    ["zombied"] = true
+}
+
+local whitelist_monsters_to_control = {
+    [clsid.bloodsucker_s] 			= true,
+    [clsid.boar_s] 					= true,
+    [clsid.flesh_s] 				= true,
+    [clsid.cat_s] 					= true,
+    [clsid.zombie_s] 				= true,
+    [clsid.snork_s] 				= true,
+}
+
+local controller_starting_companions_table_settings = {
+    l01_escape = {  
+        Ignore = true
+      },
+      y04_pole = {
+        Ignore = true
+      },
+      k00_marsh = {
+        Ignore = true
+      },
+      k01_darkscape = {
+        Ignore = true
+      },
+      l02_garbage = {
+        Ignore = true
+      },
+      l04_darkvalley = {
+        Spawn = {
+           "zombie_weak", 
+           "zombie_normal", 
+           "zombie_strong",
+           "sim_default_zombied_2",
+           "sim_default_zombied_1",
+           "bloodsucker_red_normal"
+        }
+      },
+      l03_agroprom = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_normal"
+         }
+      },
+      l08_yantar = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "snork_weak",
+            "snork_normal",
+            "snork_strong",
+            "bloodsucker_red_normal"
+         }
+      },
+      l06_rostok = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_normal"
+         }
+      },
+      l05_bar = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_normal"
+         }
+      },
+      k02_trucks_cemetery = {
+        Ignore = true
+      },
+      l09_deadcity = {
+        Ignore = true
+      },
+      l07_military = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "bloodsucker_red_normal"
+         }
+      },
+      l10_red_forest = {  
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "boar_normal", 
+            "boar_strong",
+            "boar_01a_weak", 
+            "boar_02a_weak", 
+            "boar_02a_strong", 
+            "boar_01a_hard", 
+            "boar_02a_hard",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal"
+         }
+      },
+      l10_radar = {  
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "boar_normal", 
+            "boar_strong",
+            "boar_01a_weak", 
+            "boar_02a_weak", 
+            "boar_02a_strong", 
+            "boar_01a_hard", 
+            "boar_02a_hard",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      l10_limansk = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_weak"
+         }
+      },
+      jupiter = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "sim_default_zombied_4",
+            "snork_weak",
+            "snork_normal",
+            "boar_normal", 
+            "boar_strong",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      l11_pripyat = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "sim_default_zombied_4",
+            "snork_weak",
+            "snork_normal",
+            "boar_normal", 
+            "boar_strong",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      pripyat = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "sim_default_zombied_4",
+            "snork_weak",
+            "snork_normal",
+            "boar_normal", 
+            "boar_strong",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      l11_hospital = {   
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "sim_default_zombied_4",
+            "snork_weak",
+            "snork_normal",
+            "boar_normal", 
+            "boar_strong",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      zaton = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "sim_default_zombied_4",
+            "snork_weak",
+            "snork_normal",
+            "boar_normal", 
+            "boar_strong",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_green_normal",
+            "bloodsucker_green_strong"
+         }
+      },
+      l12_stancia = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "sim_default_zombied_4",
+            "snork_weak",
+            "snork_normal",
+            "boar_normal", 
+            "boar_strong",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      l12_stancia_2 = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "sim_default_zombied_4",
+            "snork_weak",
+            "snork_normal",
+            "boar_normal", 
+            "boar_strong",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      l13_generators = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "sim_default_zombied_4",
+            "snork_weak",
+            "snork_normal",
+            "boar_normal", 
+            "boar_strong",
+            "cat_weak_a",
+            "cat_normal_a",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      l12u_sarcofag = {
+        Ignore = true
+      },
+      --UNDERGROUND MAPS
+      l03u_agr_underground = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_weak"
+         }
+      },
+      l08u_brainlab = {
+        Ignore = true
+      },
+      l10u_bunker = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      jupiter_underground = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      l04u_labx18 = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      labx8 = {
+        Spawn = {
+            "zombie_weak", 
+            "zombie_normal", 
+            "zombie_strong",
+            "sim_default_zombied_2",
+            "sim_default_zombied_3",
+            "snork_weak",
+            "snork_normal",
+            "bloodsucker_red_normal",
+            "bloodsucker_black_normal"
+         }
+      },
+      l12u_sarcofag = {
+        Ignore = true
+      },
+      l12u_control_monolith = {
+        Ignore = true
+      },
+      l13u_warlab = {
+        Ignore = true
+      }
+}
+
+--TABLES-----------------------------------------------------------------------------------------
+local controller_table = {}
+local monster_table = {}
+local npc_table = {}
+local controlled_table = {}
+local minions_to_spawn = {} --Buffer table for spawned minions, they will be controlled, but do not have game objects in the iteration they spawned
+
+function get_controlled_table()
+    return controlled_table
+end
+
+function is_controlled(id)
+    if (controlled_table[id]) then
+        return true
+    else
+        return false
+    end
+end
+
+function is_controlled_story(id)
+    if (controlled_table[id] and controlled_table[id].story_npc) then
+        return true
+    else
+        return false
+    end
+end
+
+function is_combat_ignore(id)
+    if (controlled_table[id] and (controlled_table[id].ignore_combat or controlled_table[id].story_npc or controlled_table[id].freshly_controlled_time)) then
+        return true
+    else
+        return false
+    end
+end
+
+function get_master(id)
+    local master = nil
+
+    if (controlled_table[id] and controlled_table[id].master) then
+        master = level.object_by_id(controlled_table[id].master)
+    end
+
+    return master
+end
+
+function targets_master_or_minion(id, best_enemy_id)
+    local v_controlled = controlled_table[id]
+    if (v_controlled) then
+        if (v_controlled.master and v_controlled.master == best_enemy_id) then
+            return true
+        end
+
+        if (controlled_table[best_enemy_id]) then
+            return true
+        end
+    end
+
+    return false
+end
+
+--MISC---------------------------------------------------------------------------------------------------
+local arszi_previous_time = nil
+local arszi_wait_seconds_ingame = 0
+local c_in_game_seconds_multiplier = 6 --6 in game seconds are one real life second
+local hax_reset_schemes = false
+
+function on_game_start()
+    RegisterScriptCallback("actor_on_update", actor_on_update)
+    RegisterScriptCallback("actor_on_first_update",actor_on_first_update)
+    RegisterScriptCallback("save_state", save_state)
+    RegisterScriptCallback("load_state", load_state)
+    RegisterScriptCallback("on_game_load", on_game_load)
+
+    RegisterScriptCallback("monster_on_update",monster_on_update)
+    RegisterScriptCallback("npc_on_update",npc_on_update)
+    RegisterScriptCallback("on_before_level_changing",on_before_level_changing)
+    RegisterScriptCallback("on_enemy_eval", on_enemy_eval)
+end
+
+function on_enemy_eval(obj, enemy, flags)
+    --Zombies should ignore each other
+    if (is_zombie(obj) and is_zombie(enemy)) then
+        flags.override = true
+        flags.result = false
+        return
+    end
+
+    --Ignore if controlled is combat ignored
+    if (is_combat_ignore(obj:id())) then
+        flags.override = true
+        flags.result = false
+        return
+    end
+
+    if (is_combat_ignore(enemy:id())) then
+        flags.override = true
+        flags.result = false
+        return
+    end
+
+    --Controller should not attack controlled
+    if (is_controller(obj)) then
+        if (is_controlled(enemy:id())) then
+            --trace_this("DONT FIGHT CONTROLLER: "..obj:name().." ENEMY: "..enemy:name())
+            flags.override = true
+            flags.result = false
+			return
+		end
+	end
+
+	--Controlled should not attack the controller
+	if (is_controlled(obj:id())) then
+        if (is_controller(enemy)) then
+            --trace_this("DONT FIGHT CONTROLLED: "..obj:name()" ENEMY: "..enemy:name())
+            flags.override = true
+            flags.result = false
+			return
+		end
+	end
+
+	--Controlled entities should not attack each other
+    if (is_controlled(obj:id()) and is_controlled(enemy:id())) then
+        --trace_this("SAME CONTROLLED: "..obj:name()" ENEMY: "..enemy:name())
+        flags.override = true
+        flags.result = false
+        return
+    end
+end
+
+function actor_on_first_update()
+    hax_reset_schemes = true
+end
+
+function on_game_load()
+    remove_zombie_wounded_animation()
+    hax_reset_schemes = false
+end
+
+function on_before_level_changing()
+    for k_controlled, v_controlled in pairs(controlled_table) do
+        local controlled = level.object_by_id(k_controlled)
+        local squad_controlled = controlled and get_object_squad(controlled)
+
+        local master = v_controlled.master and level.object_by_id(v_controlled.master)
+        local squad_master = master and get_object_squad(master)
+
+        if (squad_controlled and squad_master) then
+            v_controlled.is_control_permanent = true
+            v_controlled.story_npc = false
+            v_controlled.ignore_combat = nil
+            v_controlled.was_in_actors_squad = false
+
+            --Make control permanent
+            if (not v_controlled.is_monster) then
+                v_controlled.active_filename = "default_custom_data.ltx"
+                v_controlled.active_logic = "logic"
+                v_controlled.active_section = nil
+
+                squad_controlled:remove_npc(k_controlled)
+                add_squad_member_by_id(k_controlled, squad_master)
+            end
+            
+        end
+    end
+end
+
+function actor_on_update()
+    local curr_time = game.get_game_time()
+    if (arszi_previous_time == nil) then arszi_previous_time = curr_time end
+  
+    if (curr_time:diffSec(arszi_previous_time) > 1) then
+        arszi_previous_time = curr_time
+
+        manage_controller_psy_aura()
+
+        manage_controllers()
+
+        manage_controlled()
+
+        manage_controlled_table()
+
+        manage_controller_table()
+    end
+end
+
+function monster_on_update(npc)
+    if (not npc) then return end
+    if (not npc:alive()) then return end
+
+    if (is_controller(npc)) then
+        if (not controller_table[npc:id()]) then
+            controller_table[npc:id()] = true
+            if (c_controller_spawn_minions_enabled) then
+                trace_this("SPAWN MINIONS FOR CONTROLLER")
+                spawn_minions_for_controller(npc)
+            end
+            trace_this("CONTROLLER added to controller table: "..npc:name())
+        end
+    else
+        if (not is_whitelisted_monster(npc)) then return end
+
+        if (not monster_table[npc:id()]) then
+            monster_table[npc:id()] = true
+            trace_this("Monster added to monster table: "..npc:name())
+        end
+    end
+end
+
+function npc_on_update(npc)
+    if (not npc) then return end
+    if (not is_whitelisted_faction(npc)) then return end
+    if (not npc:alive()) then return end
+
+    if (not npc_table[npc:id()]) then
+        npc_table[npc:id()] = true
+        trace_this("NPC added to NPC table: "..npc:name())
+    end
+end
+
+function manage_monster_table()
+    for k, v in pairs(monster_table) do
+        local obj = level.object_by_id(k)
+
+        if (not obj or (obj and not obj:alive())) then
+            monster_table[k] = nil
+            trace_this("Removed from monsters table: "..k)
+        end
+    end
+end
+
+function manage_npc_table()
+    for k, v in pairs(npc_table) do
+        local obj = level.object_by_id(k)
+
+        if (not obj or (obj and not obj:alive())) then
+            npc_table[k] = nil
+            trace_this("Removed from npc table: "..k)
+        end
+    end
+end
+
+function try_take_control_actor(controller)
+    local ret_val = false
+    if (controller:see(db.actor)) then
+        ret_val = should_controller_control_actor(controller:position())             
+    end
+    return ret_val
+end
+
+function try_take_control_npc(npc, controller)
+    if (controller:see(npc) and should_controller_controll_npc(npc:position(), controller:position())) then
+        if (can_control(controller)) then
+            trace_this("try_take_control_npc STALKER: "..npc:name())
+            take_control_npc(npc, controller, npc:character_community(), true)
+            return
+        end
+    end
+
+    --Why would controller:see(npc) return true to zombied?... It would be too easy.
+    if (npc:character_community() == "zombied") then
+        local position_controller = controller:position()
+        local position_npc = npc:position()
+        local disatnce = get_distance(position_controller, position_npc)
+        --zombies should have 100% chance to be taken over
+        if (disatnce <= c_controller_max_control_range_npc_monster) then
+            if (can_control(controller)) then
+                trace_this("try_take_control_npc ZOMBIED STALKER"..npc:name())
+                take_control_npc(npc, controller, "zombied", false)
+            end
+        end
+    end
+end
+
+function try_take_control_monster(monster, controller)
+    local position_controller = controller:position()
+    local position_monster = monster:position()
+    local disatnce = get_distance(position_controller, position_monster)
+
+    if (disatnce <= c_controller_max_control_range_npc_monster) then
+        if (can_control(controller)) then
+            trace_this("try_take_control_monster: "..monster:name())
+            take_control_monster(monster, controller)
+        end
+    end
+end
+
+function set_scheme(npc, st, loaded, ltx_name, logic_name, gulag_name, stype)			
+	local ltx = ini_file(ltx_name)
+	if not (ltx) then 
+		trace_this("ERROR - AI SCHEME FILE DOES NOT EXIST!")
+		return
+	end
+	
+	local id = npc:id()
+	local sim = alife()
+	local se_npc = sim:object(id)
+	local unreg_id = se_npc and se_npc.m_smart_terrain_id
+	if (unreg_id and unreg_id ~= 65535) then
+		local unreg = sim:object(unreg_id)
+		if (unreg) then
+			unreg:unregister_npc(se_npc)
+		end
+	end
+	
+	xr_logic.configure_schemes(npc, ltx, ltx_name, stype, loaded and st.loaded_section_logic or logic_name, gulag_name)
+	local section = loaded and st.loaded_active_section or xr_logic.determine_section_to_activate(npc, ltx, logic_name, db.actor)
+	xr_logic.activate_by_section(npc, ltx, section, gulag_name, loaded)
+end
+
+function take_control_npc(npc, controller, original_community, suffering_animation)
+    trace_this("take_control_npc: "..npc:name())
+
+    local was_in_actors_squad = is_in_actors_squad(npc:id())
+    trace_this("WAS IN ACTORS SQUAD: "..tostring(was_in_actors_squad))
+
+    local is_story_npc
+    if (get_object_story_id(npc:id())) then
+        is_story_npc = true
+    else
+        is_story_npc = false
+     end
+     trace_this("IS STORY NPC: "..tostring(is_story_npc))
+
+    local st = db.storage[npc:id()]
+    local active_filename = st and st.ini_filename
+    local active_logic = st and st.section_logic
+    local active_section = st and st.active_section
+
+    if (active_filename) then trace_this("active_filename: "..active_filename) end
+    if (active_logic) then trace_this("active_logic: "..active_logic) end
+    if (active_section) then trace_this("active_section: "..active_section) end
+
+    local smart_name = get_smart_name_of_npc_by_id(npc:id()) or ""
+    trace_this("SMART NAME: "..smart_name)
+
+    controlled_table[npc:id()] = {
+        original_community = original_community,
+        was_in_actors_squad = was_in_actors_squad,
+        master = controller:id(),
+        story_npc = is_story_npc,
+
+        --Logic
+        active_filename = active_filename,
+        active_logic = active_logic,
+        active_section = active_section,
+        gulag_name = smart_name
+    }
+
+    --Add suffering animation for freshly controlled non-default spawn or zombied stalkers
+    if (suffering_animation) then
+        controlled_table[npc:id()].freshly_controlled_time = game.get_game_time()
+    end
+
+    if (original_community ~= "zombied") then
+        npc:set_character_community("zombied")
+    else
+        local squad_controlled = get_object_squad(npc)
+        local squad_controller = get_object_squad(controller)
+        if (squad_controller) then
+            trace_this("Add "..npc:name().." into controller's squad")
+            if (squad_controlled) then
+                trace_this(npc:name().." did have a squad")
+                squad_controlled:remove_npc(npc:id())
+            end
+            add_squad_member_by_id(npc:id(), squad_controller)
+        end
+    end
+
+    if (was_in_actors_squad) then
+        axr_companions.remove_from_actor_squad(npc)
+    end
+
+    trace_this("ADD SCHEME controllable_stalker")
+    set_scheme(npc, db.storage[npc:id()], false, "scripts\\controllable_stalker.ltx", "logic", "", modules.stype_stalker)
+
+    trace_this("NPC added to npc controlled: "..npc:name())
+    --show_message(npc:name().." IS CONTROLLED NOW", 10000)
+end
+
+function take_control_monster(monster, controller)
+        trace_this("take_control_monster: "..monster:name())
+        local was_in_actors_squad = is_in_actors_squad(monster:id())
+        if (was_in_actors_squad) then
+          axr_companions.remove_from_actor_squad(monster)
+        end
+
+        local st = db.storage[monster:id()]
+        local active_filename = st and st.ini_filename
+        local active_logic = st and st.section_logic
+        local active_section = st and st.active_section
+    
+        if (active_filename) then trace_this("active_filename: "..active_filename) end
+        if (active_logic) then trace_this("active_logic: "..active_logic) end
+        if (active_section) then trace_this("active_section: "..active_section) end
+
+        local smart_name = get_smart_name_of_npc_by_id(monster:id()) or ""
+        trace_this("SMART NAME: "..smart_name)
+
+        controlled_table[monster:id()] = {
+            is_monster = true,
+            was_in_actors_squad = was_in_actors_squad,
+            master = controller:id(),
+
+            --Logic
+            active_filename = active_filename,
+            active_logic = active_logic,
+            active_section = active_section,
+            gulag_name = smart_name
+        }
+
+        local squad_controlled = get_object_squad(monster)
+        local squad_controller = get_object_squad(controller)
+        if (squad_controller) then
+            trace_this("Add "..monster:name().." into controller's squad")
+            if (squad_controlled) then
+                trace_this(monster:name().." did have a squad")
+                squad_controlled:remove_npc(monster:id())
+            end
+            add_squad_member_by_id(monster:id(), squad_controller)
+        end
+
+        set_scheme(monster, db.storage[monster:id()], false, "scripts\\controllable_monster.ltx", "logic", "", modules.stype_mobile)
+
+        trace_this("Monster added to controlled table: "..monster:name()) 
+        --show_message(monster:name().." IS CONTROLLED NOW", 10000)
+end
+
+--Returns true if "id" is in actor's squad
+function is_in_actors_squad(id)
+	local is_in_actors_squad = false
+	local actor_squad = axr_companions.list_actor_squad_by_id()
+				
+	if (actor_squad) then
+		for i=1,#actor_squad do
+
+			if (id == actor_squad[i]) then
+				is_in_actors_squad = true
+				trace_this ("actor squad id match found")
+			end
+		end
+	end
+
+	return is_in_actors_squad
+end
+
+local was_input_disabled_by_control = false
+local iterate_monsters_to_control = true
+function manage_controllers()
+    if (not c_controller_control_enabled) then return end
+
+    local is_actor_controlled = false
+
+    for k_controller, v_controller in pairs(controller_table) do
+        local controller = level.object_by_id(k_controller)
+        if (controller and controller:alive()) then
+
+            --Add previously spawned minions for the controller
+            local minion_table = minions_to_spawn[k_controller]
+            if (minion_table) then
+                for k_minion, v in pairs(minion_table) do
+                    local minion = level.object_by_id(k_minion)
+                    if (minion) then
+                        if (IsStalker(minion)) then
+                            trace_this("CONTROL MINION NPC: "..minion:name())
+                            take_control_npc(minion, controller, minion:character_community(), false)
+                        else
+                            trace_this("CONTROL MINION MONSTER: "..minion:name())
+                            take_control_monster(minion, controller)
+                        end
+                        minions_to_spawn[k_controller][k_minion] = nil
+                    end
+                end
+            end
+
+            --Try to take over actor
+            if (c_controller_control_player_enabled) then
+                if (try_take_control_actor(controller)) then
+                    is_actor_controlled = true
+                    was_input_disabled_by_control = true
+                end
+            end
+
+            --Try to take over monsters, zombies and NPCs
+            if (c_controller_control_enabled) then
+                if (iterate_monsters_to_control) then
+                    for k_monster, v_monster in pairs(monster_table) do
+                        if (not controlled_table[k_monster]) then
+                            local monster = level.object_by_id(k_monster)
+                            if (monster and monster:alive()) then
+                                try_take_control_monster(monster, controller)
+                            end
+                        end
+                    end
+                else
+                    for k_npc, v_npc in pairs(npc_table) do
+                        if (not controlled_table[k_npc]) then
+                            local npc = level.object_by_id(k_npc)
+                            if (npc and npc:alive()) then
+                                try_take_control_npc(npc, controller)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        --For perfomance reasions, iterate either monsters or NPCs in the same time
+        if (iterate_monsters_to_control) then
+            iterate_monsters_to_control = false
+        else
+            iterate_monsters_to_control = true
+        end
+    end
+
+    --Manage actor control effects
+    if (is_actor_controlled) then
+        level.disable_input()
+
+        --Stop automatic fire when controlled
+        local item_anim = 0
+        local itm = db.actor:active_item()
+        if (itm) then
+            if (IsWeapon(itm)) then
+                item_anim = itm:get_state()
+            end
+
+            if (item_anim == 5) then
+                itm:switch_state(0)
+            end
+        end
+    else
+        if (was_input_disabled_by_control) then
+            level.enable_input()
+            was_input_disabled_by_control = false
+        end
+    end
+end
+
+function manage_controlled()
+    --Add schemes on game load hack
+    manage_schemes_hax()
+    --Manage minion memory, de-aggro them from controller and other minions
+    manage_controlled_memory()
+    --Release minions if controller is dead
+    manage_controlled_release()
+end
+
+-- actor_on_update will run sooner than the NPCs will be initialized. Setting schemes too early result in NPCs initialized into default scehem or crash in meet_manager.
+function manage_schemes_hax()
+    for k_controlled, v_controlled in pairs(controlled_table) do
+        local controlled = level.object_by_id(k_controlled)
+        local st = db.storage[k_controlled]
+        local active_filename = st and st.ini_filename
+
+        if (hax_reset_schemes) then
+            if (controlled) then
+                if (IsStalker(controlled)) then
+                    if (active_filename and active_filename ~= "scripts\\controllable_stalker.ltx") then
+                        trace_this("ADD SCHEME controllable_stalker on load for: "..controlled:name())
+                        set_scheme(controlled, db.storage[controlled:id()], false, "scripts\\controllable_stalker.ltx", "logic", "", modules.stype_stalker)
+                    end
+                else
+                    if (active_filename and active_filename ~= "scripts\\controllable_monster.ltx") then
+                        trace_this("ADD SCHEME controllable_monster on load for: "..controlled:name())
+                        set_scheme(controlled, db.storage[controlled:id()], false, "scripts\\controllable_monster.ltx", "logic", "", modules.stype_mobile)
+                    end
+                end
+            end
+        end
+    end
+end
+
+function manage_controlled_memory()
+    for k_controlled, v_controlled in pairs(controlled_table) do
+        local controlled = level.object_by_id(k_controlled)
+        local master = v_controlled.master and level.object_by_id(v_controlled.master)
+        local best_enemy = controlled and controlled:best_enemy()
+
+        if (best_enemy) then 
+            if (controlled:alive()) then
+                --Check if best enemy is master or controlled, and delete memory to prevent NPCs to shoot the master/controlled.        
+                if (targets_master_or_minion(k_controlled, best_enemy:id())) then
+                    trace_this("DISABLE MEMORY OBJECT: "..best_enemy:name().." FOR: "..controlled:name())
+                    controlled:enable_memory_object(best_enemy, false)
+
+                   if (IsStalker(controlled)) then
+                       if (not v_controlled.ignore_combat) then
+                           v_controlled.ignore_combat = true
+                           --trace_this("SET IGNORE COMBAT FOR: "..controlled:name())
+                       end
+                   end
+                end
+            else
+                if (v_controlled.ignore_combat) then
+                    v_controlled.ignore_combat = nil
+                    --trace_this("REMOVE IGNORE COMBAT FOR: "..controlled:name())
+                end
+            end
+        else
+            if (v_controlled.ignore_combat) then
+                v_controlled.ignore_combat = nil
+                --trace_this("REMOVE IGNORE COMBAT FOR: "..controlled:name())
+            end
+        end
+    end
+end
+
+function manage_controlled_release()
+    for k_controlled, v_controlled in pairs(controlled_table) do
+        local controlled = level.object_by_id(k_controlled)
+
+        if (controlled) then
+            local master = v_controlled.master and level.object_by_id(v_controlled.master)
+
+            --Release controlled if master is dead
+            if (controlled:alive() and master and not master:alive()) then
+                trace_this("MASTER: "..master:name().." OF CONTROLLED: "..controlled:name().." DIED, RELEASE")
+                release_if_master_is_dead(controlled, master, v_controlled)
+            end
+
+            --Release if controlled is dead
+            if (not controlled:alive()) then
+                trace_this("CONTROLLED DIED, REMOVE FROM CONTROLLED TABLE: "..controlled:name())
+                controlled_table[k_controlled] = nil
+            end
+        end
+    end
+end
+
+--Offline AI management for controlled
+function manage_controlled_table()
+    for k_controlled, v_controlled in pairs(controlled_table) do
+        local controlled = alife():object(k_controlled)
+
+        if (not controlled or (controlled and not controlled:alive())) then
+            controlled_table[k_controlled] = nil
+            trace_this("SE_OBJECT, Removed from controlled table: "..k_controlled)
+        end
+    end
+end
+
+--Offline AI management for controlled
+function manage_controller_table()
+    for k_controller, v_controller in pairs(controller_table) do
+        local controller = alife():object(k_controller)
+
+        if (not controller or ((controller and not controller:alive()))) then
+            trace_this("SE_OBJECT, Removed from controller table: "..k_controller)
+            --Remove all controlled entry for this controller
+            for k_controlled, v_controlled in pairs(controlled_table) do
+                if (v_controlled.master == k_controller) then
+                    trace_this("SE_OBJECT, Removed from controlled table: "..k_controlled)
+                    controlled_table[k_controlled] = nil
+                    --TODO FREE NPCS PROPERLY!!! Maybe Lost to the Zone instead?
+                end
+            end
+
+            controller_table[k_controller] = nil
+        end
+    end
+end
+
+function release_if_master_is_dead(controlled, master, v_controlled)
+    trace_this("release_if_master_is_dead: "..controlled:name())
+    --Control is permanent, nothing to do. Lost to the Zone
+    if (v_controlled.is_control_permanent) then
+        trace_this("CONTROLL IS PERMANENT FOR: "..controlled:name().." REMOVE FROM controlled_table")
+        controlled_table[controlled:id()] = nil
+
+        if (IsStalker(controlled)) then
+            set_scheme(controlled, db.storage[controlled:id()], false, "default_custom_data.ltx", "logic", "", modules.stype_stalker)
+        end
+
+        return
+    end
+
+    --Controlled is monster
+    if (v_controlled.is_monster) then
+        trace_this("release_if_master_is_dead MONSTER")
+        --Unlikely, but who knows what will the future bring
+        if (v_controlled.was_in_actors_squad) then
+            trace_this("RESTORE CONTROLLED MONSTER INTO ACTORS SQUAD")
+
+            local squad_controlled = get_object_squad(controlled)
+            if (squad_controlled) then
+                trace_this("squad_controlled: "..squad_controlled.id)
+                --This is necessary, otherwise companion-related features will be buggy until save/reload
+                axr_companions.companion_squads[squad_controlled.id] = squad_controlled
+            end
+
+            trace_this("add_to_actor_squad")
+            axr_companions.add_to_actor_squad(controlled)
+        end
+
+        trace_this("RESTORE ORIGINAL SCHEME")
+        if (v_controlled.active_filename) then trace_this("active_filename: "..v_controlled.active_filename) end
+        if (v_controlled.active_logic) then trace_this("active_logic: "..v_controlled.active_logic) end
+        if (v_controlled.active_section) then trace_this("active_section: "..v_controlled.active_section) end
+        if (v_controlled.gulag_name) then trace_this("gulag_name: "..v_controlled.gulag_name) end
+
+        set_scheme(controlled, db.storage[controlled:id()], false, v_controlled.active_filename, v_controlled.active_logic, v_controlled.gulag_name, modules.stype_mobile)
+    end
+
+    --Controlled is not monster
+    if (not v_controlled.is_monster) then
+        trace_this("release_if_master_is_dead NPC")
+        trace_this("RESTORE ORIGINAL COMMUNITY: "..v_controlled.original_community)
+        controlled:set_character_community(v_controlled.original_community)
+
+        if (v_controlled.was_in_actors_squad) then
+            trace_this("RESTORE CONTROLLED NPC INTO ACTORS SQUAD")
+
+            local squad_controlled = get_object_squad(controlled)
+            if (squad_controlled) then
+                trace_this("squad_controlled: "..squad_controlled.id)
+                --This is necessary, otherwise companion-related features will be buggy until save/reload
+                axr_companions.companion_squads[squad_controlled.id] = squad_controlled
+            end
+
+            trace_this("add_to_actor_squad")
+            axr_companions.add_to_actor_squad(controlled)
+        end
+
+        trace_this("RESTORE ORIGINAL SCHEME")
+        if (v_controlled.active_filename) then trace_this("active_filename: "..v_controlled.active_filename) end
+        if (v_controlled.active_logic) then trace_this("active_logic: "..v_controlled.active_logic) end
+        if (v_controlled.active_section) then trace_this("active_section: "..v_controlled.active_section) end
+        if (v_controlled.gulag_name) then trace_this("gulag_name: "..v_controlled.gulag_name) end
+
+        set_scheme(controlled, db.storage[controlled:id()], false, v_controlled.active_filename, v_controlled.active_logic, v_controlled.gulag_name, modules.stype_stalker)
+    end
+
+    trace_this("REMOVE FROM CONTROLLED TABLE")
+    controlled_table[controlled:id()] = nil
+end
+
+function spawn_minions_for_controller(controller)
+    local name_of_level = level.name()
+    if (not name_of_level) then return end
+
+    local level_settings = controller_starting_companions_table_settings[name_of_level]
+    if (not level_settings) then return end
+
+    if (not level_settings.Spawn) then return end
+
+    local number_to_spawn = math.random(c_controller_spawned_minions_min, c_controller_spawned_minions_max)
+    trace_this("SPAWN MINIONS: "..number_to_spawn)
+
+    minions_to_spawn[controller:id()] = {}
+
+    for i = 1,number_to_spawn,1 do
+        local section = level_settings.Spawn[math.random(1,#level_settings.Spawn)]      
+        local se_obj = alife():create(section, controller:position(), controller:level_vertex_id(), controller:game_vertex_id())
+
+        if (se_obj) then 
+            minions_to_spawn[controller:id()][se_obj.id] = true
+            trace_this(section.." was spawend for controller") 
+        end
+    end
+end
+
+function is_whitelisted_monster(monster)
+    if (whitelist_monsters_to_control[monster:clsid()]) then 
+        return true
+    else
+        return false
+    end
+end
+
+function is_whitelisted_faction(npc)
+    if (whitelist_factions_to_control[npc:character_community()]) then
+        return true
+    else
+        return false
+    end
+end
+
+function can_control(controller)
+    trace_this("can_control")
+    local controlled_count_of_controller = 0
+    for k, v_controlled in pairs(controlled_table) do
+        if (v_controlled.master == controller:id()) then
+            controlled_count_of_controller = controlled_count_of_controller + 1
+        end
+    end
+
+    trace_this("Controlled count for controller: "..controller:id().." "..controlled_count_of_controller)
+
+    return controlled_count_of_controller < c_controller_max_controlled_number
+end
+
+function should_controller_controll_npc(obj_position, controller_position)
+    local distance = get_distance(controller_position, obj_position)
+    local percentage = 100 - (distance * c_controller_npc_control_chance_reduction_per_meters)
+    if (percentage < 0) then percentage = 0 end
+    local random = math.random(1, 100)
+    if (random <= percentage) then
+      return true
+    else
+      return false
+    end
+end
+
+function should_controller_control_actor(controller_position)
+    local distance = get_distance(db.actor:position(), controller_position)
+    local percentage = 100 - (distance * c_controller_actor_control_chance_reduction_per_meters)
+    if (percentage < 0) then percentage = 0 end
+
+    local total_psy_protection = arszi_psy.get_telepatic_protection_total()
+    percentage = percentage * (1 - (total_psy_protection / c_maximum_psy_protection_against_control_actor))
+    local random = math.random(1, 100)
+
+    return random <= percentage
+end
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------PSY AURA-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+local psy_aura_counter = 0 --One increment per in-game seconds, do damage at every 6th in-game second
+function manage_controller_psy_aura()
+
+    if (psy_aura_counter == 6) then
+        psy_aura_counter = 0
+
+        for k_controller, v_controller in pairs(controller_table) do
+            local controller = level.object_by_id(k_controller)
+            if (controller and controller:alive()) then
+
+                local distance = get_distance(controller:position(), db.actor:position())
+                if (distance <= c_controller_psy_aura_range) then
+                    local damage = get_psy_aura_damage(distance, c_controller_psy_aura_max_damage)
+
+                    local h = hit()
+                    h.type = hit.telepatic
+                    h.power = damage
+                    h.impulse = 1
+                    h.direction = VEC_Z
+                    h.draftsman = db.actor
+                    db.actor:hit(h)
+
+                    --level.add_pp_effector("controller_hit.ppe", 777)
+                    --level.set_pp_effector_factor(777, 0.2)
+                end
+            end
+        end
+    else
+        psy_aura_counter = psy_aura_counter + 1
+    end
+end
+
+function get_psy_aura_damage(distance, max_power)
+    local distance_factor = 1 - (distance / c_controller_psy_aura_range)
+    return max_power * distance_factor
+end
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------UTILITY/MISC METHODS-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--HAX - Removes zombie wounded animation. This animation breaks zombied NPCs, also is not used by "normal" zombies anyways
+function remove_zombie_wounded_animation()
+    state_mgr_animation_list.animations.wounded_zombie.rnd = nil
+end
+
+function get_smart_name_of_npc_by_id(id)
+    local smart_name = ""
+
+    local se_obj = alife():object(id)
+    local squad = se_obj and se_obj.group_id and se_obj.group_id ~= 65535 and alife():object(se_obj.group_id)
+
+    if (squad) then
+        if (squad.smart_id) then trace_this("squad.smart_id: "..squad.smart_id) end
+        if (squad.current_spot_id) then trace_this("squad.current_spot_id "..squad.current_spot_id) end
+        if (squad.current_action) then trace_this("squad.current_action "..squad.current_action) end
+        if (squad.current_target_id) then trace_this("squad.current_target_id "..squad.current_target_id) end
+        if (squad.assigned_target_id) then trace_this("squad.assigned_target_id "..squad.assigned_target_id) end
+        if (squad.scripted_target) then trace_this("squad.scripted_target "..squad.scripted_target) end
+
+        local smart = level.object_by_id(squad.smart_id)
+        if (smart) then 
+            smart_name = smart:name()
+        end
+    end
+
+    return smart_name
+end
+
+function add_squad_member_by_id(id, squad)
+	local obj = alife_object(id)
+	local position	= obj.position
+	local level_vertex_id = obj.m_level_vertex_id
+	local game_vertex_id = obj.m_game_vertex_id
+
+	squad:register_member(obj.id)
+
+	local actor = alife():actor()
+	if (simulation_objects.is_on_the_same_level(obj, actor) and position:distance_to_sqr(actor.position) <= alife():switch_distance()^2) then
+		db.spawned_vertex_by_id[obj.id] = level_vertex_id
+	end
+	SendScriptCallback("squad_on_add_npc",squad,obj,position,position,level_vertex_id,game_vertex_id)
+end
+
+function is_controller(obj)
+    return obj:clsid() == clsid.controller_s
+end
+
+function is_actor_zombied()
+    return db.actor:character_community() == "actor_zombied"
+end
+
+function is_zombie(obj)
+    if (IsStalker(obj) and obj:character_community() == "zombied") then
+        return true
+    end
+
+    if (obj:clsid() == clsid.zombie_s) then
+        return true
+    end
+
+    return false
+end
+
+function get_distance(position_1, position_2)
+    local x = math.abs(position_1.x - position_2.x)
+    local z = math.abs(position_1.z - position_2.z)
+    local distance = math.sqrt((x * x) + (z * z))
+    return distance
+end
+
+function show_message(msg,time)
+	local hud = get_hud()
+	hud:AddCustomStatic("can_use_weapon_now", true)
+	hud:GetCustomStatic("can_use_weapon_now"):wnd():TextControl():SetTextST(msg)
+	ShowMessage = true
+	ShowMessageInit = game.get_game_time()
+	ShowMessageTime = time
+end
+
+function save_state(m_data)
+    trace_this("SAVE_STATE")
+    m_data.controller_table = controller_table
+    m_data.controlled_table = controlled_table
+end
+
+function load_state(m_data)
+    trace_this("LOAD_STATE")
+    controller_table = m_data.controller_table or {}
+    controlled_table = m_data.controlled_table or {}
+end
+
+function trace_this(to_trace)
+	--local log_file = io.open("log_arszi_controller.txt", "a")
+	--log_file:write(to_trace.."\n")
+	--log_file:close(log_file)
+end

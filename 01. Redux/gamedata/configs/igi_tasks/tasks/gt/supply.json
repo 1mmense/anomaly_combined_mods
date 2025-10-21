@@ -1,0 +1,30 @@
+{
+	"preconditions": {
+		"player_tier": "midgame"
+	},
+	"disabled":false,
+	"setup": [
+		{
+		"entity_type":"location",
+		"where":"nearby",
+		"target":"assault"
+		},
+		
+		{
+		"amount":2,
+		"faction":"&Faction(enemy of taskgiver and enemy of actor)&",
+		"entity_type":"squad",
+		"section":"&TableValueByKey(gt_guard, $this.faction$)&",
+		"to_create":true
+		},
+		
+		{
+		"entity_type":"item",
+		"amount":2,
+		"section":"&ChooseOne(gt_package_medicine,gt_package_ammunition)&",
+		"target":"return",
+		"to_create":true,
+		"mark": "treasure_unique"
+		}
+	]
+}

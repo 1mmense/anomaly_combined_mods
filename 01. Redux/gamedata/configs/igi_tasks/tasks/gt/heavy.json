@@ -1,0 +1,15 @@
+{
+	"preconditions": {
+	},
+	"disabled":false,
+	"setup": [
+		{
+		"entity_type":"squad",
+		"faction":"&Faction(enemy of actor and enemy of taskgiver)&",
+		"section":"gt_stalker_heavy_&ScaleToPlayer(1,3)&_$this.faction$",
+		"to_create":true,
+		"where":"nearby",
+		"target":"kill"
+		}
+	]
+}

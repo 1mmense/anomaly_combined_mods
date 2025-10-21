@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+    
+<!--
+Pistols and MP's
+-->
+
+	<string id="st_mag_aps_9x18_fmj">
+		<text>Обычный магазин 9x18 для АПС</text>
+	</string>
+	<string id="st_mag_aps_9x18_fmj_descr">
+		<text>
+			Обычный магазин 9x18 для АПС с вместимостью в 20 патронов. АПС редко использовался как оружие самообороны, он был достаточно быстро заменён на АКС-74У, а позже на ОЦ-33.
+		</text>
+	</string>
+
+	<string id="st_mag_aps_9x19_fmj">
+		<text>Модифицированный магазин 9x19 для АПС</text>
+	</string>
+	<string id="st_mag_aps_9x19_fmj_descr">
+		<text>
+			Магазин для АПС модифицированный предприимчивым механиком для возможности использования патрона 9х19 Парабеллум.
+		</text>
+	</string>
+
+	<string id="st_mag_beretta_9x19_fmj">
+		<text>Обычный магазин 9x19 для Beretta 92F</text>
+	</string>
+	<string id="st_mag_beretta_9x19_fmj_descr">
+		<text>
+			Самый обычный магазин для Beretta 92F, вмещает 15 патронов. Пистолет Beretta остаётся любимым стволом гангстеров и звёзд экшен-фильмов про Гонг-Конг.
+		</text>
+	</string>
+
+	<string id="st_mag_beretta_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для Beretta 92F</text>
+	</string>
+	<string id="st_mag_beretta_9x18_fmj_descr">
+		<text>
+			Магазин для Beretta модифицированный для использования более распространённого патрона 9x18 ПМ/ПММ.
+		</text>
+	</string>
+
+
+	<string id="st_mag_colt1911_11.43x23_fmj">
+		<text>Обычный магазин .45 ACP для Colt 1911</text>
+	</string>
+	<string id="st_mag_colt1911_11.43x23_fmj_descr">
+		<text>
+			Обычный магазин для Colt 1911, вмещает 7 патронов. Хотя маленький магазин 1911-ого ставит его в невыгодное положение при сравнении с современными пистолетами под .45 патрон, он значительно дешевле и его проще найти.
+		</text>
+	</string>
+
+	<string id="st_mag_colt_kimber_11.43x23_fmj">
+		<text>Обычный магазин .45 ACP для Colt Kimber</text>
+	</string>
+	<string id="st_mag_colt_kimber_11.43x23_fmj_descr">
+		<text>
+			Обычный магазин для Colt Kimber, вмещает 7 патронов. Более качественный по сравнению с обычным магазином 1911-ого, но всё ещё слишком мал.
+		</text>
+	</string>
+
+	<string id="st_mag_cz52_7.62x25_p">
+		<text>Обычный магазин 7.62x25 для CZ-52</text>
+	</string>
+	<string id="st_mag_cz52_7.62x25_p_descr">
+		<text>
+			Обычный магазин CZ-52 на 8 патронов. Старый российский патрон всё ещё любим многими сталкерами
+		</text>
+	</string>
+
+	<string id="st_mag_cz75_9x19_fmj">
+		<text>Обычный магазин 9x19 для CZ-75</text>
+	</string>
+	<string id="st_mag_cz75_9x19_fmj_descr">
+		<text>
+			Обычный магазин CZ-75, вмещает 16 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_cz75_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для CZ-75</text>
+	</string>
+	<string id="st_mag_cz75_9x18_fmj_descr">
+		<text>
+			Магазин CZ-75 модифицированный для использования патронов 9x18. Часто встречающийся в Зоне пистолет, теперь и под повсеместно используемый патрон 9x18 ПМ.
+		</text>
+	</string>
+
+	<string id="st_mag_desert_eagle_357_hp">
+		<text>Обычный магазин .357 для Desert Eagle</text>
+	</string>
+	<string id="st_mag_desert_eagle_357_hp_descr">
+		<text>
+			Обычный магазин .357 для Desert Eagle, вмещает 7 патронов. Даже его магазин огромен.
+		</text>
+	</string>
+
+	<string id="st_mag_fn57_5.7x28_ss190">
+		<text>Обычный магазин 5.7x28 для Five-seveN</text>
+	</string>
+	<string id="st_mag_fn57_5.7x28_ss190_descr">
+		<text>
+			Обычный магазин для Five-seveN, вмещает 20 патронов. Очень хороший магазин для очень эффективного вспомогательного оружия, но патроны довольно редки.
+		</text>
+	</string>
+
+	<string id="st_mag_fnp45_11.43x23_fmj">
+		<text>Обычный магазин .45 ACP для FNP-45</text>
+	</string>
+	<string id="st_mag_fnp45_11.43x23_fmj_descr">
+		<text>
+			Обыкновенный магазин для FNP-45, вмещает 15 патронов. Очень часто встречается среди западных "музыкантов" и сталкеров группировки "Монолит". Также подойдет для FNX-45.
+		</text>
+	</string>
+
+	<string id="st_mag_fnx45_11.43x23_fmj">
+		<text>Обычный магазин .45 ACP для FNX-45</text>
+	</string>
+	<string id="st_mag_fnx45_11.43x23_fmj_descr">
+		<text>
+            Обыкновенный магазин для FNX-45, вмещает 15 патронов. Более современные пистолеты FNX чаще всего встречаются у "Наёмников", реже можно встретить у бойцов "Монолита". Вполне подойдёт для FNP-45.
+		</text>
+	</string>
+
+	<string id="st_mag_fort_9x18_fmj">
+		<text>Обычный магазин 9x18 для Форт-17</text>
+	</string>
+	<string id="st_mag_fort_9x18_fmj_descr">
+		<text>
+			Обыкновенный 17-ти зярядный магазин для пистолета Форт-17. Часто встречается в Зоне как вторичное оружие украинских военных или сталкеров, кто ранее служил в МВД Украины.
+		</text>
+	</string>
+
+	<string id="st_mag_fort_9x19_fmj">
+		<text>Модифицированный магазин 9x19 для Форт-17</text>
+	</string>
+	<string id="st_mag_fort_9x19_fmj_descr">
+		<text>
+			Магазин для Форт-17 модифицированный для стрельбы патроном 9x19 Парабеллум.
+		</text>
+	</string>
+
+	<string id="st_mag_glock_9x19_fmj">
+		<text>Обычный магазин 9x19 для Glock</text>
+	</string>
+	<string id="st_mag_glock_9x19_fmj_descr">
+		<text>
+			Обычный магазин Glock, вмещает 17 патронов. Любимец полиции США и гангстеров.
+		</text>
+	</string>
+
+	<string id="st_mag_glock_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для Glock</text>
+	</string>
+	<string id="st_mag_glock_9x18_fmj_descr">
+		<text>
+			Магазин Glock модифицированный для использования часто встречающегося патрона 9х18 ПМ.
+		</text>
+	</string>
+
+	<string id="st_mag_gsh18_9x19_fmj">
+		<text>Обычный магазин 9x19 для ГШ-18</text>
+	</string>
+	<string id="st_mag_gsh18_9x19_fmj_descr">
+		<text>
+			Обыкновенный магазин для ГШ-18, вмещает 18 патронов. ГШ-18 - один из современных пистолетов, используемых Армией и Спецназом РФ.
+		</text>
+	</string>
+
+	<string id="st_mag_hpsa_9x19_fmj">
+		<text>Обычный магазин 9x19 для Browning Hi-Power</text>
+	</string>
+	<string id="st_mag_hpsa_9x19_fmj_descr">
+		<text>
+			Обычный магазин Browning Hi-Power, вмещает 13 патронов. Hi-Power - надёжное и недорогое оружие, любимое многими сталкерами.
+		</text>
+	</string>
+
+	<string id="st_mag_hpsa_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для Browning Hi-Power</text>
+	</string>
+	<string id="st_mag_hpsa_9x18_fmj_descr">
+		<text>
+			Магазин Browning Hi-Power модифицированный для использования патрона 9x18 ПМ.
+		</text>
+	</string>
+
+	<string id="st_mag_mp443_9x19_fmj">
+		<text>Обычный магазин 9x19 МП-443</text>
+	</string>
+	<string id="st_mag_mp443_9x19_fmj_descr">
+		<text>
+			Обыкновенный 18-ти зярядный магазин для МП-443 "Грач". Один из основных пистолетов Армии и стражей порядка РФ.
+		</text>
+	</string>
+
+	<string id="st_mag_mp443_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для МП-443</text>
+	</string>
+	<string id="st_mag_mp443_9x18_fmj_descr">
+		<text>
+			Модифицированный магазин МП-443, использующий патрон 9x18 ПМ.
+		</text>
+	</string>
+
+	<string id="st_mag_oc33_9x18_fmj">
+		<text>Обычный магазин 9x18 для ОЦ-33 Пернач</text>
+	</string>
+	<string id="st_mag_oc33_9x18_fmj_descr">
+		<text>
+			Обычный магазин ОЦ-33 Пернач, вмещает 27 патронов. Пернач заменил АПС в роли автоматического пистолета, он обошел его по всем критериям, не считая стиля.
+		</text>
+	</string>
+
+	<string id="st_mag_oc33_9x19_fmj">
+		<text>Модифицированный магазин 9x19 для ОЦ-33 Пернач</text>
+	</string>
+	<string id="st_mag_oc33_9x19_fmj_descr">
+		<text>
+		   Магазин ОЦ-33 Пернач модифицированный для использования патронов 9x19 Парабеллум.
+		</text>
+	</string>
+
+
+	<string id="st_mag_pm_9x18_fmj">
+		<text>Обычный магазин 9x18 для ПМ</text>
+	</string>
+	<string id="st_mag_pm_9x18_fmj_descr">
+		<text>
+		    Обыкновенный магазин ПМ, вмещает 8 патронов. ПМу не хватает ни убойности, ни размера магазина. Единственная причина по которой в зоне используют ПМ - его распространённость.
+		</text>
+	</string>
+
+	<string id="st_mag_pm_9x19_fmj">
+		<text>Модифицированный магазин 9x19 для ПМ</text>
+	</string>
+	<string id="st_mag_pm_9x19_fmj_descr">
+		<text>
+			Магазин ПМ переделанный для стрельбы патроном 9x19 Парабеллум. Более мощный патрон повышает убойность старичка Макарова.
+		</text>
+	</string>
+
+	<string id="st_mag_pmm_9x18_fmj">
+		<text>Обычный магазин 9x18 для ПММ</text>
+	</string>
+	<string id="st_mag_pmm_9x18_fmj_descr">
+		<text>
+			Обыкновенный магазин ПММ, вмещающий 12 патронов. Заметно лучше, если сравнивать с ПМом.
+		</text>
+	</string>
+
+	<string id="st_mag_pmm_9x19_fmj">
+		<text>Модифицированный магазин 9x19 для ПММ</text>
+	</string>
+	<string id="st_mag_pmm_9x19_fmj_descr">
+		<text>
+			Магазин ПММ с возможностью приёма патронов 9х19 Парабеллум.
+		</text>
+	</string>
+
+	<string id="st_mag_pp2000_9x19_fmj">
+		<text>Обыкновенный магазин 9x19 для ПП-2000</text>
+	</string>
+	<string id="st_mag_pp2000_9x19_fmj_descr">
+		<text>
+		    Обыкновенный магазин для ПП-2000 с ёмкостью 30 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_pp2000_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для ПП-2000</text>
+	</string>
+	<string id="st_mag_pp2000_9x18_fmj_descr">
+		<text>
+			Магазин ПП-2000 с возможностью приёма патрона 9х18 ПМ.
+		</text>
+	</string>
+
+	<string id="st_mag_sig220_11.43x23_fmj">
+		<text>Обычный магазин .45 ACP для SIG Sauer P220</text>
+	</string>
+	<string id="st_mag_sig220_11.43x23_fmj_descr">
+		<text>
+			7-ми зярядный магазин под .45 ACP для пистолета SIG P220. P220 популярен среди телохранителей и сотрудников частных охранных предприятий. Пистолет очень даже неплохо себя ведёт в условиях Зоны.
+		</text>
+	</string>
+
+	<string id="st_mag_tt33_7.62x25_p">
+		<text>Обычный магазин 7.62x25 для ТТ-33</text>
+	</string>
+	<string id="st_mag_tt33_7.62x25_p_descr">
+		<text>
+			8-ми зярядный магазин 7.62x25 для ТТ-33. Эта классика времён ВОВ всё ещё имеет своих почитателей в Зоне. "Извини, сегодня только один, очень быстро разбирают"
+		</text>
+	</string>
+
+
+	<string id="st_mag_usp_11.43x23_fmj">
+		<text>Обычный магазин .45 ACP для USP</text>
+	</string>
+	<string id="st_mag_usp_11.43x23_fmj_descr">
+		<text>
+			Обычный магазин USP на 12 патронов для варианта под патрон .45 ACP.
+		</text>
+	</string>
+
+	<string id="st_mag_usp_9x19_fmj">
+		<text>Обычный магазин 9x19 для USP</text>
+	</string>
+	<string id="st_mag_usp_9x19_fmj_descr">
+		<text>
+			Обычный магазин USP на 12 патронов для спортивных "Match" вариантов под патрон 9х19.
+		</text>
+	</string>
+
+
+	<string id="st_mag_walther_9x19_fmj">
+		<text>Обычный магазин 9x19 для Walther P99</text>
+	</string>
+	<string id="st_mag_walther_9x19_fmj_descr">
+		<text>
+			16-ти зярядный обыкновенный магазин для Walther P99 под патрон 9x19 Парабеллум.
+		</text>
+	</string>
+
+	<!-- begin smgs -->
+
+	<string id="st_mag_bizon_9x18_fmj">
+		<text>Обычный магазин 9x18 для ПП-19 </text>
+	</string>
+	<string id="st_mag_bizon_9x18_fmj_descr">
+		<text>
+			Обычный шнековый магазин на 64 патрона для ПП-19 Бизон. Несмотря на большой размер магазина, у него есть один существенный недостаток - клины.
+		</text>
+	</string>
+
+	<string id="st_mag_bizon_9x19_fmj">
+		<text>Обычный магазин 9x19 для ПП-19</text>
+	</string>
+	<string id="st_mag_bizon_9x19_fmj_descr">
+		<text>
+		    Магазин для ПП Бизон-2-01 под патрон 9х19 Парабеллум, но может быть использован в любом конвертированном ПП-19.
+		</text>
+	</string>
+
+	<string id="st_mag_bizon_7.62x25_p">
+		<text>Модифицированный магазин 7.62х25 для ПП-19</text>
+	</string>
+	<string id="st_mag_bizon_7.62x25_p_descr">
+		<text>
+			Модифицированный магазин для ПП-19 под патрон 7.62х25. Работа настоящего волшебника, учитывая сложное устройство шнека Бизона.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x18_fmj">
+		<text>Обычный магазин 9x18 для Кипариса</text>
+	</string>
+	<string id="st_mag_kiparis_9x18_fmj_descr">
+		<text>
+			Обычный 30-ти зярядный магазин для Кипариса. Кипарис - это дешёвый ПП, популярный среди группировок "Бандиты" и "Ренегаты".
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x19_fmj">
+		<text>Модифицированный магазин 9x19 для Кипариса</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_fmj_descr">
+		<text>
+			Модифицированный 30-ти зярядный магазин для Кипариса, переделанный под патрон 9х19. Кипарис - это дешёвый ПП, популярный среди группировок "Бандиты" и "Ренегаты".
+		</text>
+	</string>
+
+	<string id="st_mag_vityaz_9x19_fmj">
+		<text>Обычный магазин 9x19 для Витязь-СН</text>
+	</string>
+	<string id="st_mag_vityaz_9x19_fmj_descr">
+		<text>
+			Обыкновенный 30-ти зярядный магазин 9x19 для Витязь-СН. Необычное оружие в Зоне так как солдаты Украины не используют такие.
+		</text>
+	</string>
+
+	<string id="st_mag_vityaz_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для Витязь-СН</text>
+	</string>
+	<string id="st_mag_vityaz_9x18_fmj_descr">
+		<text>
+			Магазин Витязь-СН, модифицированный для стрельбы патроном 9x18 ПМ.
+		</text>
+	</string>
+
+	<string id="st_mag_vz61_9x19_fmj">
+		<text>Обычный магазин 9x19 для Vz.61</text>
+	</string>
+	<string id="st_mag_vz61_9x19_fmj_descr">
+		<text>
+			20-ти зярядный обыкновенный магазин Vz.61. Надёжное оружие, очень популярно среди преступников.
+		</text>
+	</string>
+
+	<string id="st_mag_vz61_9x18_fmj">
+		<text>Mодифицированный магазин	9x18 для Vz.61</text>
+	</string>
+	<string id="st_mag_vz61_9x18_fmj_descr">
+		<text>
+			20-ти зярядный магазин Vz.65, но может быть использован в конвертированном Vz.61.
+		</text>
+	</string>
+	
+	<string id="st_mag_p90_5.7x28_ss190">
+		<text>Обычный магазин 5.7x28 для P90</text>
+	</string>
+	<string id="st_mag_p90_5.7x28_ss190_descr">
+		<text>
+			Обычный 50-ти зярядный магазин для P90. Как футуристично!
+		</text>
+	</string>
+	
+	<string id="st_mag_ppsh41_7.62x25_p">
+		<text>Обычный барабан для ППШ-41 калибра 7.62x25</text>
+	</string>
+	<string id="st_mag_ppsh41_7.62x25_p_descr">
+		<text>
+		Обычный барабан для ППШ-41 калибра 7.62x25.
+		</text>
+	</string>
+
+	<string id="st_mag_mp5_9x19_fmj">
+		<text>Обычный магазин 9x19 для MP5</text>
+	</string>
+	<string id="st_mag_mp5_9x19_fmj_descr">
+		<text>
+            30-ти зярядный магазин для известного и распространённого MP5. MP5 - любимое оружие всех сталкеров, оно имеет достаточно мощности для уничтожения и псов, и бандитов.
+		</text>
+	</string>
+
+	<string id="st_mag_mp5_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для MP5</text>
+	</string>
+	<string id="st_mag_mp5_9x18_fmj_descr">
+		<text>
+            Магазин MP5 модифицированный для стрельбы патроном 9x18 ПМ. Конвертация MP5 под 9x18 в Зоне очень дёшева из-за популярности оружия.
+		</text>
+	</string>
+
+	<string id="st_mag_mp7_9x19_fmj">
+		<text>Модифицированный магазин 9x19 для MP7</text>
+	</string>
+	<string id="st_mag_mp7_9x19_fmj_descr">
+		<text>
+        Увеличенный магазин MP7 на 40 патронов модифицированный для использования патрона 9х19 Парабеллум. Из-за редкости патронов 4.6x30 некоторые умные техники додумались конвертировать MP7 под менее редкий 9мм патрон.
+		</text>
+	</string>
+
+	<string id="st_mag_mp7_9x18_fmj">
+		<text>Модифицированный магазин 9x18 для MP7</text>
+	</string>
+	<string id="st_mag_mp7_9x18_fmj_descr">
+		<text>
+		Увеличенный магазин MP7 на 40 патронов модифицированный ещё раз для использования патрона 9x18. Необычная модификация поверх необычной модификации может вызвать некоторые проблемы с надёжностью оружия.
+		</text>
+	</string>
+
+	<string id="st_mag_mp5_11.43x23_fmj">
+		<text>Магазин .45 ACP для MP5 "Frasier" </text>
+	</string>
+	<string id="st_mag_mp5_11.43x23_fmj_descr">
+		<text>
+            Заказной магазин для MP5 "Frasier". Вмещает 30 патронов .45 ACP. Говорят что он был сделан специально для какого-то чудаковатого "Долговца".
+		</text>
+	</string>
+
+	<string id="st_mag_ump45_11.43x23_fmj">
+		<text>Обычный магазин .45 ACP для UMP</text>
+	</string>
+	<string id="st_mag_ump45_11.43x23_fmj_descr">
+		<text>
+			Обычный магазин для UMP на 25 патронов .45 ACP. UMP - это необычное и очень желанное оружие в Зоне из-за его высокого удобства и большой останавливающей силы.
+		</text>
+	</string>
+	
+</string_table>

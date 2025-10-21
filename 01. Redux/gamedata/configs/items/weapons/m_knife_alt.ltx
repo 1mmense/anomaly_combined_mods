@@ -1,0 +1,3050 @@
+
+;------------------------------------------------------------------------------------------------
+[wpn_knife1]:identity_immunities,weapon_probability,default_weapon_params,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = on
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        scheduled                   = off
+        cform                       = skeleton
+        
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        		hud_fov												   = 0.60
+        quest_item                  = false
+        default_to_ruck             = false
+        sprint_allowed              = true
+        can_trade                   = true
+        show_ammo                   = false
+        
+        icons_texture      = ui\ui_icon_newstuff
+        inv_grid_width     = 2
+        inv_grid_height    = 1
+        inv_grid_x         = 8
+        inv_grid_y         = 8
+        inv_name                    = st_knife_6x4
+        inv_name_short              = st_knife_6x4
+        description                 = st_knife_6x4_descr
+        highlight_equipped          = true
+        
+        kind                        = w_melee
+        inv_weight                  = 0.182
+        cost                        = 2085
+        repair_type                 = knife
+        
+        hud                         = wpn_knife1_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_knife1.ogf
+        position                    = -0.021, -0.085, 0.024
+        orientation                 = 0, 90, 0
+        fire_point                  = 0.0, 0.133, 0.161
+        ph_mass                     = 4
+        
+        spash1_dist                 = 1.5
+        spash1_radius               = 0.5
+        spash2_dist                 = 1.5
+        spash2_radius               = 0.25
+        splash1_direction           = 0.0, -0.3, 1.0
+        splash1_hits_count          = 3
+        splash1_pervictim_hcount    = 1
+        splash2_direction           = 0.0, 0.0, 1.0
+        splash2_hits_count          = 2
+        splash_hit_divide_factor    = 0.75
+        
+        flame_particles             =
+        smoke_particles             =
+        
+        light_disabled              = true
+        
+        wm_size                     = 0.058
+        
+        upgr_icon_x                 = 500
+        upgr_icon_y                 = 1700
+        upgr_icon_width             = 200
+        upgr_icon_height            = 150
+        
+        ammo_class                  = ammo_knife
+        ammo_current                = 96
+        ammo_elapsed                = 16
+        ammo_limit                  = 120
+        ammo_mag_size               = 1
+        startup_ammo                = 1000
+        
+        scope_status                = 0
+        
+        silencer_status             = 0
+        
+        grenade_launcher_status     = 0
+        
+        hit_impulse                 = 0.1
+        hit_impulse_2               = 0.1
+        hit_power                   = 0.305, 0.305, 0.305, 0.305
+        hit_power_2                 = 0.525, 0.525, 0.525, 0.525
+        hit_power_critical_2        = 0.75, 0.75, 0.75, 0.75
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 3.75
+        bullet_speed                = 5000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        zoom_dof                    = 0.5, 1.0, 180
+        zoom_enabled                = false
+        reload_dof                  = 0.0, 0.5, 5, 1.7
+        control_inertion_factor     = 1
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.001
+        
+        misfire_probability         = 0.001
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.12
+        condition_shot_dec          = 0.12
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        holder_fov_modifier         = 1.0
+        holder_range_modifier       = 1.0
+        min_radius                  = 0
+        max_radius                  = 500
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        
+        snd_on_take                 = knife
+        
+        kill_msg_x                  = 197
+        kill_msg_y                  = 177
+        kill_msg_width              = 53
+        kill_msg_height             = 16
+		can_be_lowered				= false
+ 
+
+[wpn_knife1_hud]:hud_base
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_knife1_hud.ogf
+      attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		
+
+
+
+;------------------------------------------------------------------------------------------------	  
+[wpn_knife10]:wpn_knife,wpn_knife_sounds
+		can_stealth_stab			= true
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+		
+		icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 8
+        inv_name                    = st_fs_green
+        inv_name_short              = st_fs_green
+        description                 = st_fs_green_descr
+       
+        
+        inv_weight                  = 0.21
+        cost                        = 8790
+        
+        hud                         = wpn_knife10_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_fair_green.ogf
+        		hud_fov												   = 0.60
+        wm_size                     = 0.067
+        
+ upgr_icon_path                     = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 400
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        
+        ammo_class                  = ammo_knife_4
+        
+        hit_impulse                 = 4.0
+        hit_impulse_2               = 10
+        hit_power                   = 0.36, 0.36, 0.36, 0.36
+        hit_power_2                 = 0.97, 0.97, 0.97, 0.97
+        hit_power_critical_2        = 1.1, 1.1, 1.1, 1.1
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 5000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.008
+        condition_shot_dec          = 0.008
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife10_hud]:wpn_knife_hud
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		
+		item_visual                 = dynamics\weapons\wpn_knife\wpn_fair_green_hud.ogf
+		
+		
+hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------
+[wpn_knife11]:wpn_knife,wpn_knife_sounds
+		can_stealth_stab			= true
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+		
+		icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 4
+
+        inv_name                    = st_fs_black
+        inv_name_short              = st_fs_black
+        description                 = st_fs_green_descr
+       
+        
+        inv_weight                  = 0.21
+        cost                        = 8790
+        		hud_fov												   = 0.60
+        hud                         = wpn_knife11_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_fair_black.ogf
+        
+        wm_size                     = 0.067
+        
+		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 500
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        
+        ammo_class                  = ammo_knife_4
+        
+        hit_impulse                 = 4.0
+        hit_impulse_2               = 10
+        hit_power                   = 0.36, 0.36, 0.36, 0.36
+        hit_power_2                 = 0.97, 0.97, 0.97, 0.97
+        hit_power_critical_2        = 1.1, 1.1, 1.1, 1.1
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 5000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.008
+        condition_shot_dec          = 0.008
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife11_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_fair_black_hud.ogf
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------
+[wpn_knife12]:wpn_knife,wpn_knife_sounds
+		can_stealth_stab			= true
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        
+icons_texture      = ui\ui_icon_newstuff		
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 7
+
+        inv_name                    = st_knife_bayo
+        inv_name_short              = st_knife_bayo
+        description                 = st_knife_bayo_descr
+       
+        
+        inv_weight                  = 0.57
+        cost                        = 6040
+        
+        hud                         = wpn_knife12_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_bayonet.ogf
+        		hud_fov												   = 0.60
+        wm_size                     = 0.067
+        
+		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 300
+        upgr_icon_y                 = 0
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        
+        ammo_class                  = ammo_knife_4
+        
+        hit_impulse                 = 4.0
+        hit_impulse_2               = 10
+        hit_power                   = 0.36, 0.36, 0.36, 0.36
+        hit_power_2                 = 0.97, 0.97, 0.97, 0.97
+        hit_power_critical_2        = 1.1, 1.1, 1.1, 1.1
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 5000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.008
+        condition_shot_dec          = 0.008
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife12_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_bayonet_hud.ogf
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------
+[wpn_knife13]:wpn_knife,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+		
+		icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 3
+inv_grid_height    = 1
+inv_grid_x         = 4
+inv_grid_y         = 2
+
+		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 550
+        upgr_icon_y                 = 100
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+		
+        inv_name                    = st_kabar
+        inv_name_short              = st_kabar
+        description                 = st_kabar_descr
+        		hud_fov												   = 0.60
+        inv_weight                  = 0.263
+        cost                        = 3960
+        repair_type                 = knife
+        
+        hud                         = wpn_knife13_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_kabar.ogf
+        
+        wm_size                     = 0.073
+        
+        ammo_class                  = ammo_knife_2
+        
+        hit_impulse                 = 4.0
+        hit_impulse_2               = 9.0
+        hit_power                   = 0.45, 0.45, 0.45, 0.45
+        hit_power_2                 = 0.55, 0.55, 0.55, 0.55
+        hit_power_critical_2        = 0.67, 0.67, 0.67, 0.67
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 5000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.075
+        condition_shot_dec          = 0.075
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife13_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_kabar_hud.ogf
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		
+hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------
+[wpn_knife14]:wpn_knife,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        
+		
+		icons_texture               = ui\ui_icon_newstuff
+inv_grid_width     = 3
+inv_grid_height    = 1
+inv_grid_x         = 4
+inv_grid_y         = 3
+
+		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 300
+        upgr_icon_y                 = 500
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+		
+        inv_name                    = st_knife_support
+        inv_name_short              = st_knife_support
+        description                 = st_knife_support_descr
+        		hud_fov												   = 0.60
+        inv_weight                  = 0.302
+        cost                        = 6825
+        
+        hud                         = wpn_knife14_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_knife_support.ogf
+        
+        wm_size                     = 0.065
+        
+        ammo_class                  = ammo_knife_3
+        
+        hit_impulse                 = 4.5
+        hit_impulse_2               = 11.5
+        hit_power                   = 0.42, 0.42, 0.42, 0.42
+        hit_power_2                 = 0.71, 0.71, 0.71, 0.71
+        hit_power_critical_2        = 1.04, 1.04, 1.04, 1.04
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 1000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.065
+        condition_shot_dec          = 0.065
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife14_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_knife_support_hud.ogf
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		
+hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------
+[wpn_knife15]:wpn_knife,wpn_knife_sounds
+		can_stealth_stab			= true
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+
+icons_texture      = ui\ui_icon_newstuff		
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 5
+        inv_name                    = st_knife_commando
+        inv_name_short              = st_knife_commando
+        description                 = st_knife_commando_descr
+       
+        		hud_fov												   = 0.60
+        inv_weight                  = 0.366
+        cost                        = 12425
+        
+        hud                         = wpn_knife15_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_commando_knife.ogf
+        
+        wm_size                     = 0.067
+        
+		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 700
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        
+        ammo_class                  = ammo_knife_4
+        
+        hit_impulse                 = 10.5
+        hit_impulse_2               = 11
+        hit_power                   = 0.54, 0.54, 0.54, 0.54
+        hit_power_2                 = 0.78, 0.78, 0.78, 0.78
+        hit_power_critical_2        = 1.09, 1.09, 1.09, 1.09
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 5000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.008
+        condition_shot_dec          = 0.008
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife15_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_commando_knife_hud.ogf
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+
+;------------------------------------------------------------------------------------------------	
+[wpn_knife16]:wpn_knife,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        scheduled                   = off
+        
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        
+		icons_texture               = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 6
+
+        inv_name                    = st_knife_boot
+        inv_name_short              = st_knife_boot
+        description                 = st_knife_boot_descr
+		
+		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 900
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        
+        inv_weight                  = 0.279
+        cost                        = 15585
+        		hud_fov												   = 0.60
+        hud                         = wpn_knife16_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_knife_boot.ogf
+        
+        wm_size                     = 0.084
+        
+        ammo_class                  = ammo_knife_5
+        
+        hit_impulse                 = 10.5
+        hit_impulse_2               = 11.5
+        hit_power                   = 0.48, 0.48, 0.48, 0.48
+        hit_power_2                 = 0.87, 0.87, 0.87, 0.87
+        hit_power_critical_2        = 1.22, 1.22, 1.22, 1.22
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 1000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.025
+        condition_shot_dec          = 0.025
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife16_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_knife_boot_hud.ogf
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------		
+[wpn_knife17]:wpn_knife
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+		
+icons_texture      = ui\ui_icon_newstuff	  
+inv_grid_width     = 4
+inv_grid_height    = 1
+inv_grid_x         = 4
+inv_grid_y         = 4
+      inv_name				        = st_machete
+      inv_name_short				= st_machete
+      description				    = st_machete_descr
+	  
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 600
+        upgr_icon_y                 = 0
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+hud_fov												   = 0.60
+      cost					        = 4890
+      inv_weight				    = 0.96
+
+      hit_power               		= 0.87, 0.87, 0.87, 0.87
+      hit_impulse		        	= 4.5	;10
+      hit_type				        = wound
+
+      hit_power_2             		= 0.65, 0.65, 0.65, 0.65
+      hit_power_critical_2    		= 0.71, 0.71, 0.71, 0.71
+      hit_impulse_2	        		= 11.5	;50
+      hit_type_2				    = wound
+
+
+      hud				            = wpn_knife17_hud
+
+      visual             	        = dynamics\weapons\wpn_knife\wpn_machete
+
+[wpn_knife17_hud]:wpn_knife_hud
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+      item_visual             	    = dynamics\weapons\wpn_knife\wpn_machete_hud.ogf
+;------------------------------------------------------------------------------------------------	  
+[wpn_knife18]:wpn_knife
+class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+cost                                               = 8790
+description                                        = st_knife_survival_descr
+hud                                                = wpn_knife18_hud
+inv_name                                           = st_knife_survival
+inv_name_short                                     = st_knife_survival
+icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 2
+inv_grid_y         = 6
+
+
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 600
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+visual                                             = dynamics\weapons\wpn_knife\wpn_knife_m1.ogf
+
+[wpn_knife18_hud]:wpn_knife_hud
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+item_visual                                        = dynamics\weapons\wpn_knife\wpn_knife_m1_hud.ogf
+;------------------------------------------------------------------------------------------------
+[wpn_knife19]:wpn_knife
+class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+cost                                               = 700
+description                                        = st_knife_spetsnaz_descr
+hud                                                = wpn_knife19_hud
+inv_name                                           = st_knife_spetsnaz
+inv_name_short                                     = st_knife_spetsnaz
+
+icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 2
+inv_grid_y         = 9
+
+
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 300
+        upgr_icon_y                 = 600
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+visual                                             = dynamics\weapons\wpn_knife\wpn_knife_m2.ogf
+
+[wpn_knife19_hud]:wpn_knife_hud
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+item_visual                                        = dynamics\weapons\wpn_knife\wpn_knife_m2_hud.ogf
+;------------------------------------------------------------------------------------------------
+[wpn_knife20]:wpn_knife
+class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+cost                                               = 500
+description                                        = st_knife_tanto_descr
+hud                                                = wpn_knife20_hud
+inv_name                                           = st_knife_tanto
+inv_name_short                                     = st_knife_tanto
+
+icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 2
+inv_grid_y         = 8
+
+
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 300
+        upgr_icon_y                 = 800
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+		
+                                       = 1500
+visual                                             = dynamics\weapons\wpn_knife\wpn_knife_m3.ogf
+hit_power                                          = 1.0, 1.0, 1.0, 1.0
+hit_power_2                                        = 1.4, 1.4, 1.4, 1.4
+
+[wpn_knife20_hud]:wpn_knife_hud
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+item_visual                                        = dynamics\weapons\wpn_knife\wpn_knife_m3_hud.ogf
+;------------------------------------------------------------------------------------------------
+[wpn_knife21]:wpn_knife
+class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+cost                                               = 800
+description                                        = st_knife_colt_descr
+hud                                                = wpn_knife21_hud
+inv_name                                           = st_knife_colt
+inv_name_short                                     = st_knife_colt
+icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 2
+inv_grid_y         = 5
+
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 800
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+visual                                             = dynamics\weapons\wpn_knife\wpn_knife_m4.ogf
+
+[wpn_knife21_hud]:wpn_knife_hud
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+item_visual                                        = dynamics\weapons\wpn_knife\wpn_knife_m4_hud.ogf
+;------------------------------------------------------------------------------------------------
+[wpn_knife22]:wpn_knife
+class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+cost                                               = 900
+description                                        = st_knife_extrema_descr
+hit_power                                          = 1.25, 1.25, 1.25, 1.25
+hit_power_2                                        = 1.875, 1.875, 1.875, 1.875
+hud                                                = wpn_knife22_hud
+inv_name                                           = st_knife_extrema
+inv_name_short                                     = st_knife_extrema
+
+icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 2
+inv_grid_y         = 7
+
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 300
+        upgr_icon_y                 = 900
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+visual                                             = dynamics\weapons\wpn_knife\wpn_knife_m5.ogf
+
+[wpn_knife22_hud]:wpn_knife_hud
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+item_visual                                        = dynamics\weapons\wpn_knife\wpn_knife_m5_hud.ogf
+;------------------------------------------------------------------------------------------------
+[wpn_knife23]:wpn_knife
+class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+cost                                               = 1000
+description                                        = st_knife_hunting_descr
+hit_power                                          = 1.1, 1.1, 1.1, 1.1
+hit_power_2                                        = 1.5, 1.5, 1.5, 1.5
+hud                                                = wpn_knife23_hud
+inv_name                                           = st_knife_hunting
+inv_name_short                                     = st_knife_hunting
+
+icons_texture      = ui\ui_icon_newstuff
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 2
+inv_grid_y         = 4
+
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 0
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+visual                                             = dynamics\weapons\wpn_knife\wpn_knife_m6.ogf
+
+[wpn_knife23_hud]:wpn_knife_hud
+attach_place_idx            = 0
+        zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+item_visual                                        = dynamics\weapons\wpn_knife\wpn_knife_m6_hud.ogf
+;------------------------------------------------------------------------------------------------		
+[wpn_knife24]:wpn_knife,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        scheduled                   = off
+        
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        
+		icons_texture      = ui\ui_icon_newstuff
+		inv_grid_width     = 2
+        inv_grid_height    = 1
+        inv_grid_x         = 6
+        inv_grid_y         = 8
+        inv_name                    = st_knife_h_tactical
+        inv_name_short              = st_knife_h_tactical
+        description                 = st_knife_h_tactical_descr
+        upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 900
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        inv_weight                  = 0.279
+        cost                        = 15585
+        		hud_fov												   = 0.60
+        hud                         = wpn_knife24_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_knife_tactical_m1.ogf
+        
+        wm_size                     = 0.084
+        
+        ammo_class                  = ammo_knife_5
+        
+        hit_impulse                 = 10.5
+        hit_impulse_2               = 11.5
+        hit_power                   = 0.48, 0.48, 0.48, 0.48
+        hit_power_2                 = 0.87, 0.87, 0.87, 0.87
+        hit_power_critical_2        = 1.22, 1.22, 1.22, 1.22
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 1000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.025
+        condition_shot_dec          = 0.025
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife24_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_knife_tactical_m1_hud.ogf
+		 zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------	
+[wpn_knife25]:wpn_knife,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        scheduled                   = off
+        
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        
+		icons_texture      = ui\ui_icon_newstuff
+		inv_grid_width     = 2
+        inv_grid_height    = 1
+        inv_grid_x         = 4
+        inv_grid_y         = 8
+        inv_name                    = st_knife_hunting_tactical
+        inv_name_short              = st_knife_hunting_tactical
+        description                 = st_knife_hunting_tactical_descr
+        upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 900
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        inv_weight                  = 0.279
+        cost                        = 15585
+        		hud_fov												   = 0.60
+        hud                         = wpn_knife25_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_knife_tactical_m2.ogf
+        
+        wm_size                     = 0.084
+        
+        ammo_class                  = ammo_knife_5
+        
+        hit_impulse                 = 10.5
+        hit_impulse_2               = 11.5
+        hit_power                   = 0.48, 0.48, 0.48, 0.48
+        hit_power_2                 = 0.87, 0.87, 0.87, 0.87
+        hit_power_critical_2        = 1.22, 1.22, 1.22, 1.22
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 1000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.025
+        condition_shot_dec          = 0.025
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife25_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_knife_tactical_m2_hud.ogf
+		 zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------		
+[wpn_knife26]:wpn_knife,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        scheduled                   = off
+        
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        
+		icons_texture      = ui\ui_icon_newstuff
+		inv_grid_width     = 2
+        inv_grid_height    = 1
+        inv_grid_x         = 4
+        inv_grid_y         = 9
+
+        inv_name                    = st_knife_nr40_tactical
+        inv_name_short              = st_knife_nr40_tactical
+        description                 = st_knife_nr40_tactical_descr
+        upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 900
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        inv_weight                  = 0.279
+        cost                        = 15585
+        		hud_fov												   = 0.60
+        hud                         = wpn_knife26_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_knife_tactical_m3.ogf
+        
+        wm_size                     = 0.084
+        
+        ammo_class                  = ammo_knife_5
+        
+        hit_impulse                 = 10.5
+        hit_impulse_2               = 11.5
+        hit_power                   = 0.48, 0.48, 0.48, 0.48
+        hit_power_2                 = 0.87, 0.87, 0.87, 0.87
+        hit_power_critical_2        = 1.22, 1.22, 1.22, 1.22
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 1000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.025
+        condition_shot_dec          = 0.025
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife26_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_knife_tactical_m3_hud.ogf
+		 zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------		
+[wpn_knife27]:wpn_knife,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        scheduled                   = off
+        
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        
+		icons_texture      = ui\ui_icon_newstuff
+		inv_grid_width     = 2
+        inv_grid_height    = 1
+        inv_grid_x         = 6
+        inv_grid_y         = 9
+        inv_name                    = st_knife_spetznaz_tactical
+        inv_name_short              = st_knife_spetznaz_tactical
+        description                 = st_knife_spetznaz_tactical_descr
+        upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 900
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        inv_weight                  = 0.279
+        cost                        = 15585
+        		hud_fov												   = 0.60
+        hud                         = wpn_knife27_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_knife_tactical_m4.ogf
+        
+        wm_size                     = 0.084
+        
+        ammo_class                  = ammo_knife_5
+        
+        hit_impulse                 = 10.5
+        hit_impulse_2               = 11.5
+        hit_power                   = 0.48, 0.48, 0.48, 0.48
+        hit_power_2                 = 0.87, 0.87, 0.87, 0.87
+        hit_power_critical_2        = 1.22, 1.22, 1.22, 1.22
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 1000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.025
+        condition_shot_dec          = 0.025
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife27_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_knife_tactical_m4_hud.ogf
+		 zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------	
+[wpn_knife28]:wpn_knife,wpn_knife_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        scheduled                   = off
+        
+        class                       = WP_KNIFE
+        slot                        = 0
+        animation_slot              = 5
+        ef_weapon_type              = 1
+        hand_dependence             = 1
+        single_handed               = 1
+        
+		
+		icons_texture      = ui\ui_icon_newstuff
+		inv_grid_width     = 2
+        inv_grid_height    = 1
+        inv_grid_x         = 8
+        inv_grid_y         = 9
+
+        inv_name                    = st_knife_combat_tactical
+        inv_name_short              = st_knife_combat_tactical
+        description                 = st_knife_combat_tactical_descr
+        upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 900
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+        inv_weight                  = 0.279
+        cost                        = 15585
+        		hud_fov												   = 0.60
+        hud                         = wpn_knife28_hud
+        visual                      = dynamics\weapons\wpn_knife\wpn_knife_tactical_m5.ogf
+        
+        wm_size                     = 0.084
+        
+        ammo_class                  = ammo_knife_5
+        
+        hit_impulse                 = 10.5
+        hit_impulse_2               = 11.5
+        hit_power                   = 0.48, 0.48, 0.48, 0.48
+        hit_power_2                 = 0.87, 0.87, 0.87, 0.87
+        hit_power_critical_2        = 1.22, 1.22, 1.22, 1.22
+        hit_type                    = wound
+        hit_type_2                  = wound
+        fire_distance               = 6
+        bullet_speed                = 1000
+        rpm                         = 1000
+        rpm_empty_click             = 1000
+        
+        use_aim_bullet              = false
+        time_to_aim                 = 1.0
+        crosshair_inertion          = 0.01
+        fire_dispersion_base        = 0.5
+        fire_dispersion_condition_factor = 0.0
+        
+        misfire_probability         = 0.0
+        misfire_start_condition     = 0.002
+        misfire_start_prob          = 0.003
+        misfire_end_condition       = 0.001
+        misfire_end_prob            = 0.02
+        
+        condition_queue_shot_dec    = 0.025
+        condition_shot_dec          = 0.025
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        hit_probability_gd_novice   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_stalker  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_veteran  = 1.00 ; value already imported from [weapon_probability], no need to redefine
+        hit_probability_gd_master   = 1.00 ; value already imported from [weapon_probability], no need to redefine
+ 
+
+[wpn_knife28_hud]:wpn_knife_hud
+        item_visual                 = dynamics\weapons\wpn_knife\wpn_knife_tactical_m5_hud.ogf
+		 zoom_hide_crosshair         = true
+        
+        item_position               = 0, 0, 0
+        item_orientation            = 10, 0, 0
+        
+        hands_position              = 0.033, -0.17, -0.15
+        hands_position_16x9         = 0.033, -0.17, -0.15
+        hands_orientation           = 0, 0, -5
+        hands_orientation_16x9      = 0, 0, -5
+        
+        aim_hud_offset_pos          = -0.077000, 0.022000, 0.000000
+        aim_hud_offset_rot          = 0.000000, 0.005000, -0.015000
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0
+        
+        anm_attack                  = knife_kick
+        anm_attack2                 = knife_kick_2
+        anm_attack2_e               = knife_kick_end2
+        anm_attack_e                = knife_kick_end1
+        anm_hide                    = knife_holster
+        anm_idle                    = knife_idle
+        anm_idle_aim                = knife_idle
+        anm_idle_moving             = knife_idle_moving
+        anm_idle_sprint             = knife_idle_sprint
+        anm_show                    = knife_draw
+        anm_show_empty              = knife_draw
+        
+        shell_bone                  = wpn_body
+        shell_point                 = 0, 0, 0
+        
+        fire_bone                   = knife
+        fire_point                  = 0.004500, 0.062500, -0.178499
+		hud_fov												   = 0.60
+;------------------------------------------------------------------------------------------------
+;-- Axe
+;------------------------------------------------------------------------------------------------
+[wpn_fire_axe]:wpn_axe,wpn_axe_sounds
+        GroupControlSection         = spawn_group
+        discovery_dependency        =
+        $npc                        = off
+        $prefetch                   = 8
+        $spawn                      = "weapons\knife"
+        
+        slot                        = 1
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+		slot                        = 2
+        
+		icons_texture                 = ui\ui_icon_newstuff
+inv_grid_width     = 3
+inv_grid_height    = 1
+inv_grid_x         = 4
+inv_grid_y         = 1
+        inv_name                    = st_axe2
+        inv_name_short              = st_axe2
+        description                 = st_axe2_descr
+		
+        upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 300
+        upgr_icon_width             = 200
+        upgr_icon_height            = 100
+        
+        inv_weight                  = 1.210
+        cost                        = 11455
+        
+        hud                         = wpn_fire_axe_hud
+        visual                      = dynamics\weapons\wpn_axe\wpn_fire_axe.ogf
+        fire_point2                 = 0, 0, 0
+        strap_bone0                 = bip01_spine2
+        strap_bone1                 = bip01_spine1
+        strap_position              = 0, 0, 0
+        strap_orientation           = 0, 0, 0
+        
+        ammo_class                  = ammo_knife_5
+        
+        hit_impulse                 = 60
+        hit_power                   = 1.8
+        hit_power_critical_2        = 1.0, 1.0, 1.0, 1.0
+        hit_type                    = wound
+        fire_distance               = 0.05
+        
+        zoom_dof                    = 0.5, 1.0, 180
+        zoom_rotate_time            = 0.25
+        
+        condition_shot_dec          = 0.00130
+        
+		spash1_dist                 = 1.5
+        spash1_radius               = 0.7
+        spash2_dist                 = 1.7
+        spash2_radius               = 0.5
+        splash1_direction           = 0.0, -0.3, 1.0
+        splash1_hits_count          = 3
+        splash1_pervictim_hcount    = 1
+        splash2_direction           = 0.0, 0.0, 1.0
+        splash2_hits_count          = 2
+        splash_hit_divide_factor    = 0.75
+        
+		scope_zoom_factor           = 60
+        
+        hit_impulse                 = 60
+        hit_power                   = 1.6
+        hit_type                    = wound
+        fire_distance               = 1.0
+        bullet_speed                = 1000
+        rpm                         = 1000
+        
+        zoom_enabled                = false
+        zoom_rotate_time            = 0.25
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        zoom_cam_relax_speed        = 0
+        zoom_cam_dispersion         = 0.0
+        zoom_cam_dispersion_frac    = 0.0
+        zoom_cam_dispersion_inc     = 0.0
+        zoom_cam_max_angle          = 1
+        zoom_cam_max_angle_horz     = 1
+        zoom_cam_step_angle_horz    = 1
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+        holder_range_modifier       = 1.0
+        min_radius                  = 0
+        max_radius                  = 0.90
+        
+        snd_on_take                 = other
+		can_be_lowered				= true
+		weapon_lower_speed			= 0.2
+		
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+ 
+
+[wpn_fire_axe_hud]:wpn_axe_hud
+        item_visual                 = dynamics\weapons\wpn_axe\wpn_fire_axe_hud.ogf
+        
+        item_position               = 0.0025, 0.0005, -0.0350
+        item_orientation            = 175, 1.5, -360
+        
+		hands_position_16x9		                       = -0.021,-0.25, -0.05                                              ;BaS
+        hands_orientation_16x9	                       = -0.5, 6, 10
+		
+		
+		
+		lowered_hud_offset_pos			= 0.2,0.05,0
+		lowered_hud_offset_rot			= 0.4,-0.1,-0.5
+
+		lowered_hud_offset_pos_16x9		= 0.2,0.05,0
+		lowered_hud_offset_rot_16x9		= 0.4,-0.1,-0.5
+        
+        anm_attack                  = lancew_knife1_kick_2
+        anm_attack2                 = lancew_knife1_kick_1
+        anm_hide                    = lancew_knife1_holster
+        anm_idle                    = lancew_knife1_idle
+        anm_idle_aim                = lancew_knife1_idle
+        anm_idle_moving             = lancew_knife1_moving
+        anm_idle_sprint             = lancew_knife1_sprint
+        anm_show                    = lancew_knife1_draw
+        anm_show_empty              = lancew_knife1_draw
+;------------------------------------------------------------------------------------------------
+[wpn_bat]:wpn_axe
+        slot                        = 2
+icons_texture      = ui\ui_icon_newstuff		
+		
+inv_grid_width     = 4
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 3
+
+        upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 200
+        upgr_icon_y                 = 300
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+        inv_name				    = st_bat
+        inv_name_short			    = st_bat
+        description				    = st_bat_descr
+		
+		cost					    = 2995
+        inv_weight				    = 1.35
+        snd_shoot				    = weapons\weapon_hammer\shoot_01
+        snd_shoot1				    = weapons\weapon_hammer\shoot_02
+        snd_shoot2				    = weapons\weapon_hammer\shoot_03
+        snd_draw				    = weapons\bino_draw
+        snd_holster				    = weapons\bino_holster
+        hit_power               	= 0.5, 0.5, 0.5, 0.5
+        hit_type				    = wound
+        hit_power_2             	= 0.75, 0.75, 0.75, 0.75
+        hit_power_critical_2    	= 0.75, 0.75, 0.75, 0.75
+        hit_impulse_2	        	= 11.5	;50
+        hit_type_2				    = wound
+        
+		spash1_dist                 = 1.5
+        spash1_radius               = 0.7
+        spash2_dist                 = 1.7
+        spash2_radius               = 0.5
+        splash1_direction           = 0.0, -0.3, 1.0
+        splash1_hits_count          = 3
+        splash1_pervictim_hcount    = 1
+        splash2_direction           = 0.0, 0.0, 1.0
+        splash2_hits_count          = 2
+        splash_hit_divide_factor    = 0.75
+        
+		scope_zoom_factor           = 60
+        
+        hit_impulse                 = 60
+        hit_power                   = 1.6
+        hit_type                    = wound
+        fire_distance               = 1.0
+        bullet_speed                = 1000
+        rpm                         = 1000
+        
+        zoom_enabled                = false
+        zoom_rotate_time            = 0.25
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        zoom_cam_relax_speed        = 0
+        zoom_cam_dispersion         = 0.0
+        zoom_cam_dispersion_frac    = 0.0
+        zoom_cam_dispersion_inc     = 0.0
+        zoom_cam_max_angle          = 1
+        zoom_cam_max_angle_horz     = 1
+        zoom_cam_step_angle_horz    = 1
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+        holder_range_modifier       = 1.0
+        min_radius                  = 0
+        max_radius                  = 0.90
+        
+        snd_on_take                 = other
+		can_be_lowered				= true
+		weapon_lower_speed			= 0.2
+		
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+
+
+
+        hud			                = wpn_bat_hud
+
+        visual				        = dynamics\weapons\wpn_bat\wpn_bat
+
+[wpn_bat_hud]:wpn_axe_hud
+
+item_visual				            = dynamics\weapons\wpn_bat\wpn_bat_hud.ogf
+
+        item_position               = 0.0025, 0.0005, 0.01
+        item_orientation            = 179, -0.01, -360
+				hands_position_16x9		                       = -0.021,-0.25, -0.05                                              ;BaS
+        hands_orientation_16x9	                       = -0.5, 6, 10
+;------------------------------------------------------------------------------------------------
+[wpn_bat_harley]:wpn_axe
+        slot                        = 2
+
+icons_texture      = ui\ui_icon_newstuff		
+inv_grid_width     = 4
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 1
+        inv_name				    = st_bat
+        inv_name_short			    = st_bat
+        description				    = st_bat_descr
+		
+		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 200
+        upgr_icon_y                 = 200
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+        cost					    = 3595
+        inv_weight				    = 1.47
+
+        snd_shoot				    = weapons\weapon_hammer\shoot_01
+        snd_shoot1				    = weapons\weapon_hammer\shoot_02
+        snd_shoot2				    = weapons\weapon_hammer\shoot_03
+        snd_draw				    = weapons\bino_draw
+        snd_holster				    = weapons\bino_holster
+        hit_power               	= 0.7, 0.7, 0.7, 0.7
+        hit_impulse		        	= 20.5	;10
+        hit_type				    = wound
+        hit_power_2             	= 0.8, 0.8, 0.8, 0.8
+        hit_power_critical_2    	= 1.1, 1.1, 1.1, 1.1
+        hit_impulse_2	        	= 11.5	;50
+        hit_type_2				    = wound
+        
+		spash1_dist                 = 1.5
+        spash1_radius               = 0.7
+        spash2_dist                 = 1.7
+        spash2_radius               = 0.5
+        splash1_direction           = 0.0, -0.3, 1.0
+        splash1_hits_count          = 3
+        splash1_pervictim_hcount    = 1
+        splash2_direction           = 0.0, 0.0, 1.0
+        splash2_hits_count          = 2
+        splash_hit_divide_factor    = 0.75
+        
+		scope_zoom_factor           = 60
+        
+        hit_impulse                 = 60
+        hit_power                   = 1.6
+        hit_type                    = wound
+        fire_distance               = 1.0
+        bullet_speed                = 1000
+        rpm                         = 1000
+        
+        zoom_enabled                = false
+        zoom_rotate_time            = 0.25
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        zoom_cam_relax_speed        = 0
+        zoom_cam_dispersion         = 0.0
+        zoom_cam_dispersion_frac    = 0.0
+        zoom_cam_dispersion_inc     = 0.0
+        zoom_cam_max_angle          = 1
+        zoom_cam_max_angle_horz     = 1
+        zoom_cam_step_angle_horz    = 1
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+        holder_range_modifier       = 1.0
+        min_radius                  = 0
+        max_radius                  = 0.90
+        
+        snd_on_take                 = other
+		can_be_lowered				= true
+		weapon_lower_speed			= 0.2
+		
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+
+
+        hud			= wpn_bat_harley_hud
+
+        visual				= dynamics\weapons\wpn_bat\wpn_bat_harley
+
+[wpn_bat_harley_hud]:wpn_axe_hud
+
+        item_visual				= dynamics\weapons\wpn_bat\wpn_bat_harley_hud.ogf
+
+          item_position               = 0.0025, 0.0005, 0.01
+        item_orientation            = 179, -0.01, -360
+				hands_position_16x9		                       = -0.021,-0.25, -0.05                                              ;BaS
+        hands_orientation_16x9	                       = -0.5, 6, 10
+;------------------------------------------------------------------------------------------------
+[wpn_bat_wood]:wpn_axe
+        slot                        = 2
+		
+		icons_texture               = ui\ui_icon_newstuff
+inv_grid_width     = 4
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 2
+        inv_name				    = st_bat
+        inv_name_short			    = st_bat
+        description				    = st_bat_descr
+		
+		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 250
+        upgr_icon_y                 = 100
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+
+        cost					    = 2995
+        inv_weight				    = 1.35
+        snd_shoot				    = weapons\weapon_hammer\shoot_01
+        snd_shoot1				    = weapons\weapon_hammer\shoot_02
+        snd_shoot2				    = weapons\weapon_hammer\shoot_03
+        snd_draw				    = weapons\bino_draw
+        snd_holster				    = weapons\bino_holster
+        hit_power                   = 0.5, 0.5, 0.5, 0.5
+        hit_type				    = wound
+        hit_power_2                 = 0.75, 0.75, 0.75, 0.75
+        hit_power_critical_2    	= 0.75, 0.75, 0.75, 0.75
+        hit_impulse_2	        	= 11.5	;50
+        hit_type_2				    = wound
+
+        spash1_dist                 = 1.5
+        spash1_radius               = 0.7
+        spash2_dist                 = 1.7
+        spash2_radius               = 0.5
+        splash1_direction           = 0.0, -0.3, 1.0
+        splash1_hits_count          = 3
+        splash1_pervictim_hcount    = 1
+        splash2_direction           = 0.0, 0.0, 1.0
+        splash2_hits_count          = 2
+        splash_hit_divide_factor    = 0.75
+        
+		scope_zoom_factor           = 60
+        
+        hit_impulse                 = 60
+        hit_power                   = 1.6
+        hit_type                    = wound
+        fire_distance               = 1.0
+        bullet_speed                = 1000
+        rpm                         = 1000
+        
+        zoom_enabled                = false
+        zoom_rotate_time            = 0.25
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        zoom_cam_relax_speed        = 0
+        zoom_cam_dispersion         = 0.0
+        zoom_cam_dispersion_frac    = 0.0
+        zoom_cam_dispersion_inc     = 0.0
+        zoom_cam_max_angle          = 1
+        zoom_cam_max_angle_horz     = 1
+        zoom_cam_step_angle_horz    = 1
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+        holder_range_modifier       = 1.0
+        min_radius                  = 0
+        max_radius                  = 0.90
+        
+        snd_on_take                 = other
+		can_be_lowered				= true
+		weapon_lower_speed			= 0.2
+		
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+        hud			                = wpn_bat_wood_hud
+
+        visual				        = dynamics\weapons\wpn_bat\wpn_bat_wood
+
+[wpn_bat_wood_hud]:wpn_axe_hud
+
+        item_visual				    = dynamics\weapons\wpn_bat\wpn_bat_wood_hud.ogf
+ 
+         item_position               = 0.0025, 0.0005, 0.01
+        item_orientation            = 179, -0.01, -360
+				hands_position_16x9		                       = -0.021,-0.25, -0.05                                              ;BaS
+        hands_orientation_16x9	                       = -0.5, 6, 10
+;------------------------------------------------------------------------------------------------
+ [wpn_shovel]:wpn_axe
+
+      icons_texture                 = ui\ui_icon_newstuff
+inv_grid_width     = 4
+inv_grid_height    = 1
+inv_grid_x         = 4
+inv_grid_y         = 6
+
+	  
+	  		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 300
+        upgr_icon_y                 = 700
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+		
+      inv_name			            = st_shovel
+      inv_name_short			    = st_shovel
+      description				    = st_shovel_descr
+       hit_power                    = 0.47, 0.47, 0.47, 0.47
+       hit_type				        = wound
+
+      hit_power_2             		= 0.36, 0.36, 0.36, 0.36
+      hit_power_critical_2    		= 0.36, 0.36, 0.36, 0.36
+      hit_impulse_2	        		= 11.5	;50
+	  hit_type_2				    = wound
+      snd_shoot				        = weapons\weapon_shovel\shoot_01
+      snd_shoot1				    = weapons\weapon_shovel\shoot_01
+      snd_shoot2				    = weapons\weapon_shovel\shoot_01
+      snd_draw				        = weapons\bino_draw
+      snd_holster				    = weapons\bino_holster
+	  hit_probability_gd_novice = 1.00 ;		= 0.80
+      hit_probability_gd_stalker = 1.00 ;		= 0.80
+      hit_probability_gd_veteran = 1.00 ;		= 0.80
+      hit_probability_gd_master = 1.00 ;		= 0.80
+
+        spash1_dist                 = 1.0
+        spash1_radius               = 0.7
+        spash2_dist                 = 1.5
+        spash2_radius               = 0.5
+        splash1_direction           = 0.0, -0.3, 1.0
+        splash1_hits_count          = 3
+        splash1_pervictim_hcount    = 1
+        splash2_direction           = 0.0, 0.0, 1.0
+        splash2_hits_count          = 2
+        splash_hit_divide_factor    = 0.75
+        
+		scope_zoom_factor           = 60
+        
+        hit_impulse                 = 60
+        hit_power                   = 1.6
+        hit_type                    = wound
+        fire_distance               = 1.0
+        bullet_speed                = 1000
+        rpm                         = 1000
+        
+        zoom_enabled                = false
+        zoom_rotate_time            = 0.25
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        zoom_cam_relax_speed        = 0
+        zoom_cam_dispersion         = 0.0
+        zoom_cam_dispersion_frac    = 0.0
+        zoom_cam_dispersion_inc     = 0.0
+        zoom_cam_max_angle          = 1
+        zoom_cam_max_angle_horz     = 1
+        zoom_cam_step_angle_horz    = 1
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+        holder_range_modifier       = 1.0
+        min_radius                  = 0
+        max_radius                  = 0.90
+        
+        snd_on_take                 = other
+		can_be_lowered				= true
+		weapon_lower_speed			= 0.2
+		
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+
+  	  cost					        = 890
+      inv_weight				    = 1.3
+      hud_fov												   = 0.60
+	  hud			                = wpn_shovel_hud
+	  visual				        = dynamics\weapons\wpn_shovel\wpn_shovel
+
+[wpn_shovel_hud]:wpn_axe_hud
+
+      item_visual				    = dynamics\weapons\wpn_shovel\wpn_shovel_hud.ogf
+	    item_position               = 0.0025, 0.0005, -0.0400
+        item_orientation            = 180, -0.5, -360
+		
+		hands_position_16x9		                       = -0.021,-0.25, -0.05                                              ;BaS
+        hands_orientation_16x9	                       = -0.5, 6, 10		
+;------------------------------------------------------------------------------------------------
+[wpn_bar]:wpn_axe
+      slot                        = 2
+	  
+      icons_texture                 = ui\ui_icon_newstuff
+inv_grid_width     = 4
+inv_grid_height    = 1
+inv_grid_x         = 4
+inv_grid_y         = 7
+	  
+	  	  		upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 300
+        upgr_icon_y                 = 400
+        upgr_icon_width             = 300
+        upgr_icon_height            = 100
+		
+      inv_name				        = st_bar
+      inv_name_short			    = st_bar
+      description				    = st_bar_descr
+      cost					        = 1040
+      inv_weight				    = 5.0
+
+      hit_power               		= 0.6, 0.6, 0.6, 0.6
+      hit_type				        = wound
+
+      hit_power_2             		= 0.75, 0.75, 0.75, 0.75
+      hit_power_critical_2    		= 0.75, 0.75, 0.75, 0.75
+      hit_impulse_2	        		= 11.5	;50
+      hit_type_2				    = wound
+      snd_shoot				        = weapons\weapon_hammer\shoot_01
+      snd_shoot1				    = weapons\weapon_hammer\shoot_02
+      snd_shoot2				    = weapons\weapon_hammer\shoot_03
+
+      hud			                = wpn_bar_hud
+        
+		spash1_dist                 = 1.5
+        spash1_radius               = 0.7
+        spash2_dist                 = 1.7
+        spash2_radius               = 0.5
+        splash1_direction           = 0.0, -0.3, 1.0
+        splash1_hits_count          = 3
+        splash1_pervictim_hcount    = 1
+        splash2_direction           = 0.0, 0.0, 1.0
+        splash2_hits_count          = 2
+        splash_hit_divide_factor    = 0.75
+        
+		scope_zoom_factor           = 60
+        
+        hit_impulse                 = 60
+        hit_power                   = 1.6
+        hit_type                    = wound
+        fire_distance               = 1.0
+        bullet_speed                = 1000
+        rpm                         = 1000
+        
+        zoom_enabled                = false
+        zoom_rotate_time            = 0.25
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        zoom_cam_relax_speed        = 0
+        zoom_cam_dispersion         = 0.0
+        zoom_cam_dispersion_frac    = 0.0
+        zoom_cam_dispersion_inc     = 0.0
+        zoom_cam_max_angle          = 1
+        zoom_cam_max_angle_horz     = 1
+        zoom_cam_step_angle_horz    = 1
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+        holder_range_modifier       = 1.0
+        min_radius                  = 0
+        max_radius                  = 0.90
+        
+        snd_on_take                 = other
+		can_be_lowered				= true
+		weapon_lower_speed			= 0.2
+		
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+		
+		
+		
+		
+
+      visual				        = dynamics\weapons\wpn_crowbar\wpn_crowbar
+
+[wpn_bar_hud]:wpn_axe_hud
+
+       item_visual				    = dynamics\weapons\wpn_crowbar\wpn_crowbar_hud.ogf
+	     item_position               = 0.0002, 0.0095, 0.01
+        item_orientation            = 180, -3.01, -360
+		hands_position_16x9		                       = -0.021,-0.25, -0.05                                              ;BaS
+        hands_orientation_16x9	                       = -0.5, 6, 10
+;------------------------------------------------------------------------------------------------
+[wpn_hammer]:wpn_axe
+
+	  icons_texture                 = ui\ui_icon_newstuff      
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 9
+
+	  
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 200
+        upgr_icon_width             = 200
+        upgr_icon_height            = 100
+	  
+      inv_name				        = st_hammer_new
+      inv_name_short			    = st_hammer_new
+      description				    = st_hammer_new_descr
+      cost					        = 690
+      inv_weight				    = 0.45
+hud_fov												   = 0.60
+      hit_power               		= 0.46, 0.46, 0.46, 0.46
+      hit_type				        = wound
+
+      hit_power_2             		= 0.6, 0.6, 0.6, 0.6
+      hit_power_critical_2    		= 0.6, 0.6, 0.6, 0.6
+      hit_impulse_2	        		= 11.5	;50
+      hit_type_2				    = wound
+      snd_shoot				        = weapons\weapon_hammer\shoot_01
+      snd_shoot1				    = weapons\weapon_hammer\shoot_02
+      snd_shoot2				    = weapons\weapon_hammer\shoot_03
+      snd_draw				        = weapons\bino_draw
+      snd_holster				    = weapons\bino_holster
+      hud			                = wpn_hammer_hud
+        
+		spash1_dist                 = 1.0
+        spash1_radius               = 0.7
+        spash2_dist                 = 1.5
+        spash2_radius               = 0.5
+        splash1_direction           = 0.0, -0.3, 1.0
+        splash1_hits_count          = 3
+        splash1_pervictim_hcount    = 1
+        splash2_direction           = 0.0, 0.0, 1.0
+        splash2_hits_count          = 2
+        splash_hit_divide_factor    = 0.75
+        
+		scope_zoom_factor           = 60
+        
+        hit_impulse                 = 60
+        hit_power                   = 1.6
+        hit_type                    = wound
+        fire_distance               = 1.0
+        bullet_speed                = 1000
+        rpm                         = 1000
+        
+        zoom_enabled                = false
+        zoom_rotate_time            = 0.25
+        
+        cam_relax_speed             = 8
+        cam_dispersion              = 0.65
+        cam_dispersion_frac         = 1.0
+        cam_dispersion_inc          = 0.0
+        cam_max_angle               = 20.0
+        cam_max_angle_horz          = 10.0
+        cam_step_angle_horz         = 0.9
+        zoom_cam_relax_speed        = 0
+        zoom_cam_dispersion         = 0.0
+        zoom_cam_dispersion_frac    = 0.0
+        zoom_cam_dispersion_inc     = 0.0
+        zoom_cam_max_angle          = 1
+        zoom_cam_max_angle_horz     = 1
+        zoom_cam_step_angle_horz    = 1
+        
+        PDM_disp_accel_factor       = 0.8
+        PDM_disp_base               = 1.0
+        PDM_disp_crouch             = 1.0
+        PDM_disp_crouch_no_acc      = 1.0
+        PDM_disp_vel_factor         = 0.8
+        
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+        holder_range_modifier       = 1.0
+        min_radius                  = 0
+        max_radius                  = 0.90
+        
+        snd_on_take                 = other
+		can_be_lowered				= true
+		weapon_lower_speed			= 0.2
+		
+        cam_relax_speed_ai          = 360.0
+        zoom_cam_relax_speed_ai     = 360.0
+        holder_fov_modifier         = 1.0
+      visual				        = dynamics\weapons\wpn_hammer\wpn_hammer
+
+[wpn_hammer_hud]:wpn_axe_hud
+		hands_position_16x9		                       = -0.021,-0.25, -0.05                                              ;BaS
+        hands_orientation_16x9	                       = -0.5, 6, 10
+        item_position               = 0.0025, 0.0005, 0.0500
+        item_orientation            = 180, -0.5, -360		
+      item_visual				    = dynamics\weapons\wpn_hammer\wpn_hammer_hud.ogf
+
+;------------------------------------------------------------------------------------------------  
+[wpn_hand_hammer]:wpn_axe
+        slot                        = 1
+        animation_slot              = 5
+        ef_main_weapon_type         = 1
+        ef_weapon_type              = 4
+        hand_dependence             = 1
+        single_handed               = 1
+visual					= dynamics\weapons\wpn_hammer\wpn_hand_hammer.ogf
+hud				= wpn_hand_hammer_hud
+description			= st_old_hammer_descr
+inv_name			= st_old_hammer
+inv_name_short		= st_old_hammer
+
+icons_texture       = ui\ui_icon_newstuff
+inv_grid_width     = 4
+inv_grid_height    = 1
+inv_grid_x         = 4
+inv_grid_y         = 5
+
+	  	upgr_icon_path              = ui\ui_actor_newstuff
+        upgr_icon_x                 = 0
+        upgr_icon_y                 = 100
+        upgr_icon_width             = 250
+        upgr_icon_height            = 100
+
+cost					= 760
+inv_weight			= 0.7
+hit_power               = 0.94, 0.94, 0.94, 0.94
+hit_power_2             = 1.28, 1.28, 1.28, 1.28
+spash1_dist				= 1.2
+spash2_dist				= 1.2
+fire_distance			= 0.5
+orientation				= 0, 90, -90
+material				= objects\hammer
+snd_shoot				= weapons\weapon_hammer\shoot_01
+snd_shoot1				= weapons\weapon_hammer\shoot_02
+snd_shoot2				= weapons\weapon_hammer\shoot_03
+
+[wpn_hand_hammer_hud]:wpn_axe_hud
+item_visual				= dynamics\weapons\wpn_hammer\wpn_hand_hammer_hud.ogf
+hands_position_16x9		                       = -0.021,-0.25, -0.05                                              ;BaS
+hands_orientation_16x9	                       = -0.5, 6, 10
+item_position               = 0.0025, 0.0005, -0.0500
+item_orientation            = 180, -0.5, -360	
+

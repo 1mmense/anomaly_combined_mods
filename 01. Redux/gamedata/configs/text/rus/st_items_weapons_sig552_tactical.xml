@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	smileW
+-->
+
+<string_table>
+	
+    <string id="st_wpn_sig552_tactical">
+		<text>SIG 552 Tactical</text>
+	</string>
+	<string id="st_wpn_sig552_tactical_descr">
+		<text>Компактный карабин SG 552 Commando был выпущен в июле 1998 года. Он имеет укороченный ствол 226 мм (8,9 дюйма) (с открытым пламегасителем с 3 зубцами) и газовую трубку, вентилируемые цевья и измененную конструкцию затворной рамы, которая была интегрирована с шток поршня, чтобы сформировать единый движущийся узел. Винтовки серии SG 552 имеют дальний радиус прицела 360 мм (14,2 дюйма). Возвратный механизм перемещен в заднюю часть корпуса ствольной коробки, и его возвратная пружина направляется аналогично АК-47: по стальной направляющей штанге, которая упирается в заднюю поверхность нижней ствольной коробки под действием сжатой возвратной пружины. . \ n Эта модифицированная версия прицела SIG 552 оснащена мощным усовершенствованным прицельным лазером для подсветки указателя цели EOTech ATPIAL LA-5 / PEQ и угловой передней рукояткой MAGPUL AFG-2. \п \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] AC10632 \n
+		%c[d_purple] • %c[ui_gray_2] ACOG \n
+		%c[d_purple] • %c[ui_gray_2] C-More \n
+		%c[d_purple] • %c[ui_gray_2] Specter \n
+		%c[d_purple] • %c[ui_gray_2] Aimpoint Pro \n
+		%c[d_purple] • %c[ui_gray_2] DeltaPoint \n
+		%c[d_purple] • %c[ui_gray_2] RMR \n
+		%c[d_purple] • %c[ui_gray_2] CompM4s \n
+		%c[d_purple] • %c[ui_gray_2] NATO suppressor</text>
+	</string>
+	
+	
+</string_table>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+ 	<string id="st_mag_m16a1d_5.45x39">
+		<text>Магазин STANAG на 20 патронов 5.56x45</text>
+	</string>
+	<string id="st_mag_m16a1d_5.45x39_descr">
+		<text>Магазин STANAG на 20 патронов под патрон 5.56x45.</text>
+	</string>
+	
+	
+	<string id="st_mag_m16a1df_5.45x39">
+		<text>Быстрозарядный магазин STANAG 5.56x45</text>
+	</string>
+	<string id="st_mag_m16a1df_5.45x39_descr">
+		<text>Современный магазин типа PMAG на 20 патронов. Значительно легче своего стального аналога, эргономичный дизайн способствует быстрому заряжанию патронов.</text>
+	</string>
+
+</string_table>

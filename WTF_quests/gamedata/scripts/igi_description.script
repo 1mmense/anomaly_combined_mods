@@ -1,0 +1,154 @@
+
+local trace_dbg = igi_helper.trace_dbg
+
+TEXT_HEADER = "igi_task_text_"
+function get_location_description(entity)
+	return get_smart_name_by_id(entity.id)
+		or (entity.id and dynamic_news_helper.GetPointDescription(alife_object(entity.id)))
+		or nil
+end
+
+function get_smart_name_by_id(id)
+	if tonumber(id) and SIMBOARD.smarts[id] then
+		local smart = alife_object(id)
+		return "st_" .. smart:name() .. "_name"
+	end
+end
+
+function get_entity_description(entity)
+	if type(entity.id) == "number" then
+		local se_obj = alife_object(entity.id)
+		local parent_npc = igi_helper.is_common_npc(se_obj.parent_id) and alife_object(se_obj.parent_id)
+
+		return {
+			locations = {get_location_description(entity)},
+			factions = {se_obj.player_id or parent_npc and alife_character_community(parent_npc) or nil},
+			targets = {parent_npc and parent_npc:character_name() or nil}
+		}
+	else
+		return {
+			factions = {entity.faction or (entity.section_name and ini_sys:r_string_ex(entity.section_name, "faction"))},
+			targets = {entity.section_name and ini_sys:r_string_ex(entity.section_name, "inv_name_short")}
+		}
+	end
+end
+
+
+function get_description(CACHE)
+	if not CACHE.description then
+		CACHE.description = {
+			targets = {},
+			locations = {},
+			factions = {},
+		}
+
+		for _, entity in pairs(CACHE.entities) do
+			add_from_entity(CACHE.description, entity, CACHE)
+		end
+	end
+
+	local content = {}
+	for label, v in pairs(CACHE.description) do
+		content[#content+1] = item_to_string(v, label)
+	end
+
+	return table.concat(content, "\\n").."\\n"..get_rewards_description(CACHE)
+end
+
+function get_rewards_description(CACHE)
+	if not igi_mcm.get_options_value("show_rewards") then return "" end
+	local low, high = igi_rewards.guess_rewards(CACHE)
+	if (low.money == 0 and high.money == 0 and low.goodwill == 0 and high.goodwill == 0) then
+		return ""
+	end
+
+	return game.translate_string(TEXT_HEADER .. "rewards")
+		.. ' ' ..
+		tostring(low.money) ..
+		(high.money ~= low.money and "-" .. tostring(high.money) or "") ..
+		" " .. game.translate_string(TEXT_HEADER .. "money") .. ", "
+		.. tostring(low.goodwill) ..
+		(high.goodwill ~= low.goodwill and "-" .. tostring(high.goodwill) or "") ..
+		" " .. game.translate_string(TEXT_HEADER .. "goodwill")
+end
+
+function add_from_entity(description, entity, CACHE)
+	if not entity.to_description then return end
+
+	local controller = igi_taskdata.get_controller(entity, CACHE)
+	local description_f = controller.get_description or get_entity_description
+	local desc = description_f(entity)
+	for k, tbl in pairs(desc) do
+		add_all_values(description[k], tbl)
+	end
+end
+
+function add_all_values(dest, src)
+	for _, v in pairs(src) do
+		dest[v] = true
+	end
+end
+
+function item_to_string(item, label)
+	if not next(item) then return "" end
+
+	local details = {}
+	for value in pairs(item) do
+		details[#details+1] = game.translate_string(value)
+	end
+	table.sort(details)
+
+	label = game.translate_string(TEXT_HEADER..label)
+	return label..": "..table.concat(details, ', ')
+end
+
+function show_description(CACHE)
+	if not CACHE.DESCRIPTION then
+		return DefaultDescription.show_description(CACHE)
+	end
+
+	local link_context = igi_text_processor.get_link_context(CACHE)
+	local descr = igi_text_processor.eval_logic_macro(CACHE.DESCRIPTION, link_context)
+	return descr.show_description(CACHE)
+end
+
+DefaultDescription = {}
+function DefaultDescription.show_description(CACHE)
+	local title, text, icon = get_task_text_values(CACHE)
+
+	CreateTimeEvent(0, "igi_task_"..CACHE.task_id.."_setup", 0, function ()
+		db.actor:give_talk_message2(title, text, icon, "iconed_answer_item")
+		return true
+	end)
+end
+
+function get_task_text_values(CACHE)
+	local mark = igi_mcm.get_options_value("wtf_task_mark") and "[WTF] " or ""
+	local title = mark .. get_task_text(CACHE.description_key, "name", CACHE.task_giver_id)
+	local text = get_description(CACHE)
+	local icon = CACHE.icon or "ui_iconsTotal_mutant"
+	return title, text, icon
+end
+
+function get_task_text(desc_key, field, tg_id)
+	desc_key = desc_key or ""
+	local se_tg = alife_object(tg_id)
+	local tg_name = se_tg:section_name() ~= "m_trader" and se_tg:section_name() or se_tg:name()
+
+	-- returns exclusive task text if exists
+	local text_id = desc_key.."_"..tg_name.."_"..field
+	local text = game.translate_string(text_id)
+	if text ~= text_id then return text end
+
+	-- fallback to basic field for this task type
+	local basic_text_id = desc_key.."_"..field
+	text = game.translate_string(basic_text_id)
+	if text ~= basic_text_id then return text end
+
+	-- if (field ~= "done") then
+	-- 	igi_helper.trace_error("No description for key: "..desc_key, text_id, basic_text_id)
+	-- end
+	
+	-- fallback to basic field
+	return game.translate_string(TEXT_HEADER..field)
+end

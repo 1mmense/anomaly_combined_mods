@@ -1,0 +1,118 @@
+;
+;   Storyline: Hidden Threat
+;   Version:   1.0
+;   Autor:     Longreed
+;	Last Edit: 31/10/2021
+;
+
+[hidden_threat_spirit]:stalker 
+$spawn = "respawn\hidden_threat_spirit"
+character_profile = hidden_threat_spirit
+community = trader
+story_id = hidden_threat_spirit
+custom_data = scripts\darkscape\ds2_domik_st_hidden_threat_spirit_logic.ltx
+
+[agr_dead_courier]:stalker 
+$spawn = "respawn\agr_dead_courier"
+character_profile = sim_default_military_0
+community = army
+story_id = agr_dead_courier
+
+[army_ser_gorobez]:stalker 
+$spawn = "respawn\army_ser_gorobez"
+character_profile = army_ser_gorobez
+community = army
+story_id = army_ser_gorobez
+
+[hidden_threat_isg_leader]:stalker
+$spawn = "respawn\hidden_threat_isg_leader"
+immunities_sect	= stalker_immunities_strong
+character_profile = hidden_threat_isg_leader
+community = isg
+
+[hidden_threat_isg_agent]:stalker
+$spawn = "respawn\hidden_threat_isg_agent"
+character_profile = hidden_threat_isg_agent
+community = isg
+
+[pri_b35_military_isg_sniper]:stalker
+$spawn = "respawn\pri_b35_military_isg_sniper"
+character_profile = pri_b35_military_isg_sniper
+community = isg
+
+[hidden_threat_degtyarev]:stalker 
+$spawn = "respawn\hidden_threat_degtyarev"
+immunities_sect	= stalker_immunities_living_legend
+character_profile = hidden_threat_degtyarev
+community = army_npc
+story_id = hidden_threat_degtyarev
+
+[hidden_threat_strelok]:stalker 
+$spawn = "respawn\hidden_threat_strelok"
+immunities_sect	= stalker_immunities_living_legend
+character_profile = hidden_threat_strelok
+community = stalker
+
+[pri_b35_mercs_agent_sbu_1]:stalker
+$spawn = "respawn\pri_b35_mercs_agent_sbu_1"
+character_profile = pri_b35_mercs_agent_sbu_1
+community = army_npc
+
+[pri_b35_mercs_agent_sbu_2]:stalker
+$spawn = "respawn\pri_b35_mercs_agent_sbu_2"
+character_profile = pri_b35_mercs_agent_sbu_2
+community = army_npc
+
+[agr_1_6_ht_degtyarev]:hidden_threat_degtyarev
+story_id = agr_1_6_ht_degtyarev
+
+[aes2_mc_isg_sniper]:stalker
+eye_fov = 260
+eye_range = 250
+$spawn = "respawn\aes2_mc_isg_sniper"
+character_profile = aes2_mc_isg_sniper
+community = isg
+spec_rank = master
+
+[agr_1_6_ht_vereshagin]:stalker
+$spawn = "respawn\agr_1_6_ht_vereshagin"
+immunities_sect	= stalker_immunities_living_legend
+character_profile = agr_1_6_ht_vereshagin
+community = army_npc
+story_id = agr_1_6_ht_vereshagin
+
+[pri_a15_ht_sbu_enforcer]:stalker
+$spawn = "respawn\pri_a15_ht_sbu_enforcer"
+character_profile = pri_a15_ht_sbu_enforcer
+community = army_npc
+spec_rank = master
+
+[pri_a15_ht_sbu_enforcer_1]:pri_a15_ht_sbu_enforcer
+$spawn = "respawn\pri_a15_ht_sbu_enforcer_1"
+story_id = pri_a15_ht_sbu_enforcer_1
+
+[pri_a15_ht_sbu_enforcer_2]:pri_a15_ht_sbu_enforcer
+$spawn = "respawn\pri_a15_ht_sbu_enforcer_2"
+story_id = pri_a15_ht_sbu_enforcer_2
+
+[jup_b208_ht_sbu_enforcer_1]:pri_a15_ht_sbu_enforcer
+$spawn = "respawn\jup_b208_ht_sbu_enforcer_1"
+story_id = jup_b208_ht_sbu_enforcer_1
+
+[jup_b208_ht_sbu_enforcer_2]:pri_a15_ht_sbu_enforcer
+$spawn = "respawn\jup_b208_ht_sbu_enforcer_2"
+story_id = jup_b208_ht_sbu_enforcer_2
+
+[jup_b208_ht_sbu_agent]:stalker
+$spawn = "respawn\jup_b208_ht_sbu_agent"
+character_profile = jup_b208_ht_sbu_agent
+community = army_npc
+story_id = jup_b208_ht_sbu_agent
+
+[jup_pas_b400_hall_sniper_1]:aes2_mc_isg_sniper
+$spawn = "respawn\jup_pas_b400_hall_sniper_1"
+story_id = jup_pas_b400_hall_sniper_1
+
+[jup_pas_b400_hall_sniper_2]:aes2_mc_isg_sniper
+$spawn = "respawn\jup_pas_b400_hall_sniper_2"
+story_id = jup_pas_b400_hall_sniper_2

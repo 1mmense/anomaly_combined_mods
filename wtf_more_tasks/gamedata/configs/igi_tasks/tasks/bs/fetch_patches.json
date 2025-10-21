@@ -1,0 +1,29 @@
+{
+	"entities": [
+
+	{
+	"entity_type":"item",
+	"target":"fetch",
+	"faction": "&Faction('taskgiver')&",
+	"section_name":"&TableValueByKey('bs_patch_enemy', '[this.faction]')&_patch",
+	"amount": "&Random(5,10)&",
+	"where":"anywhere"
+	}
+
+	],
+	"quest_givers": [
+		{"Kuznetsov": true},
+        {"Voronin": true},
+        {"Sultan": true},
+        {"Aslan": true},
+        {"Trader": true, "Army": true, "Escape": true},
+        {"Cold": true},
+        {"Lukash": true},
+        {"Eidolon": true},
+        {"Haron": true},
+        {"Griffin": true},
+		{"Beard": true},
+        {"Trader": true, "Mercenary": true, "Zaton": true}
+	],
+	"icon": "ui_icons_kill_stalker6"
+}

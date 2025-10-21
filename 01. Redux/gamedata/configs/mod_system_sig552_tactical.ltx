@@ -1,0 +1,420 @@
+;------------------------------------------------------------------------------------------------
+[wpn_sig552_tactical]:identity_immunities,weapon_probability,default_weapon_params,wpn_sig552_sounds
+GroupControlSection                      = spawn_group
+$npc                                     = on
+$prefetch                                = 8
+$spawn                                   = "weapons\sig552"
+scheduled                                = off
+cform                                    = skeleton
+parent_section                           = wpn_sig552_tactical
+
+class                                    = WP_AK74
+slot                                     = 2
+animation_slot                           = 2
+ef_main_weapon_type                      = 2
+ef_weapon_type                           = 6
+hand_dependence                          = 1
+single_handed                            = 0
+
+default_to_ruck                          = false
+sprint_allowed                           = true
+icons_texture               			 = ui\ui_sig552_tactical
+inv_grid_height                          = 2
+inv_grid_width                           = 4
+inv_grid_x                               = 0
+inv_grid_y                               = 0
+inv_name                                 = st_wpn_sig552_tactical
+inv_name_short                           = st_wpn_sig552_tactical
+description                              = st_wpn_sig552_tactical_descr
+
+kind                                     = w_rifle
+inv_weight                               = 3.2
+cost                                     = 55555
+repair_type                              = rifle_5
+weapon_class                             = assault_rifle
+
+hud                                      = wpn_sig552_tactical_hud
+visual                                   = dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_world.ogf
+position                                 = -0.07, 0.097, -0.094
+orientation                              = 0.0, 0.0, 0.0
+fire_point                               = 0.05, -0.06, 0.575
+fire_point2                              = 0.0, 0.199, 0.575
+strap_bone0                              = bip01_spine2
+strap_bone1                              = bip01_spine1
+strap_position                           = -0.15, -0.37, 0.2
+strap_orientation                        = -10, -5, 10
+ph_mass                                  = 4
+
+flame_particles                          = weapons\generic_weapon05
+;smoke_particles                         = weapons\generic_shoot_00
+grenade_flame_particles                  = weapons\generic_weapon01
+
+smoke_particles				             = ghost_particles\weapons\flame_eft_ak  
+
+shell_point             				 = 0.120000, 0.000000, 0.070000
+shell_dir               				 = 0.0, 0.0, 0.4
+shell_particles         				 = weapons\556x45
+
+light_disabled                           = false
+light_color                              = 0.6, 0.5, 0.3
+light_range                              = 5
+light_time                               = 0.2
+light_var_color                          = 0.05
+light_var_range                          = 0.1
+light_trace_bone                         = muzzle
+
+upgrades                                 = up_gr_firstab_sig552, up_gr_seconab_sig552, up_gr_thirdab_sig552, up_gr_fourtab_sig552, up_gr_fifthab_sig552
+installed_upgrades                       =
+upgrade_scheme                           = upgrade_scheme_sig550
+upgr_icon_x                              = 900
+upgr_icon_y                              = 1900
+upgr_icon_width                          = 250
+upgr_icon_height                         = 100
+
+fire_modes                               = 1, -1
+ammo_class                               = ammo_5.56x45_fmj, ammo_5.56x45_fmj_bad, ammo_5.56x45_fmj_verybad, ammo_5.56x45_ss190, ammo_5.56x45_ss190_bad, ammo_5.56x45_ss190_verybad, ammo_5.56x45_ap, ammo_5.56x45_ap_bad, ammo_5.56x45_ap_verybad
+ammo_elapsed                             = 30
+ammo_mag_size                            = 30
+startup_ammo                             = 90
+
+scopes 					                 = acog, specter, c-more, ac10632, point_aimpro, rmr, deltapoint, compm4s
+scope_status                             = 0
+scope_zoom_factor                        = 0
+
+silencer_name                            = wpn_sil_nato
+silencer_status                          = 2
+silencer_x                               = 169
+silencer_y                               = 23
+silencer_light_color                     = 0.6, 0.5, 0.3
+silencer_light_range                     = 0.01
+silencer_light_time                      = 0.2
+silencer_light_var_color                 = 0.05
+silencer_light_var_range                 = 0.5
+silencer_smoke_particles                 = ghost_particles\weapons\generic_smoke_eft_sil
+
+grenade_class                            = ammo_m209, ammo_m209_bad, ammo_m209_verybad
+grenade_launcher_name                    = wpn_addon_grenade_launcher_m203
+grenade_launcher_status                  = 0
+grenade_launcher_x                       = 125
+grenade_launcher_y                       = 26
+launch_speed                             = 0
+
+hit_impulse                         	 = 27
+hit_power                           	 = 0.51, 0.51, 0.51, 0.51
+hit_type                    			 = fire_wound
+fire_distance              				 = 800
+bullet_speed               				 = 900
+rpm                        				 = 800
+rpm_empty_click            				 = 200
+ap_modifier                              = 0.95
+
+use_aim_bullet                           = false
+time_to_aim                              = 0.0 ;  3.0
+zoom_dof                                 = 0.5, 1.0, 180
+zoom_enabled                             = true
+zoom_rotate_time                         = 0.25
+reload_dof                               = 0.0, 0.5, 5, 2
+control_inertion_factor = 1.0f
+crosshair_inertion                       = 5.3
+fire_dispersion_base                     = 0.35
+fire_dispersion_condition_factor         = 0.001
+
+misfire_probability                      = 0.005
+misfire_start_condition                  = 0.7 ;  0.75
+misfire_start_prob                       = 0.0065
+misfire_end_condition                    = 0.16
+misfire_end_prob                         = 0.04
+
+condition_queue_shot_dec                 = 0.00093
+condition_shot_dec                       = 0.00093
+
+cam_return                               = 0
+cam_relax_speed                          = 12
+cam_dispersion                           = 0.556
+cam_dispersion_frac                      = 1.0
+cam_dispersion_inc                       = 0.0675
+cam_max_angle                            = 50.0
+cam_max_angle_horz                       = 50.0
+cam_step_angle_horz                      = 0.9
+zoom_cam_relax_speed                     = 12
+zoom_cam_dispersion                      = 0.466
+zoom_cam_dispersion_frac                 = 1.0
+zoom_cam_dispersion_inc                  = 0.0525
+zoom_cam_max_angle                       = 50.0
+zoom_cam_max_angle_horz                  = 50.0
+zoom_cam_step_angle_horz                 = 1.2
+
+PDM_disp_accel_factor                    = 2.2
+PDM_disp_base                            = 0.71
+PDM_disp_crouch                          = 1.0
+PDM_disp_crouch_no_acc                   = 1.0
+PDM_disp_vel_factor                      = 2.2
+
+cam_relax_speed_ai                       = 360
+zoom_cam_relax_speed_ai                  = 360
+holder_fov_modifier                      = 1.0
+holder_range_modifier                    = 1.0
+min_radius                               = 0
+max_radius                               = 500
+hit_probability_gd_novice                = 1.00
+hit_probability_gd_stalker               = 1.00
+hit_probability_gd_veteran               = 1.00
+hit_probability_gd_master                = 1.00
+
+kill_msg_x                               = 80
+kill_msg_y                               = 59
+kill_msg_width                           = 87
+kill_msg_height                          = 24
+
+;-----------------------------------------------------------------------------------------SND----------------------------------------------------------------------------------------------------------------
+snd_reload                               = weapons\sig552_tactical\sig552_tactical_reload
+snd_reload_empty                         = weapons\sig552_tactical\sig552_tactical_reload_empty
+snd_reload_misfire                       = weapons\sig552_tactical\sig552_tactical_misfire
+snd_reload_g                             = weapons\sig552_tactical\sig552_tactical_grenload
+snd_shoot                                = weapons\sig552_tactical\sig552_tactical_shot
+snd_silncer_shot                         = weapons\sig552_tactical\sig552_tactical_silencer
+
+[wpn_sig552_tactical_hud]:hud_base
+item_visual                              = dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical.ogf
+attach_place_idx                         = 0
+zoom_hide_crosshair                      = true   
+
+item_position                            = 0, 0, 0
+item_orientation                         = 0, 0, 0
+
+hands_position                           = 0.014, -0.013, 0.09
+hands_position_16x9						 = 0.014, -0.013, 0.09
+hands_orientation                        = 0.515, 0.59, 0
+hands_orientation_16x9					 = 0.515, 0.59, 0
+
+aim_hud_offset_pos					= -0.05465, 0.0213, -0.055
+aim_hud_offset_pos_16x9				= -0.05465, 0.0213, -0.055
+aim_hud_offset_rot					= 0.0035, 0.0093, 0
+aim_hud_offset_rot_16x9				= 0.0035, 0.0093, 0
+
+aim_hud_offset_alt_pos_16x9				= 0.015340,0.015490,-0.037700
+aim_hud_offset_alt_rot_16x9				= 0.001950,0.001150,-0.799999
+;---------------
+
+gl_hud_offset_pos                        = -0.0625, 0.00, -0.11
+gl_hud_offset_pos_16x9                   = -0.0625, 0.00, -0.11
+gl_hud_offset_rot                        =  0.07,  0.025, 0.25
+gl_hud_offset_rot_16x9                   =  0.07,  0.025, 0.25
+
+lean_hud_offset_pos                      = 0, 0, 0
+lean_hud_offset_rot                      = 0, 0, 0
+
+lowered_hud_offset_pos			= 0.075, -0.018, -0.02
+lowered_hud_offset_pos_16x9		= 0.075, -0.018, -0.02
+lowered_hud_offset_rot			= -0.1, -0.65, 0.4
+lowered_hud_offset_rot_16x9		= -0.1, -0.65, 0.4
+
+;---------
+anm_hide                                 = sig552_tac_hand_out, idle
+anm_idle                                 = sig552_tac_hand_idle, idle
+anm_idle_aim                             = sig552_tac_hand_idle_aim, idle
+anm_idle_aim_moving                      = sig552_tac_hand_walk,idle
+anm_idle_moving_crouch                   = sig552_tac_hand_crouch, idle
+anm_idle_aim_moving_crouch               = sig552_tac_hand_crouch, idle
+anm_idle_moving                          = sig552_tac_hand_walk, idle
+anm_idle_sprint                          = sig552_tac_hand_run, idle
+anm_reload                               = sig552_tac_hand_reload, ras_ak5c_reload
+anm_reload_empty                         = sig552_tac_hand_reload_empty, ras_ak5c_reload_empty_3
+anm_shots                                = sig552_tac_hand_shot, ras_m4a1_shot
+anm_show                                 = sig552_tac_hand_in, idle
+anm_reload_misfire                       = sig552_tac_hand_misfire, ak5c_misfire, 0.9
+anm_bore				                 = sig552_tac_hand_inspect, idle, 0.75
+;anm_bore				 				 = sig552_tac_hand_idle, idle
+anm_switch                               = sig552_tac_hand_switch_off, ras_m4a1_switch_off
+
+shell_bone                               = gilza
+shell_dir                                = 0, 1, 0
+shell_point                              = 0, 0, 0
+
+fire_bone                                = muzzle
+fire_bone2                               = muzzle_gl
+fire_point                               = 0.008, -0.013, -0.215
+fire_point2                              = 0, 0, 0
+
+freelook_z_offset_mul					 = 0.15
+
+;------------------------------------------------------------------------------------------------
+
+[wpn_sig552_tactical_ac10632]:wpn_sig552_tactical
+
+1icon_layer			= ac10632
+1icon_layer_x			= 130
+1icon_layer_y			= -10
+
+inv_weight                                         = 3.115
+
+hud				= wpn_sig552_tactical_ac10632_hud
+
+[wpn_sig552_tactical_ac10632_hud]:wpn_sig552_tactical_hud
+
+item_visual                	= dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_ac10632_hud.ogf
+
+aim_hud_offset_pos					= -0.05465, 0.005, -0.055
+aim_hud_offset_pos_16x9				= -0.05465, 0.005, -0.055
+aim_hud_offset_rot					= 0.001, 0.0093, 0
+aim_hud_offset_rot_16x9				= 0.001, 0.0093, 0
+;-------------------------------------------------------------------------------
+[wpn_sig552_tactical_acog]:wpn_sig552_tactical
+
+1icon_layer                                        = acog
+1icon_layer_x			= 92
+1icon_layer_y			= -8
+
+inv_weight                                         = 3.350
+scope_status                                       = 1
+scope_texture                                      = wpn_crosshair_acog
+scope_zoom_factor                                  = 25
+zoom_rotate_time                                   = 0.25
+
+hud					                               = wpn_sig552_tactical_acog_hud
+use_alt_aim_hud                   = true	
+
+[wpn_sig552_tactical_acog_hud]:wpn_sig552_tactical_hud
+
+item_visual				= dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_acog_hud.ogf
+
+aim_hud_offset_pos					= -0.054, 0.0048, -0.15
+aim_hud_offset_pos_16x9				= -0.054, 0.0048, -0.15
+aim_hud_offset_rot					= 0.001, 0.009, 0
+aim_hud_offset_rot_16x9				= 0.001, 0.009, 0
+
+aim_hud_offset_alt_pos					= -0.05355, -0.0213, -0.1
+aim_hud_offset_alt_pos_16x9				= -0.05355, -0.0213, -0.1
+aim_hud_offset_alt_rot					= -0.0035, 0.009, 0
+aim_hud_offset_alt_rot_16x9				= -0.0035, 0.009, 0
+
+;-------------------------------------------------------------------------------
+[wpn_sig552_tactical_c-more]:wpn_sig552_tactical
+
+hud						= wpn_sig552_tactical_c-more_hud
+
+1icon_layer			    = c-more
+1icon_layer_x			= 130
+1icon_layer_y			= -10
+
+inv_weight                                         = 3.300
+
+[wpn_sig552_tactical_c-more_hud]:wpn_sig552_tactical_hud
+
+item_visual				= dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_c-more_hud.ogf
+
+aim_hud_offset_pos					= -0.0559, 0.0096, -0.055
+aim_hud_offset_pos_16x9				= -0.0559, 0.0096, -0.055
+aim_hud_offset_rot					= 0.0018, 0.0093, 0
+aim_hud_offset_rot_16x9				= 0.0018, 0.0093, 0
+;--------------------------------------------------------------------------------
+[wpn_sig552_tactical_specter]:wpn_sig552_tactical
+
+
+hud					= wpn_sig552_tactical_specter_hud
+
+1icon_layer                              = specter
+1icon_layer_x                            = 76
+1icon_layer_y                            = -8
+
+inv_weight                                         = 3.670
+scope_status                                       = 1
+scope_texture                                      = wpn_crosshair_specter
+scope_zoom_factor                                  = 25
+zoom_rotate_time                                   = 0.25
+scope_dynamic_zoom                                 = off
+use_alt_aim_hud                   = true	
+
+[wpn_sig552_tactical_specter_hud]:wpn_sig552_tactical_hud
+
+item_visual				= dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_specter_hud.ogf
+
+aim_hud_offset_pos					= -0.056, 0.0075, -0.14
+aim_hud_offset_pos_16x9				= -0.056, 0.0075, -0.14
+aim_hud_offset_rot					= 0.0014, 0.0095, 0
+aim_hud_offset_rot_16x9				= 0.0014, 0.0095, 0
+
+aim_hud_offset_alt_pos					= -0.0545, -0.0104, -0.09
+aim_hud_offset_alt_pos_16x9				= -0.0545, -0.0104, -0.09
+aim_hud_offset_alt_rot					= 0.0155, 0.009, -0.002
+aim_hud_offset_alt_rot_16x9				= 0.0155, 0.009, -0.002
+;-------------------------------------------------------------------------------------------------------------------------------
+
+[wpn_sig552_tactical_point_aimpro]:wpn_sig552_tactical
+
+hud						= wpn_sig552_tactical_point_point_aimpro_hud
+
+inv_weight                                         = 3.330
+
+1icon_layer			    = point_aimpro
+1icon_layer_x			= 120
+1icon_layer_y			= -12
+
+[wpn_sig552_tactical_point_point_aimpro_hud]:wpn_sig552_tactical_hud
+
+item_visual				= dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_point_aimpro_hud.ogf
+
+aim_hud_offset_pos					= -0.05465, -0.002, -0.055
+aim_hud_offset_pos_16x9				= -0.05465, -0.002, -0.055
+aim_hud_offset_rot					= -0.0002, 0.0093, 0
+aim_hud_offset_rot_16x9				= -0.0002, 0.0093, 0
+;-------------------------------------------------------------------------------------------------------------------------------
+
+[wpn_sig552_tactical_deltapoint]:wpn_sig552_tactical
+
+inv_weight			= 3.041
+
+hud				= wpn_sig552_tactical_deltapoint_hud
+
+1icon_layer			    = deltapoint
+1icon_layer_x			= 130
+1icon_layer_y			= -8
+
+[wpn_sig552_tactical_deltapoint_hud]:wpn_sig552_tactical_hud
+
+item_visual                	= dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_deltapoint_hud.ogf
+
+aim_hud_offset_pos					= -0.056, 0.0145, -0.055
+aim_hud_offset_pos_16x9				= -0.056, 0.0145, -0.055
+aim_hud_offset_rot					= 0.0032, 0.0093, 0
+aim_hud_offset_rot_16x9				= 0.0032, 0.0093, 0
+;----------------------------------------------------------------------------------------
+[wpn_sig552_tactical_rmr]:wpn_sig552_tactical
+
+inv_weight			= 3.034
+
+hud				= wpn_sig552_tactical_rmr_hud
+
+1icon_layer			    = rmr
+1icon_layer_x			= 130
+1icon_layer_y			= -8
+
+[wpn_sig552_tactical_rmr_hud]:wpn_sig552_tactical_hud
+
+item_visual                	= dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_rmr_hud.ogf
+
+aim_hud_offset_pos					= -0.05465, 0.0175, -0.055
+aim_hud_offset_pos_16x9				= -0.05465, 0.0175, -0.055
+aim_hud_offset_rot					= 0.0032, 0.0093, 0
+aim_hud_offset_rot_16x9				= 0.0032, 0.0093, 0
+;---------------------------------------------------------------------------------------
+[wpn_sig552_tactical_compm4s]:wpn_sig552_tactical
+
+hud					= wpn_sig552_tactical_compm4s_hud
+
+1icon_layer                              = compm4s
+1icon_layer_x			= 130
+1icon_layer_y			= -12
+
+inv_weight                               = 3.380
+
+[wpn_sig552_tactical_compm4s_hud]:wpn_sig552_tactical_hud
+
+item_visual                		= dynamics\weapons\wpn_sig552_tactical\wpn_sig552_tactical_compm4s_hud.ogf
+
+aim_hud_offset_pos					= -0.0557, 0.0042, -0.055
+aim_hud_offset_pos_16x9				= -0.0557, 0.0042, -0.055
+aim_hud_offset_rot					= 0.001, 0.0094, 0
+aim_hud_offset_rot_16x9				= 0.001, 0.0094, 0
+;--------------------------------------------------------------------------------------------
+

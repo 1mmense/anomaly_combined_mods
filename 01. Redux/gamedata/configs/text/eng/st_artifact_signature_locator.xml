@@ -1,0 +1,12 @@
+<string_table>
+	<string id="st_artifact_signature_locator">
+		<text>Artifact signature locator</text>
+	</string>
+	<string id="st_artifact_signature_locator_descr">
+		<text>
+		Highly experimental device developed in dephts of the zone. Shell of old detector is hiding latest application of artifact-emission connection research. 
+		This wonder of technology is capable of detecting residual link between anomalous zones and artifacts spawned by them. 
+		Can be connected to pda to show artifact location on map.
+		</text>
+	</string>
+</string_table>

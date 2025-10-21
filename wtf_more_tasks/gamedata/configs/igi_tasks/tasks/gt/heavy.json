@@ -1,0 +1,40 @@
+{
+	"entities": [
+	{
+		"entity_type":"squad",
+		"faction":"&Faction('enemy of actor and enemy of taskgiver')&",
+		"section_name":"gt_stalker_heavy_&ScaleToPlayer(1,3)&_[this.faction]",
+		"to_create":true,
+		"where":"[smart.id]",
+		"target":"kill"
+	},
+
+	{
+		"entity_type":"location",
+		"search_for": "smart",
+		"link_id": "smart",
+		"where":"1,1"
+	}
+	],
+	"icon": "ui_inGame2_PD_master_boevih_sistem",
+	"quest_givers": [
+		{"Mechanic": true},
+		{"Petrenko": true},
+		{"Beard": true},
+		{"Spore": true},
+		{"Kuznetsov": true},		
+		{"Sidorovich": true},
+		{"Olivius": true},
+		{"Sultan": true},
+		{"Sakharov": true},
+		{"Barkeep": true},
+		{"Dushman": true},
+		{"Aslan": true},
+		{"Skinflint": true},
+		{"Lukash": true},
+		{"Hermann": true},
+		{"Eidolon": true},
+		{"Krolik": true},
+		{"Fanatic": true}	
+	]
+}

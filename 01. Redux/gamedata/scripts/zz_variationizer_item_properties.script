@@ -1,0 +1,63 @@
+local gc = game.translate_string
+
+local get_artefact_base = artefact_variationizer.get_artefact_base
+
+local clr_g  = "%c[d_green]"
+local clr_o  = "%c[d_orange]"
+local clr_b2 = "%c[0, 0, 148, 255]"
+local clr_p  = "%c[d_purple]"
+local clr_w  = "%c[0, 168, 168, 168]"
+
+local get_sec_name = ui_item.get_sec_name
+ui_item.get_sec_name = function(sec)
+	local str = get_sec_name(sec)
+	local base_sec = get_artefact_base(sec)
+	if not artefact_variationizer.valid_artys[base_sec] then return str end
+	
+	local tier = SYS_GetParam(2, sec, "variationizer_tier", 1)
+	local s = "st_variationizer_tier" .. tier
+	local translation = gc(s)
+
+	str = str .. " (" .. translation .. ")"
+	return str
+end
+
+local item_name = ui_item.item_name
+ui_item.item_name = function(obj, str)
+	local str = item_name(obj, str)
+	local sec = obj:section()
+	local base_sec = get_artefact_base(sec)
+	if not artefact_variationizer.valid_artys[base_sec] then return str end
+	
+	local tier = SYS_GetParam(2, sec, "variationizer_tier", 1)
+	local s = "st_variationizer_tier" .. tier
+	local translation = gc(s)
+
+	str = str .. " (" .. translation .. ")"
+	return str
+end
+
+local build_desc_header = ui_item.build_desc_header
+ui_item.build_desc_header = function(obj, sec, str)
+	local str = build_desc_header(obj, sec, str)
+	local base_sec = get_artefact_base(sec)
+	if not artefact_variationizer.valid_artys[base_sec] then return str end
+	
+	local tier = SYS_GetParam(2, sec, "variationizer_tier", 1)
+	local s = "st_variationizer_tier" .. tier
+	local translation = gc(s)
+
+	if tier == 1 then
+		str = " • " .. translation .. " \\n \\n" .. str
+	elseif tier == 2 then
+		str = clr_g .. " • " .. translation .. " \\n \\n" .. clr_w .. str
+	elseif tier == 3 then
+		str = clr_b2 .. " • " .. translation .. " \\n \\n" .. clr_w .. str
+	elseif tier == 4 then
+		str = clr_p .. " • " .. translation .. " \\n \\n" .. clr_w .. str
+	elseif tier == 5 then
+		str = clr_o .. " • " .. translation .. " \\n \\n" .. clr_w .. str
+	end
+
+	return str
+end

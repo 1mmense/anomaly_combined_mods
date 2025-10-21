@@ -1,0 +1,301 @@
+local sfind = string.find
+
+function patch_quest_item()
+    local has_quest_item = task_status_functor.actor_has_fetch_item
+    task_status_functor.actor_has_fetch_item = function(tsk,task_id)
+        has_quest_item(tsk, task_id)
+
+        -- printf("task functor firing override")
+        local actor = db.actor
+        local actor_object = actor.object
+        local section = actor and load_var(actor,task_id.."_fetch")
+        if (not section) then
+            return
+        end       
+
+        if section and sfind(section,"af_") then
+            -- printf("checking arty %s", section)
+            if actor_object(actor, section)
+            or actor_object(actor, section .. "_lead_box")
+            or actor_object(actor, section .. "_af_iam")
+            or actor_object(actor, section .. "_af_aac")
+            or actor_object(actor, section .. "_af_aam")
+            then
+                tsk.stage = 1
+            else
+                for i = 1, artefact_variationizer.max_artefacts do
+                    local s = section .. "_variationizer" .. i
+                    if actor_object(actor, s)
+                    or actor_object(actor, s .. "_lead_box")
+                    or actor_object(actor, s .. "_af_iam")
+                    or actor_object(actor, s .. "_af_aac")
+                    or actor_object(actor, s .. "_af_aam")
+                    then
+                        -- printf("actor has %s", s)
+                        tsk.stage = 1
+                        break
+                    else
+                        -- printf("actor not has %s", s)
+                        tsk.stage = 0 
+                    end
+                end
+            end
+        end
+    end
+
+    xr_effects.remove_artefact_item = function(actor,npc,p)
+        local section = load_var(db.actor,p[1])
+        if (not section) then
+            printe("!ERROR xr_effects.remove_artefact_item | no var found for %s", p[1])
+            return
+        end
+
+        local actor = db.actor
+        local actor_object = actor.object
+        
+        local cont
+        -- printf("removing artefact %s", section)
+        local obj = actor_object(actor, section)
+        if (not obj) then
+            local search_cont = {"lead_box", "af_iam", "af_aac", "af_aam"}
+            for i=1,#search_cont do
+                if actor_object(actor, section .. "_" .. search_cont[i]) then
+                    obj = actor_object(actor, section .. "_" .. search_cont[i])
+                    cont = search_cont[i]
+                    -- printf("removing artefact %s in cont %s", section, cont)
+                    break
+                end
+            end
+        end
+
+        -- Check variations
+        local function check_variationizer()
+
+            local search_cont = {"lead_box", "af_iam", "af_aac", "af_aam"}
+            for i = 1, artefact_variationizer.max_artefacts do
+                local o = actor_object(actor, section .. "_variationizer" .. i)
+                if o then
+                    obj = o
+                    -- printf("removing artefact %s", o:section())
+                    return
+                end
+                
+                for j=1, #search_cont do
+                    local o = actor_object(actor, section .. "_variationizer" .. i .. "_" .. search_cont[j])
+                    if o then
+                        obj = o
+                        cont = search_cont[j]
+                        -- printf("removing artefact %s in cont %s", section .. "_variationizer" .. i, cont)
+                        return
+                    end
+                end
+            end
+        end
+        if (not obj) then check_variationizer() end
+        
+        if (not obj) then
+            return
+        end
+
+        -- printf("removing artefact %s", obj:section())
+        
+        local trade_npc = get_speaker()
+        if (trade_npc) then 
+            db.actor:transfer_item(obj, trade_npc)
+        else
+            alife_release(obj)
+        end
+        
+        if cont then
+            alife_create_item(cont, db.actor)
+            
+            -- play effect
+            level.add_cam_effector('camera_effects\\item_use.anm', 8053, false,'')
+
+            if cont == "lead_box" then
+                xr_effects.play_inv_lead_open()
+            elseif cont == "af_aam" then
+                xr_effects.play_inv_aam_open()
+            elseif cont == "af_aac" then
+                xr_effects.play_inv_aac_open()
+            elseif cont == "af_iam" then
+                xr_effects.play_inv_iam_open()
+            else
+                xr_effects.play_inv_lead_open()
+            end
+        end
+    end
+
+    xr_effects.fetch_reward_and_remove = function(actor, npc, p) -- Remove fetch items and give money reward:
+    --  Description:  Removes fetch task items and gives actor money reward based on item value
+    --  Usage: fetch_reward_and_remove( p[1]:p[2] )
+    --  Parameters:
+    --      p[1] (type: string) Var name given to fetch task items
+    --      p[2] (type: float) Multiplier for cost of items to apply to reward value (optional; default = 1.0)
+    --  Return value (type: none): none, removes fetch items and gives actor reward
+        
+        -- Get fetch items
+        local sec = load_var( db.actor, p[1] )
+        if not (sec) then return end
+        
+        local sim = alife()
+
+        local actor = db.actor
+        local actor_object = actor.object
+        
+        -- Check artefact variations first, then
+        -- Extract artefact if its in container
+        if string.find(sec,"af_") and (not actor_object(actor, sec)) then
+            local has_arty = false
+            for i = 1, artefact_variationizer.max_artefacts do
+                local o = actor_object(actor, sec .. "_variationizer" .. i)
+                if o then
+                    has_arty = true
+                    sec = sec .. "_variationizer" .. i
+                    break
+                end
+            end
+
+            if not has_arty then
+                local break_con
+                local break_arty
+                local id_combo
+                local search_cont = {"lead_box", "af_iam", "af_aac", "af_aam"}
+                for i=1,#search_cont do
+                    if actor_object(actor, sec .. "_" .. search_cont[i]) then
+                        break_arty = sec
+                        break_con = search_cont[i]
+                        id_combo = actor_object(actor, sec .. "_" .. search_cont[i]):id()
+                        break
+                    end
+                end
+
+                local function check_variationizer()
+                    local search_cont = {"lead_box", "af_iam", "af_aac", "af_aam"}
+                    for i = 1, artefact_variationizer.max_artefacts do
+                        for j=1, #search_cont do
+                            local o = actor_object(actor, sec .. "_variationizer" .. i .. "_" .. search_cont[j])
+                            if o then
+                                break_arty = sec .. "_variationizer" .. i
+                                break_con = search_cont[j]
+                                id_combo = actor_object(actor, sec .. "_variationizer" .. i .. "_" .. search_cont[j]):id()
+                                sec = sec .. "_variationizer" .. i
+                                return
+                            end
+                        end
+                    end
+                end
+                if not (break_con and break_arty and id_combo) then check_variationizer() end
+
+                if id_combo and break_con and break_arty and ini_sys:section_exist(break_con) then
+                    printdbg("/ Artefact container found, artefact [%s] - contairer [%s]", break_arty, break_con)
+                    alife_create_item(break_arty, db.actor)
+                    alife_create_item(break_con, db.actor)
+                    alife_release_id(id_combo)
+                    
+                    -- play effect
+                    level.add_cam_effector('camera_effects\\item_use.anm', 8053, false,'')
+                    if break_con == "lead_box" then
+                        xr_effects.play_inv_lead_open()
+                    elseif break_con == "af_aam" then
+                        xr_effects.play_inv_aam_open()
+                    elseif break_con == "af_aac" then
+                        xr_effects.play_inv_aac_open()
+                    elseif break_con == "af_iam" then
+                        xr_effects.play_inv_iam_open()
+                    else
+                        xr_effects.play_inv_lead_open()
+                    end
+                end
+            end
+        end
+        
+        local function timer() -- delay for 1 sec, to register alife changes
+            
+            -- Gather task items and cost
+            local count = load_var( db.actor, (p[1] .. "_count") ) or 1
+            local mult = tonumber(p[2]) or 1
+            local max_use = IsItem("multiuse",sec) or 1
+            local cost = ini_sys:r_float_ex(sec,"cost") * (1 / max_use)
+            
+            local last_obj
+            local collected_itms = {}
+            local total_cost, remain = 0,0
+            local cur_count = count
+            local use_con = (max_use == 1) and (not IsItem("device",sec)) and (not IsItem("battery", sec)) and true or false
+            local function itr(temp, obj)
+                if (obj:section() == sec) then
+                    local cnt = (max_use > 1) and obj:get_remaining_uses() or 1
+                    local con = use_con and obj:condition() or 1
+                    
+                    collected_itms[obj:id()] = cnt
+                    total_cost = total_cost + (cost * cnt * (con * con) * mult)
+                    cur_count = cur_count - cnt
+                    
+                    last_obj = obj
+                end
+                if (cur_count <= 0) then
+                    if (cur_count < 0) then
+                        remain = math.abs(cur_count)
+                    end
+                    return true
+                end
+                --return false
+            end
+            db.actor:iterate_inventory(itr, nil)
+            
+            -- Check availability
+            if is_empty(collected_itms) then
+                printe("! ERROR: fetch_reward_and_remove | no fetch item found!")
+                return true
+            end
+            if (total_cost < 50) then 
+                total_cost = 50
+                printf("~ Warning: fetch_reward_and_remove | total_cost is below 50")
+            end
+        
+            -- Reward value for artefacts depends on progression difficulty
+            if IsArtefact(last_obj) then
+                local eco = game_difficulties.get_eco_factor("type") or 0.5
+                local factor = (eco == 3 and 0.4) or (eco == 2 and 0.5) or 0.6
+                total_cost = total_cost * factor
+            end
+            --
+            
+            local delta =  math.floor(total_cost * 0.1)
+            local min_reward = (total_cost - delta)
+            local max_reward = (total_cost + delta)
+            
+            xr_effects.reward_random_money( actor, npc, { min_reward , max_reward } )
+        
+            -- Give task items to npc
+            local trade_npc = false --get_speaker()
+            for k,v in pairs(collected_itms) do
+                if trade_npc then
+                    local obj = level.object_by_id(k)
+                    if obj then
+                        db.actor:transfer_item(obj, trade_npc)
+                    end
+                else
+                    alife_release_id(k)
+                end
+            end
+            if (remain > 0) and IsItem("multiuse",sec) then
+                alife_create_item(sec, db.actor, {uses = remain})
+                local last_obj_uses = last_obj:get_remaining_uses()
+                if last_obj_uses and (last_obj_uses > remain) then
+                    local uses = (last_obj_uses - remain)
+                    alife_process_item(last_obj:section(), last_obj:id(), {uses = uses})
+                end
+            end
+            
+            news_manager.relocate_item(db.actor, "out", sec, count)
+        
+            return true
+        end
+            
+        CreateTimeEvent(0,"delay_reward", 1, timer)
+    end
+end
+
+patch_quest_item()

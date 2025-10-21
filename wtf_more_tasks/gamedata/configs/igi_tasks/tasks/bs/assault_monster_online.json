@@ -1,0 +1,24 @@
+{
+	"entities": [
+		{
+		"entity_type":"squad",
+		"type":"mutant",
+		"search_distance":"0,0",
+		"amount":1,
+		"to_create": false,
+		"link_id": "squad"
+		},
+
+		{
+			"entity_type": "location",
+			"id": "[squad:current_target_id]",
+			"target": "assault"
+		}
+	],
+	"quest_givers": [
+		{"Barman": true},
+		{"Novikov": true},		
+        {"Hunter": true}
+	],
+	"icon": "ui_iconsTotal_mutant"
+}

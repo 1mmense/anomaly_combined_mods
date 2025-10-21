@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+	<!-- Ammo_Check Messages -->
+	<string id="st_ac_overfull">
+		<text>Переполнен</text>
+	</string>
+	<string id="st_ac_plus1">
+        <text>Полный + 1</text>
+    </string>
+	<string id="st_ac_just_one">
+		<text>Только один</text>
+	</string> 
+	<string id="st_ac_full">
+		<text>Полный магазин</text>
+	</string>
+	<string id="st_ac_nearly_full">
+		<text>Почти полный</text>
+	</string>
+	<string id="st_ac_more_half">
+		<text>Больше половины</text>
+	</string>
+	<string id="st_ac_about_half">
+		<text>Половина магазина</text>
+	</string>
+	<string id="st_ac_less_half">
+		<text>Меньше половины</text>
+	</string>
+	<string id="st_ac_near_empty">
+		<text>Почти пустой магазин</text>
+	</string>
+	<string id="st_ac_empty">
+		<text>Пустой магазин</text>
+	</string>
+	<string id="st_ac_jammed">
+		<text>Оружие заклинило</text>
+	</string>
+	<string id="st_ac_noMag">
+		<text>Магазин отсутствует</text>
+	</string>
+	<string id="st_ac_noAmmo">
+		<text>Не использует боеприпасы!</text>
+	</string>
+	<string id="st_ac_ammoLeft">
+		<text>Осталось</text>
+	</string>
+
+	<string id="kb_check_ammo">
+		<text>Проверить количество патронов</text>
+	</string>
+
+    <string id="ui_mcm_menu_rax_ammo_check">
+        <text>Проверка</text>
+    </string>
+    <string id="ui_mm_title_rax_ammo_check">
+        <text>Проверка патронов</text>
+    </string>
+
+	<string id="ui_mcm_rax_ammo_check_usecolor">
+		<text>Цветные Сообщения.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_hidecounter">
+		<text>Спрятать Счётчик Патронов.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_hideicon">
+		<text>Спрятать Иконку Патронов.</text>
+	</string>
+
+
+
+
+
+</string_table>

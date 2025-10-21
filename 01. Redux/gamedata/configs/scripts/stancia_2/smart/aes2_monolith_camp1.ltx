@@ -1,0 +1,25 @@
+[smart_terrain]
+squad_id = 1
+max_population = 2
+respawn_params = respawn@aes2_monolith_camp1
+respawn_idle = 60000
+
+
+[respawn@aes2_monolith_camp1]
+spawn_monolith
+
+[spawn_monolith]
+spawn_squads = monolith_sim_squad_advanced, monolith_sim_squad_veteran, monolith_sim_squad_sniper
+spawn_num = {-hidden_threat_disabled +hidden_threat_task_6_stage_6 -aes2_monolith_camp_1_isg_squad_death} 0, 2
+
+;--- Hidden Threat ---
+[exclusive]
+aes2_monolith_camp_1_isg_1 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx
+aes2_monolith_camp_1_isg_2 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx
+aes2_monolith_camp_1_isg_3 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx
+aes2_monolith_camp_1_isg_4 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx
+aes2_monolith_camp_1_isg_5 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx
+aes2_monolith_camp_1_isg_6 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx
+aes2_monolith_camp_1_isg_7 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx
+aes2_monolith_camp_1_isg_8 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx
+aes2_monolith_camp_1_isg_9 = stancia_2\aes2_monolith_camp1_hidden_threat_logic.ltx

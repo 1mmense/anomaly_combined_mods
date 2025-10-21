@@ -1,0 +1,277 @@
+;
+;   Storyline: Hidden Threat
+;   Version:   1.0
+;   Autor:     Longreed
+;	Last Edit: 01/11/2021
+;
+
+[esc_survived_stalker_squad]:online_offline_group
+faction = stalker
+npc = sim_default_stalker_0
+target_smart = esc_smart_terrain_5_7
+story_id = esc_survived_stalker_squad
+on_death = %+esc_survived_stalker_squad_death%
+
+[ds_hidden_threat_spirit_squad]:online_offline_group
+faction = ecolog
+npc = hidden_threat_spirit
+target_smart = ds2_domik_st
+story_id = ds_hidden_threat_spirit_squad
+on_death = %+ds_hidden_threat_spirit_squad_death%
+
+[jup_b8_isg_attack_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_1, sim_default_isg_2
+npc_in_squad = 6, 6
+target_smart = jup_b8_smart_terrain
+story_id = jup_b8_isg_attack_squad
+on_death = %+jup_b8_isg_attack_squad_death%
+
+[jup_b8_army_dead_squad]:online_offline_group
+faction = army
+npc_random = sim_default_military_0, sim_default_military_1
+npc_in_squad = 6, 6
+target_smart = jup_b8_smart_terrain
+story_id = jup_b8_army_dead_squad
+on_death = %+jup_b8_army_dead_squad_death%
+
+[val_1_2_army_defense_squad]:online_offline_group
+faction = army
+npc_random = sim_default_military_0, sim_default_military_1
+npc_in_squad = 4, 4
+target_smart = val_smart_terrain_1_2
+story_id = val_1_2_army_defense_squad
+on_death = %+val_1_2_army_defense_squad_death%
+
+[val_1_2_attack_isg_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_2, sim_default_isg_3
+npc_in_squad = 6, 6
+target_smart = val_smart_terrain_1_2
+story_id = val_1_2_attack_isg_squad
+on_death = %+val_1_2_attack_isg_squad_death%
+
+[pri_army_ser_gorobez_squad]:online_offline_group
+faction = army
+npc = army_ser_gorobez
+target_smart = pri_a17
+story_id = pri_army_ser_gorobez_squad
+on_death = %+pri_army_ser_gorobez_squad_death%
+
+[pri_isg_guard_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_1
+npc_in_squad = 2, 2
+target_smart = pri_a17
+story_id = pri_isg_guard_squad
+on_death = %+pri_isg_guard_squad_death%
+
+[pri_isg_leader_squad]:online_offline_group
+faction = isg
+npc = hidden_threat_isg_leader
+target_smart = pri_a17
+story_id = pri_isg_leader_squad
+on_death = %+pri_isg_leader_squad_death%
+
+[pri_isg_agent_squad]:online_offline_group
+faction = isg
+npc = hidden_threat_isg_agent
+target_smart = pri_a17
+story_id = pri_isg_agent_squad
+on_death = %+pri_isg_agent_squad_death%
+
+[pri_b35_military_isg_sniper_squad]:online_offline_group
+faction = isg
+npc = pri_b35_military_isg_sniper
+target_smart = pri_b35_military
+story_id = pri_b35_military_isg_sniper_squad
+on_death = %+pri_b35_military_isg_sniper_squad_death%
+
+[pri_b35_military_isg_guard_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_3
+npc_in_squad = 3, 3
+target_smart = pri_b35_military
+story_id = pri_b35_military_isg_guard_squad
+on_death = %+pri_b35_military_isg_guard_squad_death%
+
+[pri_b35_mercs_ht_degtyarev_squad]:online_offline_group
+faction = army_npc
+npc = hidden_threat_degtyarev
+target_smart = pri_b35_mercs
+story_id = pri_b35_mercs_ht_degtyarev_squad
+on_death = %+pri_b35_mercs_ht_degtyarev_squad_death%
+
+[pri_b35_mercs_ht_agents_sbu_squad]:online_offline_group
+faction = army_npc
+npc = pri_b35_mercs_agent_sbu_1, pri_b35_mercs_agent_sbu_2
+target_smart = pri_b35_mercs
+story_id = pri_b35_mercs_ht_agents_sbu_squad
+on_death = %+pri_b35_mercs_ht_agents_sbu_squad_death%
+
+[pri_b35_mercs_ht_strelok_squad]:online_offline_group
+faction = stalker
+npc = hidden_threat_strelok
+target_smart = pri_b35_mercs
+story_id = pri_b35_mercs_ht_strelok_squad
+on_death = %+pri_b35_mercs_ht_strelok_squad_death%
+
+[pri_b35_mercs_ht_isg_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_3, sim_default_isg_4
+npc_in_squad = 6, 6
+target_smart = pri_b35_mercs
+story_id = pri_b35_mercs_ht_isg_squad
+on_death = %+pri_b35_mercs_ht_isg_squad_death%
+
+[pri_b304_ht_burer_squad_1]:online_offline_group
+faction = monster
+npc = burer_normal 
+target_smart = pri_b304_monsters_smart_terrain
+story_id = pri_b304_ht_burer_squad_1
+on_death = %+pri_b304_ht_burer_squad_1_death%
+
+[pri_b304_ht_burer_squad_2]:online_offline_group
+faction = monster
+npc = burer_normal 
+target_smart = pri_b304_monsters_smart_terrain
+story_id = pri_b304_ht_burer_squad_2
+on_death = %+pri_b304_ht_burer_squad_2_death%
+
+[agr_1_6_ht_degtyarev_squad]:online_offline_group
+faction = army_npc
+npc = agr_1_6_ht_degtyarev
+target_smart = agr_smart_terrain_1_6_near_2
+story_id = agr_1_6_ht_degtyarev_squad
+on_death = %+agr_1_6_ht_degtyarev_squad_death%
+
+[aes_sm_soldier_army_squad]:online_offline_group
+faction = army
+npc_random = sim_default_military_2
+npc_in_squad = 6, 6
+target_smart = aes_smart_terran_soldier
+story_id = aes_sm_soldier_army_squad
+on_death = %+aes_sm_soldier_army_squad_death%
+
+[aes2_monolith_camp_1_isg_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_4
+npc_in_squad = 9, 9
+target_smart = aes2_monolith_camp1
+story_id = aes2_monolith_camp_1_isg_squad
+on_death = %+aes2_monolith_camp_1_isg_squad_death%
+
+[aes2_monolith_camp_2_isg_squad]:online_offline_group
+faction = isg
+npc_random = aes2_mc_isg_sniper
+npc_in_squad = 3, 3
+target_smart = aes2_monolith_camp2
+story_id = aes2_monolith_camp_2_isg_squad
+on_death = %+aes2_monolith_camp_2_isg_squad_death%
+
+[aes_sm_monolith_blokpost4_monolith_squad]:online_offline_group
+faction = monolith
+npc_random = sim_default_monolith_1, sim_default_monolith_2
+npc_in_squad = 6, 6
+target_smart = aes_smart_terrain_monolit_blockpost4
+story_id = aes_sm_monolith_blokpost4_monolith_squad
+on_death = %+aes_sm_monolith_blokpost4_monolith_squad_death%
+
+[aes_sm_monolith_blokpost4_merck_squad]:online_offline_group
+faction = killer
+npc_random = sim_default_killer_1, sim_default_killer_2
+npc_in_squad = 6, 6
+target_smart = aes_smart_terrain_monolit_blockpost4
+story_id = aes_sm_monolith_blokpost4_merck_squad
+on_death = %+aes_sm_monolith_blokpost4_merck_squad_death%
+
+[agr_1_6_ht_vereshagin_squad]:online_offline_group
+faction = army_npc
+npc = agr_1_6_ht_vereshagin
+target_smart = agr_smart_terrain_1_6_near_2
+story_id = agr_1_6_ht_vereshagin_squad
+on_death = %+agr_1_6_ht_vereshagin_squad_death%
+
+[pri_a15_ht_sbu_squad]:online_offline_group
+faction = army_npc
+npc = pri_a15_ht_sbu_enforcer_1, pri_a15_ht_sbu_enforcer_2, sim_default_military_3, sim_default_military_3, sim_default_military_3, sim_default_military_3
+target_smart = pri_a15
+story_id = pri_a15_ht_sbu_squad
+on_death = %+pri_a15_ht_sbu_squad_death%
+
+[jup_b208_ht_sbu_squad]:online_offline_group
+faction = army_npc
+npc = jup_b208_ht_sbu_enforcer_1, jup_b208_ht_sbu_enforcer_2, sim_default_military_3, sim_default_military_3, sim_default_military_3, sim_default_military_3
+target_smart = jup_b208
+story_id = jup_b208_ht_sbu_squad
+on_death = %+jup_b208_ht_sbu_squad_death%
+
+[jup_b208_ht_sbu_agent_squad]:online_offline_group
+faction = army_npc
+npc = jup_b208_ht_sbu_agent
+target_smart = jup_b208
+story_id = jup_b208_ht_sbu_agent_squad
+on_death = %+jup_b208_ht_sbu_agent_squad_death%
+
+[jup_ht_companion_army_squad]:online_offline_group
+faction = army
+npc_random = sim_default_military_3, sim_default_military_4
+npc_in_squad = 6, 6
+target_smart = jup_b208
+story_id = jup_ht_companion_army_squad
+on_death = %+jup_ht_companion_army_squad_death%
+
+[pas_b400_fake_isg_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_3, sim_default_isg_4
+npc_in_squad = 6, 6
+target_smart = pas_b400_fake
+story_id = pas_b400_fake_isg_squad
+on_death = %+pas_b400_fake_isg_squad_death%
+
+[pas_b400_elevator_isg_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_3, sim_default_isg_4
+npc_in_squad = 6, 6
+target_smart = pas_b400_elevator
+story_id = pas_b400_elevator_isg_squad
+on_death = %+pas_b400_elevator_isg_squad_death%
+
+[pas_b400_track_isg_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_3, sim_default_isg_4
+npc_in_squad = 6, 6
+target_smart = pas_b400_track
+story_id = pas_b400_track_isg_squad
+on_death = %+pas_b400_track_isg_squad_death%
+
+[pas_b400_tunnel_isg_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_3, sim_default_isg_4
+npc_in_squad = 6, 6
+target_smart = pas_b400_tunnel
+story_id = pas_b400_tunnel_isg_squad
+on_death = %+pas_b400_tunnel_isg_squad_death%
+
+[pas_b400_hall_isg_squad]:online_offline_group
+faction = isg
+npc_random = sim_default_isg_3, sim_default_isg_4
+npc_in_squad = 12, 12
+target_smart = pas_b400_hall
+story_id = pas_b400_hall_isg_squad
+on_death = %+pas_b400_hall_isg_squad_death%
+
+[pas_b400_hall_isg_leader_squad]:online_offline_group
+faction = isg
+npc = hidden_threat_isg_leader
+target_smart = pas_b400_hall
+story_id = pas_b400_hall_isg_leader_squad
+on_death = %+pas_b400_hall_isg_leader_squad_death%
+
+[pas_b400_hall_isg_sniper_squad]:online_offline_group
+faction = isg
+npc = jup_pas_b400_hall_sniper_1, jup_pas_b400_hall_sniper_2
+target_smart = pas_b400_hall
+story_id = pas_b400_hall_isg_sniper_squad
+on_death = %+pas_b400_hall_isg_sniper_squad_death%
+

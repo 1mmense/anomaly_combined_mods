@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+  <string id="st_underground">
+      <text>You are underground, can not feel the current weather</text>
+  </string>
+
+   <string id="st_weather_is">
+      <text>The weather is</text>
+  </string>
+
+  <string id="st_wind_power_no_wind">
+      <text>You feel no wind. The air is calm.</text>
+  </string>
+
+  <string id="st_wind_power_slight_breeze">
+      <text>You feel a slight breeze.</text>
+  </string>
+
+  <string id="st_wind_power_weak">
+      <text>You feel weak wind.</text>
+  </string>
+
+  <string id="st_wind_power_moderate">
+      <text>You feel moderate wind.</text>
+  </string>
+
+  <string id="st_wind_power_strong">
+      <text>You feel strong wind.</text>
+  </string>
+
+  <string id="st_wind_power_very_strong">
+      <text>The wind is really strong.</text>
+  </string>
+
+  <string id="st_wind_power_storm">
+      <text>The wind is stormy, and whistling strongly.</text>
+  </string>
+
+  <string id="st_wind_power_storm">
+      <text>The wind is stormy, and whistling strongly.</text>
+  </string>
+
+  <string id="st_direction">
+      <text>It blows from the direction of</text>
+  </string>
+
+  <string id="st_direction_north">
+      <text>north.</text>
+  </string>
+
+  <string id="st_direction_north_east">
+      <text>north east.</text>
+  </string>
+
+  <string id="st_direction_east">
+      <text>east.</text>
+  </string>
+
+  <string id="st_direction_south_east">
+      <text>south east.</text>
+  </string>
+
+  <string id="st_direction_south">
+      <text>south.</text>
+  </string>
+
+  <string id="st_direction_south_west">
+      <text>south west.</text>
+  </string>
+
+  <string id="st_direction_west">
+      <text>west.</text>
+  </string>
+
+  <string id="st_direction_north_west">
+      <text>north west.</text>
+  </string>
+
+  <string id="st_clear">
+      <text>clear</text>
+  </string>
+
+  <string id="st_partly_clear">
+      <text>partly clear</text>
+  </string>
+
+  <string id="st_foggy">
+      <text>foggy</text>
+  </string>
+
+  <string id="st_cloudy">
+      <text>cloudy</text>
+  </string>
+
+  <string id="st_rain">
+      <text>rain</text>
+  </string>
+
+  <string id="st_storm">
+      <text>storm</text>
+  </string>
+
+  <!--WEATHER REPORT-->
+  <string id="st_warning_medium_to_strong">
+      <text>The wind has become stormy and blowing radioactive dust! Find shelter stalkers, it is dangerous out there!</text>
+  </string>
+
+  <string id="st_warning_none_to_medium">
+      <text>The wind is getting stronger, take caution!</text>
+  </string>
+
+  <string id="st_warning_strong_to_medium">
+      <text>The wind has calmed down a bit, but it is strong still. Do not let your guard down yet!</text>
+  </string>
+
+  <string id="st_warning_medium_to_none">
+      <text>The wind has weakened, we can relax for now stalkers...</text>
+  </string>
+
+  <!--RED FOREST CAKE-->
+    <!--CLEAR-->
+    <string id="st_weather_clear_from_partly">
+      <text>A miracle: almost no clouds in the sky! Enjoy the sunshine while it lasts.</text>
+    </string>
+
+    <string id="st_weather_clear_from_foggy">
+      <text>The fog has disappeared to reveal a bright, sunny day.</text>
+    </string>
+
+    <string id="st_weather_clear_from_cloudy">
+      <text>The clouds have disappeared, let's enjoy the clear sky again! No pun intended...</text>
+    </string>
+
+    <string id="st_weather_clear_from_rain">
+      <text>The rain has ended, we will see the clear sky soon! No pun intended still...</text>
+    </string>
+
+    <string id="st_weather_clear_from_storm">
+      <text>The storm is calming down, and I can already see the sun poking through!</text>
+    </string>
+
+    <!--PARTLY-->
+    <string id="st_weather_partly_from_clear">
+      <text>Weather is currently partly cloudy. 60% chance of fog or condensation a few hours from now.</text>
+    </string>
+
+    <string id="st_weather_partly_from_foggy">
+      <text>Fog is clearing up. Winds are at 5 to 10 mph. Currently partly cloudy.</text>
+    </string>
+
+    <string id="st_weather_partly_from_cloudy">
+      <text>The clouds have started breaking up. Don't expect it to last.</text>
+    </string>
+
+    <string id="st_weather_partly_from_rain">
+      <text>The rain clouds have started breaking up. We're seeing rapid dispersion into partly cloudy conditions.</text>
+    </string>
+
+    <string id="st_weather_partly_from_storm">
+      <text>The storm clouds have started breaking up, expect milder weather for the next few hours. Unless an emission happens, of course...</text>
+    </string>
+
+    <!--FOGGY-->
+    <string id="st_weather_foggy_from_clear">
+      <text>Humidity levels have taken an unexpectedly sharp increase. Fog has engulfed the Zone. Check your fire, and watch out for mutants.</text>
+    </string>
+
+    <string id="st_weather_foggy_from_partly">
+      <text>Humidity levels rising. We're moving from partly cloudy into foggy conditions. Take things slow, and don't get too trigger happy.</text>
+    </string>
+
+    <string id="st_weather_foggy_from_cloudy">
+      <text>Good news: You won't see a cloud in the sky. Bad news: It's because of the fog.</text>
+    </string>
+
+    <string id="st_weather_foggy_from_rain">
+      <text>Condensation has shifted from rainfall to fog. Keep that scarf or respirator on if you've got weak lungs.</text>
+    </string>
+
+    <string id="st_weather_foggy_from_storm">
+      <text>We've gone from thunderstorms into fog. Expect humidity levels to keep rising over the next few hours, but don't expect to get much Vitamin D today.</text>
+    </string>
+
+    <!--CLOUDY-->
+    <string id="st_weather_cloudy_from_clear">
+      <text>We've seen sharp rises in humidity. Expect cloudy weather to persist for the next few hours.</text>
+    </string>
+
+    <string id="st_weather_cloudy_from_partly">
+      <text>Looks like the clouds are getting thicker. If they don't clear in the next few hours, expect a chance of rain.</text>
+    </string>
+
+    <string id="st_weather_cloudy_from_foggy">
+      <text>The weather has shifted from foggy to cloudy conditions. Expect temperature levels to drop.</text>
+    </string>
+
+    <string id="st_weather_cloudy_from_rain">
+      <text>Precipitation has stopped. Expect ground temperatures and humidity levels to rise. There are still thick clouds overhead.</text>
+    </string>
+
+    <string id="st_weather_cloudy_from_storm">
+      <text>Expect cloud coverage to be thick but quiet for the next few hours. There's a 40% chance of the sky clearing later today.</text>
+    </string>
+
+    <!--RAIN-->
+    <string id="st_weather_rain_from_clear">
+      <text>Sudden rainfall has struck the Zone. There's a 20% chance that it'll get worse.</text>
+    </string>
+
+    <string id="st_weather_rain_from_partly">
+      <text>Cloud coverage has rapidly thickened, and we're seeing a sudden bout of rainfall. Hope your suit is waterproof.</text>
+    </string>
+
+    <string id="st_weather_rain_from_cloudy">
+      <text>Temperature levels are dropping. Expect moderate to heavy precipitation for the next few hours.</text>
+    </string>
+
+    <string id="st_weather_rain_from_foggy">
+      <text>Good news: The fog has cleared! Unfortunately, it's now raining.</text>
+    </string>
+
+    <string id="st_weather_rain_from_storm">
+      <text>If you step outside, you'll notice the weather is no longer cold, wet and stormy: now it's just cold and wet!</text>
+    </string>
+
+    <!--STORM-->
+    <string id="st_weather_storm_from_clear">
+      <text>If you were having a picnic by the roadside, I pity you. Today's sunny weather has been interrupted by a freak thunderstorm. Expect it to last.</text>
+    </string>
+
+    <string id="st_weather_storm_from_partly">
+      <text>Cloud coverage has rapidly thickened, and I'm already seeing flashes of lightning! Keep your gadgets safe.</text>
+    </string>
+
+    <string id="st_weather_storm_from_cloudy">
+      <text>Ground temperature levels are dropping rapidly. Expect heavy storms: keep your electronics safe.</text>
+    </string>
+
+    <string id="st_weather_storm_from_rain">
+      <text>After a nice refreshing rainfall, why not enjoy the coming thunderstorm? On the bright side, there's a 60% chance of it clearing in a few hours.</text>
+    </string>
+
+    <string id="st_weather_storm_from_foggy">
+      <text>The fog has just been blown away... by a thunderstorm. Ground temperature levels are falling rapidly.</text>
+    </string>
+
+    <!--NIGHT-->
+    <string id="st_weather_clear_from_partly_night">
+      <text>A miracle: almost no clouds in the sky! Enjoy some stargazing.</text>
+    </string>
+
+    <string id="st_weather_clear_from_foggy_night">
+      <text>The fog has disappeared to reveal a bright, starry night.</text>
+    </string>
+
+    <string id="st_weather_clear_from_storm_night">
+      <text>The storm is calming down, and I can already see the moon poking through!</text>
+    </string>
+
+    <string id="st_weather_storm_from_clear_night">
+      <text>If you were having a picnic by the roadside, I pity you. Tonight's romantic atmosphere has been interrupted by a freak thunderstorm. Expect it to last.</text>
+    </string>
+
+</string_table>

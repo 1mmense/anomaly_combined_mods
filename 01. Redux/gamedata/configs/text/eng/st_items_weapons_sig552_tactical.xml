@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	smileW
+-->
+
+<string_table>
+	
+    <string id="st_wpn_sig552_tactical">
+		<text>SIG 552 Tactical</text>
+	</string>
+	<string id="st_wpn_sig552_tactical_descr">
+		<text>The compact SG 552 Commando carbine was released in July 1998. It has a shorter 226 mm (8.9 in) barrel (with an open, 3-prong flash suppressor) and gas tube, ventilated handguards and a redesigned bolt carrier group that was integrated with the piston rod to form a single moving assembly. The SG 552 series rifles have a 360 mm (14.2 in) long sight radius. The return mechanism has been moved to the rear of the receiver housing and its recoil spring is guided in a way analogous to that of the AK-47: on a steel guide rod resting against the lower receiver's rear surface under tension of the compressed recoil spring.\n This customized version of a SIG 552 features a EOTech ATPIAL LA-5/PEQ High Power Advanced Target Pointer Illuminator Aiming Laser and a MAGPUL AFG-2- Angled Fore Grip. \n
+		\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] AC10632 \n
+		%c[d_purple] • %c[ui_gray_2] ACOG \n
+		%c[d_purple] • %c[ui_gray_2] C-More \n
+		%c[d_purple] • %c[ui_gray_2] Specter \n
+		%c[d_purple] • %c[ui_gray_2] Aimpoint Pro \n
+		%c[d_purple] • %c[ui_gray_2] DeltaPoint \n
+		%c[d_purple] • %c[ui_gray_2] RMR \n
+		%c[d_purple] • %c[ui_gray_2] CompM4s \n
+		%c[d_purple] • %c[ui_gray_2] NATO suppressor</text>
+	</string>
+	
+	
+</string_table>

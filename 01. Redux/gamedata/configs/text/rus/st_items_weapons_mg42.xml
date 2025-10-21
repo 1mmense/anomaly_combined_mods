@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+    <string id="st_wpn_mg42">
+		<text>MG42</text>
+	</string>
+	<string id="st_wpn_mg42_descr">
+		<text>MG 42 (нем. Maschinengewehr 42) — германский единый пулемёт периода Второй мировой войны. Разработан фирмой Metall-und Lackwarenfabrik Johannes Grossfuss в 1942 году. За высокую скорострельность среди советских фронтовиков и союзников получил прозвища «Косторез», «Циркулярная пила Гитлера», «Эмга», «Крестовик».\n</text>
+	</string>
+
+</string_table>

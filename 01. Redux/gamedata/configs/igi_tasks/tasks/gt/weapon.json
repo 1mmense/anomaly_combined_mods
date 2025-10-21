@@ -1,0 +1,23 @@
+{
+	"preconditions": {
+		"goodwill": 300
+	},
+	"disabled":false,
+	"setup": [
+	{
+		"only_enemies":true,
+		"target":"get",
+		"online_activities":
+			{"if_low_condition":
+				{"repair":true}
+			},
+		"find_in":["npc_inv","nearby"],
+		"item_list":"f_gt_weapon_&ScaleToPlayer(3)&",
+		"entity_type":"item",
+		"to_create": false
+	}
+	],
+	"rewards_completed": {
+		"money": 0
+	}
+}

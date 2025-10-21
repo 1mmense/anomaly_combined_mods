@@ -1,0 +1,43 @@
+[camelbak_sip]:booster ; small sippy
+$spawn 						                       = "food and drugs\vodka"
+cform						                       = skeleton
+visual						                       = dynamics\devices\dev_beer\dev_beer.ogf
+kind			                               = i_drink
+description					                       = st_beer_descr
+cost						                       = 0
+inv_name					                       = st_beer
+inv_name_short				                       = st_beer
+inv_weight					                       = 0
+inv_grid_width				                       = 1
+inv_grid_height				                       = 1
+inv_grid_x                                         = 0
+inv_grid_y                                         = 2
+attach_angle_offset			                       = 0.000000, 0.000000, 0.000000
+attach_position_offset		                       = 0.087266, -0.078540, 0.052360
+attach_bone_name			                       = bip01_r_hand
+auto_attach					                       = false
+bone_name					                       = bip01_r_hand
+position_offset			 	                       = 0.0,0.0,0.0
+angle_offset			 	                       = 1.570790,1.570790,3.92699
+break_particles				                       = destroy_fx\destroy_bottle
+break_sound					                       = material\bottle\collide\bottle_break_1
+boost_time              = 3
+boost_radiation_restore = 0.0005
+boost_power_restore     = 0.003
+eat_thirstiness         = -0.151
+eat_alcohol             = -0.005
+eat_satiety             = 0.004
+eat_sleepiness          = -0.003
+cap_drain               = 1
+use_sound					                       = $no_sound
+snd_on_take								 		   = $no_sound
+tier = 1
+
+[camelbak_chug]:camelbak_sip ; big drink worth 25 sips
+boost_time              = 33.8
+boost_power_restore     = 0.0035
+eat_thirstiness         = -3.78
+eat_alcohol             = -0.125
+eat_satiety             = 0.1005
+eat_thirstiness         = -3.78
+cap_drain               = 25

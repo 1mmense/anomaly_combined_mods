@@ -1,0 +1,22 @@
+{
+	"preconditions": [
+		"igi_actions.goodwill(1500)"
+	],
+	"disabled":false,
+	"entities": [
+	{
+		"target":"get",
+		"item_list":"f_gt_artifact_&ScaleToPlayer(3)&",
+		"search_in":{"world": true},
+		"search_distance": "0, 1",
+		"entity_type":"item",
+		"amount":1,
+		"to_create": false
+	}
+	],
+	"rewarder" : "igi_rewards.STATIC_REWARDER(0, 0)",
+	"icon": "ui_inGame2_Kontrakt_s_uchenimi",
+	"quest_givers": [
+		{"Medic": true}
+	]
+}

@@ -1,0 +1,22 @@
+local keybind_table = {
+	{45,"X"},
+	{46,"C"},
+	{47,"V"},
+	{48,"B"},
+	{44,"Z"},
+	{339,"Middle mouse button"},
+	{340,"Additional mouse button 1"},
+	{341,"Additional mouse button 2"},
+	{56,"Left Alt"},
+}
+
+function on_mcm_load()
+		op = { id= "quick_melee",sh=true ,gr={
+				{ id= "keybind"	,type= "list", val = 2, def = 56, content = keybind_table,no_str = true},
+				{id = "normal_dmg", type = "track" , val = 2, min = 0 , max = 2.0, def = 0.35, step = 0.01},
+				{id = "critical_dmg", type = "track" , val = 2, min = 0 , max = 4.0, def = 0.7, step = 0.01},
+				}
+			}
+		return op
+end
+

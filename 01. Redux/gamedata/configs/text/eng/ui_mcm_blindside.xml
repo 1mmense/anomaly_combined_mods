@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+	<string id="ui_mcm_menu_scop">
+		<text>Blindside Scop</text>
+	</string>
+	<string id="ui_mcm_scop_title">
+		<text>Blindside Scop</text>
+	</string>
+	<string id="ui_mcm_scop_iron_fov">
+		<text>Iron Fov</text>
+	</string>
+	<string id="ui_mcm_scop_scop_fov">
+		<text>Scop Fov</text>
+	</string>
+	<string id="ui_mcm_scop_bad_scop_fov">
+		<text>Bad Scop Fov</text>
+	</string>
+</string_table>

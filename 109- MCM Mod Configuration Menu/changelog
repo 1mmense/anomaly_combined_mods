@@ -1,0 +1,35 @@
+Change History:
+	1_1 added options table passed by referance
+	1_2 Fixed a crash that is actualy still part of ui_options
+	1_3 Added overide controls for option tree/branch text see the tutorial section "Parameters of option Tree" at the end of this sctipt
+	1_4 Integrated dph-hcl's script for save game specific MCM options. See "Tutorial: Using : dph-hcl's script for save game specific MCM options"
+	1_5 Pass value to functors
+	1.6.0 	Adopted https://semver.org/spec/v1.0.0.html versioning spec for reasons.
+			Far left list sorted alphabeticaly, except MCM will always be at the top to serve as a landing page.
+			Added logging utility see instruction in mcm_log.script
+			Now pass true to on_options_change callback to make it posible to identify when it is coming from mcm
+			MCM tracks a session ID that only increments when game exe is launched. ui_mcm.get_session_id()
+			Added assert to identify missing val fields as that tends to result in hard to diagnose errors.
+			Added assert to block calling get() while mcm is building the options tree.
+			Added keybind widget
+				includes a simple conflict list and all keybinds list under mcm's tree.
+			Added utility functions to support key binds.
+				Tracking of held status of shift controls and alt keys with single functon to read all three and a no modifier state
+				Functions to help identify single, double and long presses of a key.
+				Provided templated mcm option tables for selecting modifier keys and single/double and long presses that include translation strings.
+			Updated documentation at end of this sctipt for all keybind related features.
+	1.6.1 	Fixed xrdebug 1040 crash.
+	1.6.2 	Added a message for when io.open fails to create a file. 
+			Made ui_mcm.script not fail if mcm_log.script is missing.
+			Made debug logging default to false as orginaly intended.
+	1.6.3	Fixed interferance between doubletap and single press when bonund to same key.
+	1.6.4	Missed one place in above fix.
+	1.6.5	Added support for unbound MCM keybinds
+			pressing ESC while binding a key will unbind the key, clicking will still cancel the bind process
+			-1 is the value for unbound
+			unbound keys will not be reported as conflicting
+			added mouse4-8 as valid keybinds.
+			updated mcm_log to 1.0.2 fixing a crash on quit.
+			chnaged the doubletap window to be 200ms. down from 500. this will make mcm keybinds feel more responsive. made it adjustable by increments of 5
+			special handeling for key wrappers in the keybinds list
+			fixed a bug in dph-hcl's script for save game specific MCM options (HarukaSai)

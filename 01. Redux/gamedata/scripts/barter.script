@@ -1,0 +1,382 @@
+-- whenever talk to an NPC - create up to 3 barter items stored in global storage, when barter is made remove the item, wipe when entity is released
+-- create barter based on community 
+-- 1 is give (what npc gives), 2 is take (what npc takes)
+local barters = {}
+local barter_types = {"ammo","food","med","misc","loot"}
+local barter_table = ini_file("items\\settings\\barter.ltx")
+local DEBUG = false
+local defaults = {
+    ["food"] = "bread",
+    ["med"] = "bandage",
+    ["misc"] = "sharpening_stones",
+    ["loot"] = "jewelry_box",
+}
+local ammo_defaults = {
+    ["ammo_primary"] = {"ammo_5.45x39_fmj,2","ammo_5.56x45_fmj,2","ammo_12x70_buck,2"},
+    ["ammo_secondary"] = {"ammo_9x18_fmj,1","ammo_9x19_fmj,1","ammo_11.43x23_fmj,1"}
+}
+local loot_cache = {}
+
+--TODO evaluate based on rep
+local chance = DEBUG and 100 or 60
+function print_dbg(txt, ...)
+	if DEBUG then
+		printf("barter | %s | " .. txt, time_global(), ...)
+	end
+end
+
+local function bts(s)
+    local k = str_explode(s, ",")
+    print_dbg("bts: %s", k[2] .. " " .. ui_item.get_sec_name(k[1]))
+    return k[2] .. " " .. ui_item.get_sec_name(k[1])
+end
+
+local function build_barter_string(id)
+    local num = #barters[id]
+    local base = num > 0 and game.translate_string("st_stalker_barter_dialog_reply_base") or game.translate_string("st_stalker_barter_dialog_reply_nothing")
+
+    -- for i = 1, num do
+    for k,v in pairs(barters[id]) do        
+        print_dbg("Barter key: %s. Barter items: Give %s, Take %s", id, v[1], v[2])
+        base = base .. strformat(game.translate_string("st_stalker_barter_dialog_reply_addon"), bts(v[1]), bts(v[2]))
+    end
+    return base
+end
+
+-- create triple of ammo type and quantity
+local ammo_table = { 
+    "grenade_rgd5,1",
+    "grenade_f1,1",
+    "ammo_secondary,1",
+    "ammo_primary,2" }
+
+-- novices have only a single weapon, return first weapon found
+local function is_primary_weapon(weapon, ignore)
+    return ignore or not IsPistol(nil,weapon:clsid())
+end
+local function is_secondary_weapon(weapon, rank)
+    return ignore or IsPistol(nil,weapon:clsid())
+end
+
+local function is_appropriate_weapon(itm, npc_rank, is_eco, ammo_type)
+    local ignore = npc_rank == "novice" or is_eco
+    return (ammo_type == "ammo_primary" and is_primary_weapon(itm, ignore)) or (ammo_type == "ammo_secondary" and is_secondary_weapon(itm, ignore))
+end
+local function create_ammo_barter(npc, is_take)
+    local roll = math.random(5)
+    if roll == 5 then roll = 4 end
+    local npc_rank = ranks.get_obj_rank_name(npc)
+    print_dbg("Trade character rank: %s, community: %s", npc_rank, character_community(npc))
+    local is_ecologist = character_community(npc) == "ecolog"
+    local ammo_type, sec, amt = nil,nil,nil
+    if roll < 3 then 
+        tbl = str_explode(ammo_table[roll], ",")
+        sec = tbl[1]
+        amt = tbl[2]
+    else
+        tbl = str_explode(ammo_table[roll], ",")
+        ammo_type = tbl[1]
+        amt = tbl[2]
+        local function itr(npc, itm) 
+            if IsWeapon(nil, itm:clsid()) then print_dbg("Found weapon %s", itm:section()) end
+            if (not sec and IsWeapon(nil,itm:clsid()) and not IsMelee(nil, itm:clsid()) and is_appropriate_weapon(itm,npc_rank, is_ecologist, ammo_type)) then
+                ammo_class = parse_list(ini_sys,itm:section(),"ammo_class")
+                -- randomly spawn only 1 ammo type per found weapon
+                if (#ammo_class > 0) then
+                    sec = ammo_class[math.random(1,#ammo_class)]
+					---------------- Fix (Start) ---------------------------------------------------
+					if string.find(sec, "_bad") then sec = string.gsub(sec, "_bad", "") end
+                    if string.find(sec, "_verybad") then sec = string.gsub(sec, "_verybad", "") end
+					if string.find(sec, "_knife") then sec = nil end
+					---------------- Fix (End) -----------------------------------------------------
+                end
+            end
+        end
+    	npc:iterate_inventory(itr,npc) 
+    end
+    if not sec then
+        print_dbg("No weapons found. rolling default ammo type")
+        default_ammo = str_explode(ammo_defaults[ammo_type][math.random(3)], ",")
+        sec = default_ammo[1]
+        amt = default_ammo[2]
+    end
+    -- npc won't ask for bad ammo, automatically upgrade to good
+    if is_take then
+        if string.find(sec, "_bad") then sec = string.gsub(sec, "_bad", "") end
+        if string.find(sec, "_verybad") then sec = string.gsub(sec, "_verybad", "") end
+    end
+    return sec, amt
+end
+
+local function read_to_cache(section, force)
+    if loot_cache[section] and not force then return end
+    print_dbg("Reading section %s", section)
+    local n = barter_table:line_count(section)
+    loot_cache[section] = {}
+    local id, value = "", ""
+    for i=0,n-1 do
+        result, id, value = barter_table:r_line_ex(section,i,"","")
+        print_dbg("%s: Caching %s, %s", section, id, value)
+        loot_cache[section][i+1] = id..","..value
+    end
+end
+
+local function pick_from_section(npc, section, is_take)
+    if section == "ammo" then return create_ammo_barter(npc, is_take) 
+    else
+        if not loot_cache[section] then read_to_cache(section, true) end
+        local loot = str_explode(loot_cache[section][math.random(#loot_cache[section])], ",")
+        print_dbg("Returning %s with amount %s", loot[1], loot[2])
+        if not loot[2] then 
+            loot[2] = 1
+        end
+        return loot[1], loot[2]
+    end
+end
+
+-- Pick random section for give and take items, balanced by weight
+local function random_section(npc, give, take)
+    local give_sec, give_amt = pick_from_section(npc, give, false)
+    local take_sec, take_amt = pick_from_section(npc, take, true)
+
+    give_amt = type(give_amt) == "number" and give_amt or tonumber(give_amt) -- fucking implicit type conversion
+    take_amt = type(take_amt) == "number" and take_amt or tonumber(take_amt) 
+    if not give_sec then 
+        print_dbg("No give section found, defaulting")
+        give_sec = defaults[str_explode(give, "_")[1]]
+        give_amt = 1
+    end
+    if not take_sec then 
+        print_dbg("No take section found, defaulting")
+        take_sec = defaults[str_explode(take, "_")[1]]
+        take_amt = 1
+    end
+
+    -- 5% chance for the guy to rip you off and demand double give, needs to be done via rank
+    if math.random(20) == 1 then 
+        give_amt = give_amt * 2 
+        print_dbg("Scammed for %s, %s %s", give_sec, type(give_amt), type(take_amt))
+    end
+
+    -- balance out exchange ratio
+    if (give_amt > take_amt) then
+        take_amt = give_amt / take_amt
+        give_amt = 1
+    elseif (give_amt < take_amt) then
+        give_amt = take_amt / give_amt
+        take_amt = 1
+    else
+        give_amt = 1
+        take_amt = 1
+    end
+
+    if (string.find(give_sec, "_patch")) then
+        give_amt = give_amt * 4
+    end
+    return {give_sec..","..give_amt, take_sec..","..take_amt}
+end
+
+-- create dialog with up to 3 swaps, create 3 options to accept the swaps
+function start_barter(a, b)
+    local npc = dialogs.who_is_npc(a, b)
+    local id = npc:id()
+    if barters[id] == false then
+        return false
+    elseif barters[id] then
+        -- load barters
+        return build_barter_string(id)
+    else
+        barters[id] = {}
+        -- not talked to yet, create barters
+        for i = 1,math.random(5) do
+            -- roll random number from 10 to 49, first digit is take index, second is give index
+            -- stalkers can give you loot for supplies
+            local barternum = math.random(10,50)
+            local take_num = math.floor(barternum/10)
+            local take = barter_types[take_num]
+            local give_num = (barternum % 10) + 1
+            if give_num > 5 then give_num = give_num - 5 end
+            if give_num == take_num then
+                give_num = give_num + math.random(4)
+                if give_num > 5 then give_num = give_num - 5 end
+            end
+            local give = barter_types[give_num]
+            
+            local community = character_community(npc)
+            print_dbg("Iteration %s, give_num = %s, take_num = %s", i, give, take)
+            local give_section = give == "ammo" and give or barter_table:r_string_ex(community, give)
+            local take_section = take == "ammo" and take or barter_table:r_string_ex(community, take)
+            barters[id][i] = random_section(npc, give_section, take_section)
+            print_dbg("Created barter %s for NPC %s, give: %s, take: %s", i, id, barters[id][i][1],barters[id][i][2])
+        end
+        return build_barter_string(id)
+    end
+end
+local chance = DEBUG and 100 or 60
+
+-- true if stalker accepts barter, and mark
+function accept_barter(a, b)
+    local init_items = true
+    local npc = dialogs.who_is_npc(a, b)
+	if (barters[npc:id()] == nil) then
+		init_items = (math.random(100) <= chance) and true or false
+    end
+    if not init_items then barters[npc:id()] = false end
+    if barters[npc:id()] ~= false then print_dbg("NPC accepted barter") end
+    return (barters[npc:id()] ~= false) and true or false
+end
+
+function decline_barter(a, b)
+	local npc = dialogs.who_is_npc(a, b)
+    local id = npc:id()
+    if barters[npc:id()] == false then print_dbg("NPC declined barter") end
+    return (barters[npc:id()] == false) and true or false
+end
+
+local function accept(a,b,num)
+    local npc = dialogs.who_is_npc(a, b)
+    local id = npc:id()
+    print_dbg("Accept "..strformat(game.translate_string("st_stalker_barter_dialog_accept"), bts(barters[id][num][1]), bts(barters[id][num][2])))
+    return strformat(game.translate_string("st_stalker_barter_dialog_accept"), bts(barters[id][num][1]), bts(barters[id][num][2]))
+end
+
+function accept_1(a, b)
+    return accept(a, b,1)
+end
+function accept_2(a, b)
+    return accept(a, b,2)
+end
+function accept_3(a, b)
+    return accept(a, b,3)
+end
+function accept_4(a, b)
+    return accept(a, b,4)
+end
+function accept_5(a, b)
+    return accept(a, b,5)
+end
+
+-- modified from utils_item to count multiuse items with full use
+function get_amount(npc, section, is_cigarettes)
+    local amount = 0
+    local is_multi = IsItem("multiuse",section)
+    local max_uses = ini_sys:r_float_ex(section,"max_uses")
+    
+    local function itr(temp, obj)
+        if (is_cigarette and item_is_cigarette(obj:section())) or (obj:section() == section) then
+            if is_multi then
+                if obj:get_remaining_uses() == max_uses then amount = amount + 1 end
+            elseif obj:is_ammo() then
+                if obj:ammo_get_count() == obj:ammo_box_size() then amount = amount + 1 end
+            else
+                amount = amount + 1
+            end
+        end
+    end
+    npc:iterate_inventory(itr, nil)
+    return amount
+end
+
+------------------------ Fix (Start) ------------------------------------------------
+-- there are three types of soviet cigarettes with the same name, collapsing them into one to avoid confusion
+-- local function item_is_cigarette(item)
+    -- return item == "cigar1" or item == "cigar2" or item == "cigar3"
+-- end
+------------------------ Fix (End) --------------------------------------------------
+
+local function can_trade(a, b, num)
+    local npc = dialogs.who_is_npc(a, b)
+    local id = npc:id()
+    if not barters[id][num] then return false
+    else
+        local item = str_explode(barters[id][num][2], ",")
+        local actor_item = item[1] and db.actor:object(item[1])
+        print_dbg("Checking for item "..item[1])
+        -- check if player has those items in that quantity, assume full usage for multiuse items
+        if (actor_item ~= nil) then 
+			local cnt = get_amount(db.actor, item[1])
+            if (cnt >= tonumber(item[2])) then
+                return true
+            end
+        end
+        print_dbg("Player lacks trade items for trade %s", num)
+    end
+    return false
+end
+
+function can_trade_1(a, b)
+    return can_trade(a, b, 1)
+end
+function can_trade_2(a, b)
+    return can_trade(a, b, 2)
+end
+function can_trade_3(a, b)
+    return can_trade(a, b, 3)
+end
+function can_trade_4(a, b)
+    return can_trade(a, b, 4)
+end
+function can_trade_5(a, b)
+    return can_trade(a, b, 5)
+end
+
+local function trade(a, b, num)
+    local npc = dialogs.who_is_npc(a, b)
+    local id = npc:id()
+    local give =  str_explode(barters[id][num][1], ",")
+    local take =  str_explode(barters[id][num][2], ",")
+
+    if not can_trade(a, b, num) then 
+        print_dbg("Player can't make this trade")
+        return false 
+    end
+
+    print_dbg("Player is making trade")
+    -- remove take items
+    local max_uses = ini_sys:r_float_ex(take[1],"max_uses")
+    local is_multi = IsItem("multiuse",take[1])
+    local trade_npc = get_speaker()
+    local function itr(obj)
+        if (obj:section() == take[1]) then
+            if take[2] == 0 then return false end
+            if is_multi and obj:get_remaining_uses() < max_uses then return false end
+            if trade_npc then db.actor:transfer_item(obj, trade_npc)
+            else alife_release(obj) end
+            take[2] = take[2] - 1
+        end
+    end
+    db.actor:inventory_for_each(itr)
+	news_manager.relocate_item(actor, "out", take[1], tonumber(take[2]))
+
+    -- spawn give items
+    for i = 1, tonumber(give[2]) do
+        alife_create_item(give[1], db.actor)
+    end
+    news_manager.relocate_item(db.actor, "in", give[1], tonumber(give[2])) 
+
+    barters[id][num] = nil
+
+    if #barters[id] == 0 then barters[id] = false end
+end
+
+function trade_1(a, b)
+    return trade(a, b, 1)
+end
+function trade_2(a, b)
+    return trade(a, b, 2)
+end
+function trade_3(a, b)
+    return trade(a, b, 3)
+end
+function trade_4(a, b)
+    return trade(a, b, 4)
+end
+function trade_5(a, b)
+    return trade(a, b, 5)
+end
+
+local function npc_on_death_callback(npc,who)
+    if barters[npc:id()] then
+        barters[npc:id()] = nil
+    end
+end

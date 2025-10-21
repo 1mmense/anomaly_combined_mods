@@ -1,0 +1,1081 @@
+--Protected function call to prevent crashes to desktop
+--Prints error in console if occured, otherwise proceed normally
+--Use for test only, slower than usual
+local try = try or function(func, ...)
+	local status, error_or_result = pcall(func, ...)
+	if not status then
+		printf(error_or_result)
+		return false, status, error_or_result
+	else
+		return error_or_result, status
+	end
+end
+
+local dte = demonized_time_events
+
+local debug_enabled = false
+local function printf(str, ...)
+	if debug_enabled then
+		_G.printf(str, ...)
+	end
+end
+
+local cover_states = {
+	already_in_cover = -1,
+	searching_cover = 0,
+	reached_cover = 1,
+	settled_in_cover = 2
+}
+
+function get_cover_state(npc)
+	if not db.storage[npc:id()] then
+		db.storage[npc:id()] = {}
+	end
+
+	return db.storage[npc:id()].cover_state
+end
+
+function switch_cover_state(npc, state)
+	if not db.storage[npc:id()] then
+		db.storage[npc:id()] = {}
+	end
+
+	-- printf("switching state to %s - %s", state, invert_table(cover_states)[state])
+
+	db.storage[npc:id()].cover_state = state
+	if state == cover_states.searching_cover then
+		db.storage[npc:id()].surge_cover_random_lvid = nil
+	end
+end
+
+local squads = {}
+surge_covers = nil
+vanilla_covers = nil
+tb_ids = surge_manager_tb_covers.tb
+tb_covers = surge_manager_tb_covers.tb_covers
+tb_cover_radius_sqr = surge_manager_tb_covers.tb_cover_radius_sqr
+function build_surge_covers()
+	local surge_manager = surge_manager.get_surge_manager()
+	if not surge_manager then return true end
+
+	local curr_level = level.name()
+	local srs = {}
+	local vanilla = {}
+	for name,condlist in pairs(surge_manager.covers) do
+		local zone = db.zone_by_name[name]
+		if zone and is_on_actor_level(alife_object(zone:id())) then
+			printf("adding surge cover %s, %s", zone:name(), zone:id())
+			srs[#srs + 1] = zone:id()
+			vanilla[#srs + 1] = zone:id()
+		end
+	end
+
+	-- TB Zones
+	for i = 1, #tb_ids do
+		printf("adding tb surge cover %s", tb_ids[i])
+		srs[#srs + 1] = tb_ids[i]
+	end
+
+	surge_covers = kd_tree.buildTreeSeObjectIds(srs)
+	vanilla_covers = kd_tree.buildTreeSeObjectIds(vanilla)
+end
+
+surge_manager.CSurgeManager.find_cover_radius_sqr = function(self)
+	if not (self.covers) then 
+		return
+	end
+
+	self.covers_radii = {}
+
+	local sr
+	for name,condlist in pairs(self.covers) do 
+		sr = db.zone_by_name[name]
+		if sr then
+			local axis = {"x", "z"}
+			local max_radius = 0
+			for _, v in ipairs(axis) do
+				local radius = 0
+				local center_pos = sr:position()
+				while sr:inside(center_pos) do
+					radius = radius + 0.1
+					center_pos[v] = center_pos[v] + 0.1
+				end
+				if radius > max_radius then
+					max_radius = radius
+				end
+			end
+			self.covers_radii[name] = max_radius * max_radius
+		end
+	end
+	return self.covers_radii
+end
+
+function surge_started()
+	return 	surge_manager.is_loaded() and surge_manager.is_started()
+	or 		psi_storm_manager.is_loaded() and psi_storm_manager.is_started()
+end
+
+function is_surge_community(se_obj)
+	local community = alife_character_community(se_obj)
+	return community ~= "zombied" and community ~= "monolith"
+end
+
+function get_se_obj_level(se_obj)
+	return alife():level_name(game_graph():vertex(se_obj.m_game_vertex_id):level_id())
+end
+
+function is_on_actor_level(se_obj)
+	local level_name = level.name()
+	local se_obj_level = get_se_obj_level(se_obj)
+	return se_obj_level == level_name
+end
+
+function filter_squads_on_level()
+	local level_name = level.name()
+	for k, v in pairs(squads) do
+		if not squads.level_name then
+			squads[k] = nil
+		elseif squads.level_name ~= level_name then
+			squads[k] = nil
+		end
+	end
+end
+
+function get_se_obj_squad(se_obj)
+	return se_obj and se_obj.group_id ~= 65535 and alife_object(se_obj.group_id) or nil
+end
+
+function get_valid_squad(se_obj)
+	if not se_obj then
+		-- printf("no se_obj found")
+		return
+	end
+
+	if not IsStalker(nil, se_obj:clsid()) then
+		-- printf("se_obj is not stalker %s", se_obj:name())
+		return
+	end
+
+	if not is_surge_community(se_obj) then
+		printf("se_obj is not valid community %s", alife_character_community(se_obj))
+		return
+	end
+
+	if axr_companions.non_task_companions[se_obj.id] then
+		printf("se_obj is a companion %s", se_obj:name())
+		return
+	end
+
+	if surge_manager_ignore_npc and surge_manager_ignore_npc.ignore_npc and surge_manager_ignore_npc.ignore_npc[se_obj:section_name()] then
+		printf("se_obj is in ignore list %s", se_obj:name())
+		return
+	end
+
+	local squad = se_obj:clsid() == clsid.online_offline_group_s and se_obj or get_object_squad(se_obj)
+	if not squad then
+		printf("se_obj is not squad")
+		return
+	end
+
+	if not is_on_actor_level(squad) then
+		-- printf("se_obj is not on actor_level, s %s, a %s", get_se_obj_level(squad), level.name())
+		return
+	end
+
+	if squad:npc_count() == 0 then
+		printf("squad %s has no npcs", se_obj:name())
+		return
+	end
+
+	if axr_companions.companion_squads[squad.id] then
+		printf("squad %s is companion squad", se_obj:name())
+		return
+	end
+
+	for k in squad:squad_members() do
+		local npc = level.object_by_id(k.id)
+		if npc and xr_wounded.is_wounded(npc) then
+			printf("squad %s has wounded npc, ignoring", se_obj:name())
+			return
+		end
+
+		if npc and get_object_story_id(k.id) then
+			printf("squad %s has story object npcs, ignoring", se_obj:name())
+			return
+		end
+
+		local se_npc = alife_object(k.id)
+		if se_npc and surge_manager_ignore_npc and surge_manager_ignore_npc.ignore_npc and surge_manager_ignore_npc.ignore_npc[se_npc:section_name()] then
+			printf("squad %s has npcs in ignore list, ignoring", se_obj:name())
+			return
+		end
+
+		if axr_companions.non_task_companions[k.id] then
+			printf("squad %s has companion npcs, ignoring", se_obj:name())
+			return
+		end
+	end
+
+	printf("squad %s is valid", squad:name())
+	return squad
+end
+
+function add_surge_squad(id)
+	local se_obj = alife_object(id)
+	local squad = get_valid_squad(se_obj)
+	if squad then
+		if not squads[squad.id] then
+			squads[squad.id] = {
+				id = squad.id,
+				scripted_target = squad.scripted_target,
+				rush_to_target = squad.rush_to_target,
+				level_name = level.name(),
+				npcs = (function()
+					local ids = {}  
+					for k in squad:squad_members() do
+						ids[k.id] = {
+							id = k.id,
+							active_section  = db.storage[k.id] and db.storage[k.id].active_section,
+							active_scheme   = db.storage[k.id] and db.storage[k.id].active_scheme,
+							section_logic   = db.storage[k.id] and db.storage[k.id].section_logic,
+							ini_filename	= db.storage[k.id] and db.storage[k.id].ini_filename,
+						}
+						if db.storage[k.id] then
+							local o = alife_object(k.id)
+							if o then
+								db.storage[k.id].cover_state = surge_manager.get_surge_manager():pos_in_cover(o.position) and cover_states.already_in_cover or cover_states.searching_cover
+								if db.storage[k.id].cover_state == cover_states.searching_cover then
+									db.storage[k.id].surge_cover_random_lvid = nil
+								end
+							end
+						end
+					end
+					return ids
+				end)(),
+			}
+		end
+		if surge_started() then
+			delayed_rush_squad_to_cover(squad.id)
+			-- rush_squad_to_cover(squad.id)
+		end
+	end
+end
+
+function get_surge_squads()
+	if not surge_covers then
+		printf("no surge_covers found, aborting")
+		return
+	end
+
+	for i = 1, 65534 do
+		add_surge_squad(i)
+	end
+end
+
+function setup_surge_logic(npc, st, loaded)
+
+	local ltx_name = "scripts\\beh_surge.ltx"
+	local ltx = ini_file(ltx_name)
+	if not (ltx) then 
+		log("ERROR: do not have access to scripts\\beh_surge.ltx! Make sure you installed properly!")
+		return
+	end
+	
+	local id = npc:id()
+	local sim = alife()
+	local se_npc = sim:object(id)
+	local unreg_id = se_npc and se_npc.m_smart_terrain_id
+	if (unreg_id and unreg_id ~= 65535) then
+		local unreg = sim:object(unreg_id)
+		if (unreg) then
+			unreg:unregister_npc(se_npc)
+		end
+	end
+	
+	xr_logic.configure_schemes(npc, ltx, ltx_name, modules.stype_stalker, loaded and st.loaded_section_logic or "logic", "")
+	
+	local section = loaded and st.loaded_active_section or xr_logic.determine_section_to_activate(npc, ltx, "logic", db.actor)
+	xr_logic.activate_by_section(npc, ltx, section, "", loaded)
+	--printf("setup complete")
+end
+
+function switch_to_in_cover_section(npc)
+	if not npc:has_info("beh_surge_in_cover") then
+		printf("npc %s switched to in_cover section", npc:name())
+	end
+	local st = db.storage[npc:id()]
+	xr_logic.switch_to_section(npc, st.ini, "beh@in_cover")
+end
+
+function switch_to_base_section(npc, print)
+	if npc:has_info("beh_surge_in_cover") or print then
+		printf("npc %s switched to base section", npc:name())
+	end
+	local st = db.storage[npc:id()]
+	xr_logic.switch_to_section(npc, st.ini, "beh@base")
+end
+
+function set_squad_surge_logic(squad)
+	for k in squad:squad_members() do
+		local npc = level.object_by_id(k.id)
+		if npc then
+			local id = npc:id()
+			local sim = alife()
+			local se_npc = sim:object(id)
+			local unreg_id = se_npc and se_npc.m_smart_terrain_id
+			if (unreg_id and unreg_id ~= 65535) then
+				local unreg = sim:object(unreg_id)
+				if (unreg) then
+					unreg:unregister_npc(se_npc)
+				end
+			end
+
+			npc:inactualize_patrol_path()
+			xr_logic.set_new_scheme_and_logic(npc,"beh","beh@base","logic",nil,"scripts\\beh_surge.ltx")
+			setup_surge_logic(npc, db.storage[npc:id()], false)
+		end
+	end
+end
+
+function rush_squad_to_cover(id)
+	local squad = squads[id] and alife_object(id)
+	if not squad then
+		printf("cant rush_squad_to_cover, no squad by id %s", id)
+		return
+	end
+
+	if not vanilla_covers then build_surge_covers() end
+	local nearest_cover = vanilla_covers and vanilla_covers:nearestAll(squad.position)
+	if not nearest_cover then
+		printf("cant rush_squad_to_cover, no nearest covers found for %s", squad:name())
+		return
+	end
+
+	local cover_object = nil
+	for i, v in ipairs(nearest_cover) do
+		if cover_object then break end
+
+		local accessible = true
+		for k in squad:squad_members() do
+			local npc = level.object_by_id(k.id)
+			if npc then
+				if not is_accessible(npc, vector():set(v[1].x, v[1].y, v[1].z)) then
+					accessible = false
+					break
+				end
+			end
+		end
+		if accessible then
+			cover_object = alife_object(v[1].data)
+		end
+	end	
+	
+	if not cover_object then
+		printf("cant rush_squad_to_cover, no accessible cover_object found for %s", squad:name())
+		return
+	end
+
+	printf("rushing squad %s to cover %s", squad:name(), cover_object:name())
+	set_squad_surge_logic(squad)
+	squad.scripted_target = cover_object.id
+	squad.rush_to_target = true
+end
+
+local surge_started_time
+function delayed_rush_squad_to_cover(id)
+	local g_time = game.get_game_time()
+	local delay_time = 0
+	if surge_started_time then
+		local delay = 0
+
+		if psi_storm_manager.is_loaded() and psi_storm_manager.is_started() then
+			delay = 3
+		elseif surge_manager.is_loaded() and surge_manager.is_started() then
+			delay = 7
+		end
+
+		delay_time = g_time:diffSec(surge_started_time) / level.get_time_factor() > delay and 0 or delay
+	end
+	dte.CreateTimeEvent("surge_rush", string.format("surge_rush_rush_squad_%s_to_cover", id), delay_time, function()
+		rush_squad_to_cover(id)
+		return true
+	end)
+end
+
+function rush_all_squads_to_cover()
+	for k, v in pairs(squads) do
+		rush_squad_to_cover(k)
+	end
+end
+
+function reset_previous_logic(npc, v)
+	local id = npc:id()
+	local sim = alife()
+	local se_npc = sim:object(id)
+	local unreg_id = se_npc and se_npc.m_smart_terrain_id
+	if (unreg_id and unreg_id ~= 65535) then
+		local unreg = sim:object(unreg_id)
+		if (unreg) then
+			unreg:register_npc(se_npc)
+			-- SIMBOARD:setup_squad_and_group(se_npc)
+		end
+	end
+
+	local v1 = v.npcs[npc:id()]
+	if v1 and db.storage[npc:id()] then
+		db.storage[npc:id()].active_section = v1.active_section
+		db.storage[npc:id()].active_scheme = v1.active_scheme
+		db.storage[npc:id()].section_logic = v1.section_logic
+		db.storage[npc:id()].ini_filename = v1.ini_filename
+		db.storage[npc:id()].cover_state = nil
+		db.storage[npc:id()].surge_cover_random_lvid = nil
+		if v1.ini_filename then
+			-- logic_enforcer.assign(npc, v1.ini_filename, v1.section_logic)
+			-- xr_logic.set_new_scheme_and_logic(npc, nil, nil, v1.section_logic, nil, v1.ini_filename)
+			xr_logic.restore_scheme_and_logic(npc)
+		else
+			xr_logic.restore_scheme_and_logic(npc)
+		end
+	else
+		xr_logic.restore_scheme_and_logic(npc)
+	end
+
+	npc:disable_info_portion("beh_surge_in_cover")
+end
+
+function reset_squads_targets()
+	for k, v in pairs(squads) do
+		local squad = alife_object(k)
+		if squad then
+			squad.scripted_target = v.scripted_target
+			squad.rush_to_target = v.rush_to_target
+			utils_obj.execute_script_on_squad(squad, reset_previous_logic, v)
+			if squad.smart_id then
+				SIMBOARD:assign_squad_to_smart(squad, squad.smart_id)
+			end
+		end
+		squads[k] = nil
+	end
+	empty_table(squads)
+	empty_table(valid_cover_pos)
+	empty_table(covers_radii)
+	surge_started_time = nil
+end
+
+function remove_surge_squad(id)
+	squads[id] = nil
+end
+
+function server_entity_on_register(se_obj, type)
+	if surge_started() then
+		add_surge_squad(se_obj.id)
+	end
+end
+
+function npc_on_net_spawn(obj, se_obj)
+	if surge_started() then
+		add_surge_squad(se_obj.id)
+	end
+end
+
+function server_entity_on_unregister(se_obj, type)
+	remove_surge_squad(se_obj.id)
+end
+
+function save_state(m_data)
+	if surge_started() then
+		m_data.npc_die_in_emissions_squads = squads
+	end
+end
+
+function load_state(m_data)
+	squads = m_data.npc_die_in_emissions_squads or {}
+	filter_squads_on_level()
+end
+
+function on_before_level_changing()
+	reset_squads_targets()
+end
+
+function actor_on_interaction(type, obj, name)
+	if 	type == "anomalies" and name == "psi_storm_start"
+	or 	type == "anomalies" and name == "emission_start"
+	then
+		surge_started_time = game.get_game_time()
+		build_surge_covers()
+		get_surge_squads()
+		-- rush_all_squads_to_cover()
+	end
+
+	if 	type == "anomalies" and name == "psi_storm_end"
+	or 	type == "anomalies" and name == "emission_end"
+	then
+		reset_squads_targets()
+	end
+end
+
+-- Sanity check
+local tg = 0
+local tg_interval = 3000
+function actor_on_update()
+	local t = time_global()
+	if t < tg then return end
+	tg = t + tg_interval
+
+	if not surge_started() then
+		reset_squads_targets()
+	end
+end
+
+function on_game_start()
+	RegisterScriptCallback("actor_on_update", actor_on_update)
+	RegisterScriptCallback("actor_on_interaction", actor_on_interaction)
+	RegisterScriptCallback("server_entity_on_unregister", server_entity_on_unregister)
+	RegisterScriptCallback("server_entity_on_register", server_entity_on_register)
+	RegisterScriptCallback("npc_on_net_spawn", npc_on_net_spawn)
+	RegisterScriptCallback("on_before_level_changing", on_before_level_changing)
+	RegisterScriptCallback("load_state", load_state)
+	RegisterScriptCallback("save_state", save_state)
+end
+
+function find_nearest_cover()
+	build_surge_covers()
+	if surge_covers then
+		local nearest_cover = surge_covers and surge_covers:nearest(db.actor:position())
+		if nearest_cover and nearest_cover[1] and nearest_cover[1][1] and nearest_cover[1][1].data then
+			local cover_object = alife_object(nearest_cover[1][1].data)
+			if cover_object then
+				printf("nearest_cover %s", cover_object:name())
+			end
+		end
+	end
+end
+
+get_script_target = sim_squad_scripted.sim_squad_scripted.get_script_target
+function sim_squad_scripted.sim_squad_scripted:get_script_target()
+	local new_target 
+	if (self.scripted_target) then 
+		new_target = self.scripted_target
+	elseif (axr_task_manager.hostages_by_id[self:commander_id()]) then
+		return axr_task_manager.hostages_by_id[self:commander_id()]
+	elseif (self.random_targets) then
+		if (self.current_action == 0 and self.assigned_target_id == nil) then 
+			new_target = self.random_targets[math.random(#self.random_targets)]
+		else 
+			return self.assigned_target_id
+		end
+	elseif (self.action_condlist) then
+		new_target = xr_logic.pick_section_from_condlist(db.actor, self, self.action_condlist)
+	end 
+	
+	-- prevent companions from moving to actor if they cannot teleport and actor is not on same level
+	if (axr_companions.companion_squads[self.id]) then
+		local se_obj = alife_object(self:commander_id())
+		if (self.online ~= true) and (se_obj and se_load_var(se_obj.id,se_obj:name(),"companion_cannot_teleport")) then
+			return self.id
+		end
+		return 0
+	end
+		
+	if (new_target == "actor") then
+		return 0
+	end
+	
+	local smart = new_target and SIMBOARD.smarts_by_names[new_target]
+	if (smart) then
+		return smart.id
+	end
+	
+	local new_id = tonumber(new_target)
+	local se_target = new_id and alife_object(new_id)
+	if se_target then
+		return new_id
+	end
+end
+
+specific_update = sim_squad_scripted.sim_squad_scripted.specific_update
+function sim_squad_scripted.sim_squad_scripted:specific_update(script_target_id) -- This update is called for all squads with a scripted smart_terrain target
+	--utils_data.debug_write(strformat("%s:specific_update",self:name()))
+	local se_target = alife_object(script_target_id)
+	if not (se_target) then
+		return
+	end
+	
+	self.assigned_target_id = script_target_id
+	if (self.assigned_target_id == self.id) then 
+		return 
+	end 
+	
+	if (self.smart_id ~= self.assigned_target_id and se_target:clsid() == clsid.smart_terrain) then 
+		self:assign_smart(se_target,self.smart_id)
+	end
+	
+	if (self.current_action) then
+	
+		-- in such case assigned is changed (such as get_help_target_id) but current action is 1 (reached)
+		if (self.current_action == 1 and self.assigned_target_id ~= self.current_target_id) then 
+			self.current_action = 0
+		end
+		
+		-- If current action is not finished, then return
+		if (self.current_action == 0) then
+			-- if not (self.online) then
+				-- TeleportSquad(self,se_target.position,se_target.m_level_vertex_id,se_target.m_game_vertex_id)
+			-- end
+			if (se_target.am_i_reached and se_target:am_i_reached(self)) then
+				local _ = se_target.on_after_reach and se_target:on_after_reach(self)
+				self.current_target_id = self.assigned_target_id
+				self.current_action = 1
+				
+				self.stay_time = game.get_game_time()
+			end
+			return
+		elseif (self.current_action == 1 and self.current_target_id == self.assigned_target_id) then
+			if (self.stay_time == nil or game.get_game_time():diffSec(self.stay_time) < self.idle_time) then
+				return
+			end
+		end
+	end
+	
+	local _ = se_target.on_reach_target and se_target:on_reach_target(self)
+	
+	self.assigned_target_id = nil
+	self.current_target_id = nil
+	self.current_action = 0
+	
+	for k in self:squad_members() do
+		local se_obj = alife_object(k.id)
+		if (se_obj) then
+			SIMBOARD:setup_squad_and_group(se_obj)
+		end
+	end
+end
+
+evaluator_reached_task_location_evaluate = xr_reach_task.evaluator_reached_task_location.evaluate
+function xr_reach_task.evaluator_reached_task_location:evaluate()
+	if not (self.object:alive()) then
+		return false 
+	end 
+
+	local sim = alife()
+	local se_obj = sim:object(self.object:id())
+	if not (se_obj) then 
+		return false 
+	end 
+	
+	local squad = se_obj.group_id and se_obj.group_id ~= 65535 and sim:object(se_obj.group_id)
+	if (squad) then 
+		local target = squad.assigned_target_id and sim:object(squad.assigned_target_id)
+		if not (target) then
+			return true
+		end
+
+		if not target.am_i_reached then
+			return true
+		end
+
+		return not target:am_i_reached(squad)
+	end
+	local smart = se_obj.m_smart_terrain_id and se_obj.m_smart_terrain_id ~= 65535 and sim:object(se_obj.m_smart_terrain_id)
+	if not (smart and smart:clsid() == clsid.smart_terrain) then 
+		return false 
+	end
+
+	return not smart_terrain.arrived_to_smart(se_obj, smart)
+end
+
+commander_execute = xr_reach_task.action_reach_task_location.commander_execute
+function xr_reach_task.action_reach_task_location:commander_execute(squad)
+	local npc = self.object
+	
+	if (npc:is_talking()) then 
+		npc:set_movement_type(move.stand)
+		return
+	end 
+	
+	if not (squad.assigned_target_id) then 
+		return self:fake_target(squad) -- this is for squads who can't find open smart
+	end
+	
+	local squad_target = simulation_objects.get_server_entity(squad.assigned_target_id)
+	if squad_target == nil and squad:get_script_target() ~= nil then
+	 	squad_target = alife_object(squad.assigned_target_id)
+	end
+	
+	if (squad_target == nil) then 
+		npc:set_movement_type(move.stand)
+		return
+	end
+	
+	npc:set_sight(look.path_dir,nil,0)
+	
+	local pos, lv_id, gv_id
+	if squad_target.get_location then
+		pos, lv_id, gv_id = squad_target:get_location()
+	else 
+		pos = squad_target.position
+		lv_id = squad_target.m_level_vertex_id
+		gv_id = squad_target.m_game_vertex_id
+	end
+
+	if npc:game_vertex_id() ~= gv_id then
+		npc:set_path_type(game_object.game_path)
+		npc:set_dest_game_vertex_id(gv_id)
+	else
+		npc:set_path_type(game_object.level_path)
+		utils_obj.send_to_nearest_accessible_vertex(npc,lv_id,"xr_reach_task:2")
+		npc:set_desired_position(pos)
+	end
+	
+	if (character_community(npc) ~= "zombied") then
+		if (xr_conditions.surge_started()) then
+			if not(db.storage[npc:id()].surge_timer) then
+				db.storage[npc:id()].surge_timer = time_global() + math.random(3000,10000)
+			end
+			if (db.storage[npc:id()].surge_timer and time_global() > db.storage[npc:id()].surge_timer) then
+				npc:set_mental_state(anim.panic)
+			else
+				npc:set_mental_state(anim.danger)
+			end
+			npc:set_movement_type(move.run)
+			return
+		else
+			db.storage[npc:id()].surge_timer = nil
+		end
+
+		local rush_to_target
+		if (squad_target:clsid() == clsid.online_offline_group_s) then
+			rush_to_target = true
+		elseif (squad_target:clsid() == clsid.smart_terrain and SIMBOARD.smarts[squad_target.id] and SIMBOARD.smarts[squad_target.id].population > 0) then
+			if (squad.player_id == "dolg" and squad_target.props and squad_target.props.freedom > 0)
+			or (squad.player_id == "freedom" and squad_target.props and squad_target.props.dolg > 0) then
+				rush_to_target = true
+			end
+		end
+	end
+
+	if squad.rush_to_target ~= nil then
+		rush_to_target = squad.rush_to_target
+	end
+
+	if (rush_to_target) then
+		npc:set_movement_type(move.run)
+		if (squad_target.position:distance_to_sqr(npc:position()) <= 10000) then
+			npc:set_mental_state(anim.danger)
+		else
+			npc:set_mental_state(anim.free)
+		end
+	else
+		npc:set_movement_type(move.walk)
+		npc:set_mental_state(anim.free)
+	end
+end
+
+function set_squads_target(obj, id)
+	local target = id or (obj and (type(obj.id) == "function" and obj:id() or obj.id))
+	if not target then return end
+
+	target = alife_object(target)
+	if not target then return end
+
+	get_surge_squads()
+	for k, v in pairs(squads) do
+		local squad = alife_object(k)
+		if squad then
+			printf("assigning squad %s target %s", squad.id, target:name())
+			squad.scripted_target = target.id
+			squad.rush_to_target = true
+		end
+	end
+end
+
+covers_radii = {}
+npc_grace_time_death = 2500
+npc_grace_time = {}
+local last_update = {}
+
+function xr_conditions.in_surge_cover(actor, npc, p)
+	if not surge_started() then
+		return true
+	end
+
+	if not surge_covers then build_surge_covers() end
+
+	local surge_manager = surge_manager.get_surge_manager()
+	local pos = npc:position()
+	local nearest_cover = surge_covers:nearest(pos)
+	local nearest_cover_dist = nearest_cover and nearest_cover[1] and math.max(15, nearest_cover[1][2] - 25)
+
+	if not covers_radii[nearest_cover[1][1].data] then
+		covers_radii[nearest_cover[1][1].data] = {}
+	end
+
+	local in_cover = surge_manager:pos_in_cover(pos)
+
+	if in_cover and get_cover_state(npc) ~= cover_states.already_in_cover then
+		if not covers_radii[nearest_cover[1][1].data][npc:id()]
+		-- or nearest_cover_dist > covers_radii[nearest_cover[1][1].data][npc:id()]
+		then
+			printf("adding cover radii for npc %s, %s - %s", npc:name(), nearest_cover[1][1].data, nearest_cover_dist)
+			covers_radii[nearest_cover[1][1].data][npc:id()] = nearest_cover_dist
+		end
+	end
+
+	local radius = covers_radii[nearest_cover[1][1].data][npc:id()]
+	if radius then
+		in_cover = in_cover and (radius and nearest_cover[1][2] < radius)
+	end
+
+	if in_cover then
+
+		npc_grace_time[npc:id()] = time_global()
+
+		if db.storage[npc:id()] and get_cover_state(npc) == cover_states.already_in_cover then
+			npc:give_info_portion("beh_surge_in_cover")
+			return true
+		end
+
+		if get_cover_state(npc) ~= cover_states.reached_cover then
+			printf("npc %s reached cover", npc:name())
+		end
+
+		switch_cover_state(npc, cover_states.reached_cover)
+		switch_to_in_cover_section(npc)
+		npc:give_info_portion("beh_surge_in_cover")
+		return true
+	else
+		npc_grace_time[npc:id()] = npc_grace_time[npc:id()] or 0
+		if get_cover_state(npc) ~= cover_states.searching_cover then
+			printf("npc %s left cover", npc:name())
+		end
+
+		switch_to_base_section(npc)
+		switch_cover_state(npc, cover_states.searching_cover)
+		npc:disable_info_portion("beh_surge_in_cover")
+		return false
+	end
+end
+
+function is_accessible(npc,point)
+	if (type(point) == "number") then
+		return point < 4294967295 and npc:accessible(point)
+	end
+
+	local lvid = level.vertex_id(point)
+	return lvid < 4294967295 and npc:accessible(point)
+end
+
+function is_valid_vertex(vid)
+	return vid and vid < 4294967295
+end
+
+valid_cover_pos = {}
+function set_valid_cover_pos(id, npc)
+	local se_obj = alife_object(id)
+	if not se_obj then return end
+
+	local surge_manager = surge_manager.get_surge_manager()
+
+	local pos = se_obj.position
+	local lvid = level.vertex_id(pos)
+	pos = level.vertex_position(lvid)
+	local gvid = se_obj.m_game_vertex_id
+	local init_pos = vector():set(pos)
+
+	-- If position is not valid and out of cover, try to pick it several times
+	-- Postpone on next update if failed
+	for i = 1, 100 do
+		if is_valid_vertex(lvid) and is_accessible(npc, lvid) and surge_manager:pos_in_cover(pos) then
+			valid_cover_pos[id] = {
+				level_vertex_id = lvid,
+				game_vertex_id = gvid,
+				position = pos,
+			}
+			printf("npc %s adding valid lvid %s, pos %s %s %s", npc:name(), lvid, pos.x, pos.y, pos.z)
+			return true
+		else
+			pos = vector():set(init_pos.x + random_float(-16, 16), init_pos.y, init_pos.z + random_float(-16, 16))
+			lvid = level.vertex_id(pos)
+			pos = level.vertex_position(lvid)
+		end
+	end
+end
+
+set_desired_target = axr_beh.action_beh.set_desired_target
+function axr_beh.action_beh:set_desired_target()
+	local res = set_desired_target(self)
+	if res then return res end
+
+	local surge_manager = surge_manager.get_surge_manager()
+
+	if not db.storage[self.object:id()] then db.storage[self.object:id()] = {} end
+
+	local function set_position_data(id, t)
+		local sobj = alife_object(id)
+		if sobj then
+			utils_obj.switch_online(id)
+		end
+		
+		local obj = level.object_by_id(id)
+		if (obj) then
+			self.saved_nearest_cover = id
+			if is_not_empty(valid_cover_pos[id]) then
+				local pos = valid_cover_pos[id]
+				t.level_vertex_id = pos.level_vertex_id
+				t.game_vertex_id = pos.game_vertex_id
+				t.position = pos.position
+				t.direction = self.object:position():sub(t.position):normalize()
+				t.object = obj
+				return
+			end
+
+			local lvid = level.vertex_id(obj:position())
+			local pos = level.vertex_position(lvid)
+			t.level_vertex_id = lvid
+			t.game_vertex_id = obj:game_vertex_id()
+			t.position = vector():set(pos)
+			t.direction = self.object:position():sub(t.position):normalize()
+			t.object = obj
+
+			if set_valid_cover_pos(id, self.object) then
+				t.level_vertex_id = valid_cover_pos[id].level_vertex_id
+				t.position = valid_cover_pos[id].position
+				t.direction = self.object:position():sub(t.position):normalize()
+			end
+		end
+	end
+
+	local target = xr_logic.pick_section_from_condlist(db.actor, self.object, self.st.goto_target)
+	if target == "surge_cover" and surge_started() then
+		if not surge_covers then build_surge_covers() end
+		local nearest_cover = surge_covers:nearestAll(self.object:position())
+		local t = self.st.desired_target and empty_table(self.st.desired_target) or {}
+		if self.saved_nearest_cover then
+			local id = self.saved_nearest_cover
+			local obj = level.object_by_id(id)
+			if is_not_empty(valid_cover_pos[id]) then
+				local pos = valid_cover_pos[id]
+				t.level_vertex_id = pos.level_vertex_id
+				t.game_vertex_id = pos.game_vertex_id
+				t.position = pos.position
+				t.direction = self.object:position():sub(t.position):normalize()
+				t.object = obj
+				self.st.desired_target = t
+				return true
+			end
+		end
+		if nearest_cover then
+			for i, v in ipairs(nearest_cover) do
+				set_position_data(v[1].data, t)
+				if is_not_empty(t) and is_accessible(self.object, t.level_vertex_id) then
+					-- printf("picked surge cover %s for npc %s", t.object:name(), self.object:name())
+					self.st.desired_target = t
+					return true
+				end
+			end
+		end
+	end
+
+	if target == "surge_cover_random_lvid" and surge_started() then
+	 	if not db.storage[self.object:id()].surge_cover_random_lvid then
+	 		local t = self.st.desired_target and empty_table(self.st.desired_target) or {}
+	 		if not surge_covers then build_surge_covers() end
+			local nearest_cover = self.saved_nearest_cover or (function()
+				local t = surge_covers:nearest(self.object:position())
+				if t and t[1] and t[1][1] then
+					return t[1][1].data
+				end
+			end)()
+			if nearest_cover then
+				local obj = level.object_by_id(nearest_cover)
+				if obj then
+					local obj_pos = obj:position()
+					local pos
+					local lvid
+
+					for i = 1, 100 do
+						local try_pos = vector():set(obj_pos.x + random_float(-16, 16), obj_pos.y, obj_pos.z + random_float(-16, 16)) 
+						local try_lvid = level.vertex_id(try_pos)
+						if is_valid_vertex(try_lvid) and is_accessible(self.object, try_lvid) then
+							try_pos = level.vertex_position(try_lvid)
+							if surge_manager:pos_in_cover(try_pos) then
+								printf("npc %s is in cover, picked random lvid %s", self.object:name(), try_lvid)
+								pos = try_pos
+								lvid = try_lvid
+								break
+							end
+						end
+					end
+
+
+					if not (pos and lvid) then
+						printf("npc %s is in cover, failed to pick lvid", self.object:name())
+						-- Crash there
+						if not valid_cover_pos[obj:id()] then
+							set_valid_cover_pos(obj:id(), self.object)
+						end
+
+						if valid_cover_pos[obj:id()] then
+							lvid = valid_cover_pos[obj:id()].level_vertex_id
+							pos = valid_cover_pos[obj:id()].position
+						else
+							lvid = obj:level_vertex_id()
+							pos = level.vertex_position(lvid)
+						end
+					end
+
+					if not db.storage[self.object:id()] then
+						db.storage[self.object:id()] = {}
+					end
+
+					db.storage[self.object:id()].surge_cover_random_lvid = lvid
+					t.level_vertex_id = lvid
+					t.game_vertex_id = obj:game_vertex_id()
+					t.position = pos
+					t.direction = self.object:position():sub(t.position):normalize()
+					t.object = obj
+					-- self.st.desired_target = t
+					self.object:set_dest_level_vertex_id(lvid)
+					-- return true
+				else
+					printf("cant get obj for nearest_cover %s for %s", nearest_cover, self.object:name())
+				end
+			else
+				printf("cant find nearest_cover for %s", self.object:name())
+			end
+		else
+			-- printf("npc %s already picked random lvid %s", self.object:name(), db.storage[self.object:id()].surge_cover_random_lvid)
+		end
+	end
+end
+
+function xr_conditions.random_lvid_reached(actor, npc, p)
+	local st = db.storage[npc:id()]
+	if not st then
+		-- printf("no storage found for %s", npc:name())
+		return false 
+	end
+	if not st.surge_cover_random_lvid then
+		-- printf("no surge_cover_random_lvid for %s", npc:name())
+		return false
+	end
+
+	-- printf("checking random lvid %s, %s", st.surge_cover_random_lvid, npc:name())
+
+	if level.vertex_position(st.surge_cover_random_lvid):distance_to_sqr(npc:position()) <= 3 then
+		printf("npc %s reached random surge lvid %s", npc:name(), st.surge_cover_random_lvid)
+		npc:set_dest_level_vertex_id(npc:level_vertex_id())
+		switch_cover_state(npc, cover_states.already_in_cover)
+		switch_to_base_section(npc)
+		return true
+	end
+	return false
+end
+
+function xr_conditions.is_story_npc_and_enemy(actor, npc, p)
+	return get_object_story_id(npc:id()) and xr_conditions.actor_true_enemy(actor, npc)
+end
+
+function xr_conditions.is_story_npc(actor, npc, p)
+	return get_object_story_id(npc:id())
+end

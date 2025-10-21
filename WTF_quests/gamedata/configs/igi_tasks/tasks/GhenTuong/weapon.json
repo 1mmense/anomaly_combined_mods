@@ -1,0 +1,27 @@
+{
+	"WTF_VERSION": "4.2",
+	"CREDITS": "GhenTuong - idea and initial implementation\\nIgigog - support",
+	"preconditions": [
+		"$ db.actor:community_goodwill(igi_helper.get_community_by_id(|CACHE.task_giver_id|)) >= 300"
+	],
+	"entities": [
+	{
+		"ids": "$ igi_finder.find_items_in_enemy(1, 2, igi_helper.db_ini:collect_section('f_gt_weapon_' .. tostring(wtf_gt_tasks.scale_to_player())))",
+		"condition_after": "$ igi_random.rand(70, 90) / 100",
+		"id": "$ wtf.shuffle(|this.ids|)[1] or false",
+		"CONTROLLER": "@$ igi_target_get.Get",
+		"actions": [
+			{
+				"when": "@$  igi_actions.is_low_condition(|this.id|, 45)",
+				"run": "@$  get_object_by_id(|this.id|):set_condition(|this.condition_after|) or 1"
+			}
+		],
+		"to_description": true
+	}
+	],
+	"complexity": 0,
+	"icon": "ui_inGame2_Neizvestnoe_oruzhie",
+	"quest_givers": [
+		{"Mechanic": true}
+	]
+}
