@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Weapons
+-->
+
+<string_table>
+
+	<string id="st_wpn_usp_compact">
+		<text>USP45 Compact</text>
+	</string>
+	<string id="st_wpn_usp_compact_descr">
+		<text>The ultimate classic favourite of every veteran in The Zone be him of any faction. Using a caliber fit for short-range combat, easy to conceal, very reliable and barely any weight for 8 rounds, one can easily use this instead of the average USP.  \n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] .45 ACP suppressor (after modification)</text>
+	</string>
+
+	<string id="st_wpn_usp_tactical">
+		<text>USP45 Tactical</text>
+	</string>
+	<string id="st_wpn_usp_tactical_descr">
+		<text>Considered to be an improvement of the MK23 and USP, it's actually more an improvement of the USP itself in a more compact format. It incorporates an extended, threaded barrel with O-ring, which increases accuracy and reduces recoil as well as allows the integration of a suppressor by default, adjustable micrometer rear sight, with tritium sights for rear &amp; front. All these enhancements, it's clear that this is not a "fresh out of the manufacture" USP Tactical, since the plastic is rather worn &amp; cast while the trigger is tampered with. This could be modifications made in the black market, either way, still a worthy, reliable .45 ACP (or 9mm if you change the caliber) pistol. \n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] .45 ACP suppressor</text>
+	</string>
+
+	<string id="st_wpn_mk23">
+		<text>HK MK 23</text>
+	</string>
+	<string id="st_wpn_mk23_descr">
+		<text>Developed during the 90s to replace the 1911A1 in service with Special Operations Forces. The Mk.23 SOCOM handgun was the winner of the Offensive Handgun Weapon System trials, beating out Colt's aptly dubbed "OHWS" pistol. With their own budget, USSOCOM was able to finance their own programs for adopting of weapons and tailored the requirements to meet their expectations. The design hinged on being able to use a suppressor reliably for extended operations in the field and to use the .45 ACP caliber. As such, it has been nicknamed the "crew-served pistol" by SOCOM operators due to its size. With the trials proving beyond a shadow of a doubt that it was more than good enough for Special Operations Forces, this pistol can be relied on for extended use in the Zone no matter what it might throw at you.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] .45 ACP suppressor</text>
+	</string>
+	
+</string_table>

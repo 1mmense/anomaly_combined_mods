@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Weapons
+-->
+
+<string_table>
+
+	<string id="st_wpn_ppk">
+		<text>Walther PPK</text>
+	</string>
+
+	<string id="st_wpn_ppk_descr">
+		<text>Walther PPK (Polizeipistole Kurz) is a semi-automatic pistol developed by the German arms manufacturer, Carl Walther GmbH Sportwaffen, in 1935 and still today. It is considered to be a classic pistol from the West, used extensively worldwide. It's no surprise it got to The Zone itself, by either enthusiasts, the Black Market or even ex-policemen. Very popular among rookies, especially those that go around arrogantly saying they are "Sharpshooters". Of important note, it has been modified to shoot 9x18 Makarov instead of the default and rare .32 ACP.</text>
+	</string>
+
+</string_table>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Weapons
+-->
+
+<string_table>
+
+	<string id="st_wpn_glock17">
+		<text>Glock 17</text>
+	</string>
+	<string id="st_wpn_glock17_short">
+		<text>Glock 17</text>
+	</string>
+	<string id="st_wpn_glock17_descr">
+		<text>A classic of a polymer-framed, short recoil-operated pistol, the Glock 17, Gen 4 variant if the slide engraving wasn't obvious, designed and produced by Austrian manufacturer Glock Ges.m.b.H. This firearm entered Austrian military and police service by 1982 after it was the top performer in reliability and safety tests. Ever since then, it has been exported to many other countries, including Ukraine itself for the Special Forces. Due to its low weight, very good recoil and 9mm caliber, this is a very popular pistol among every faction and rightly so.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] GemTech suppressor (after modification)</text>
+	</string>
+
+	<string id="st_up_glock17_45acp_name">
+		<text>Change of calibre to .45 ACP</text>
+	</string>
+
+	<string id="st_wpn_hs2000">
+		<text>HS2000</text>
+	</string>
+	<string id="st_wpn_hs2000_short">
+		<text>HS2000</text>
+	</string>
+	<string id="st_wpn_hs2000_descr">
+		<text>The HS2000 is a Croatian-made pistol, manufactured by HS Produkt. It has a polymer frame and fires based on a Striker, which is similar to the Glock pistols. Although despite being a HS2000, this is actually a HS-9 4.0 G2, which is a civilian version of the HS2000 itself out for the market. This is due to Black Market manufacturing, the internals are clearly HS2000 while the rest is simply marked as HS-9, it also comes with an ambidextrous setup. This pistol was being manufactured in 1995, until it got released in 1999. After 2001, the Police and Army of Croatia deecided to adopt it, becoming their national gun. In USA, it is known as the "Springfield XD".  \n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] GemTech suppressor</text>
+	</string>
+
+</string_table>

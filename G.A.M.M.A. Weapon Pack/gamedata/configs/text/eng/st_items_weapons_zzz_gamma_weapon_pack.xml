@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Weapons
+-->
+
+<string_table>
+
+	<string id="st_wpn_sr25">
+		<text>SR-25</text>
+	</string>
+
+	<string id="st_wpn_sr25_descr">
+		<text>The SR-25 is an AR-15 rifle scaled up to shoot 7.62x51mm NATO. This rifle also found a favor in US Military. All rifles built on the SR-25 platform share the same basic action. Because of the AR-15 style recoil buffer tube it cannot be fitted with a folding stock. Instead it is fitted with telescoping stock.\n \n</text>
+	</string>
+	
+	<string id="st_wpn_bm16_full_alt_23">
+		<text>TOZ-66 "Chimera Hunter"</text>
+	</string>
+
+	<string id="st_wpn_bm16_full_alt_23_descr">
+		<text>A powerful weapon that was heavily modified to support 23x75 ammo. The TOZ 66 is a close range firearm possessing both reliability and effectiveness. This peculiar TOZ-66 was modified according to the Zone's needs by supporting larger, more efficient rounds that the classic 12ga. This earned quite a reputation among stalkers as an efficient gun to hunt large mutants like Chimeras.\n \n</text>
+	</string>
+	
+	<string id="st_wpn_toz34_mark4_23">
+		<text>TOZ-34 "Chimera Sniper"</text>
+	</string>
+
+	<string id="st_wpn_toz34_mark4_23_descr">
+		<text>A powerful weapon that was heavily modified to support 23x75 ammo. The TOZ 34 is a long range firearm possessing both reliability and effectiveness. This peculiar TOZ-34 was modified according to the Zone's needs by supporting a larger, more efficient rounds that the classic 12ga and given a scope, and tighter choke to enable safe distance elimination of large mutants. This earned quite a reputation among stalkers as an efficient gun to hunt large mutants like Chimeras.\n \n</text>
+	</string>
+	
+
+</string_table>
+
+

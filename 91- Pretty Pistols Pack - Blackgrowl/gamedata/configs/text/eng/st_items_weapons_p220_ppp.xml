@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Weapons
+-->
+
+<string_table>
+
+	<string id="st_wpn_sig229">
+		<text>SIG P229 LEGION</text>
+	</string>
+	<string id="st_wpn_sig229_descr">
+		<text>The P229 is a compact-sized, 9mm caliber chambered, upgraded P228, meant for police duty and conceal carry. Since this is the "LEGION" variant, it's safe to assume that this is a marvel among the Western factions like the Mercenaries. Despite being chambered in the weaker 9mm instead of the stronger .45 ACP, it's still a relatively good small pistol for those that prefer a SIG-Sauer that shoots 9mm instead of .45 ACP\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 9x19 compatible suppressor</text>
+	</string>
+
+	<string id="st_wpn_sig320">
+		<text>SIG Sauer P320 RXP</text>
+	</string>
+	<string id="st_wpn_sig320_descr">
+		<text>This is an amazing pistol that Nimble found, a very recent addition to the SIG-Sauer pistols, so consider yourself extra-lucky. Chambered in 9mm, one can easily re-chamber it to .45 ACP, just find yourself a technician. It uses a "Strike-Action" mechanism, which should heavily reduce recoil even with .45 ACP. It has unmatched reliability, very good accuracy and perfect recoil. The best pistol you can get, especially .45 ACP if rechambered for such. \n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 9x19 compatible suppressor</text>
+	</string>
+	<string id="st_up_p320_c7_name">
+		<text>Change of calibre to .45 ACP</text>
+	</string>
+	<string id="st_up_p320_c7_descr">
+		<text>A complex, possibly illegal and homemade change of the barrel and firing mechanism to make it feed .45 ACP</text>
+	</string>
+
+</string_table>

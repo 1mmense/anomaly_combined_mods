@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+	<string id="st_wpn_g36new">
+		<text>G36</text>
+	</string>
+	<string id="st_wpn_g36new_descr">
+		<text>The H&amp;K G-36 was known as the HK-50 project in early 1990s. After the cancellation of the G11 and G41 projects, the Bundeswehr was left with outdated G3 rifles; Heckler &amp; Koch was set to develop a new assault rifle for both the German army and for export. The new 5.56x45mm assault rifle was adopted by the Bundeswehr in 1995 and also found its way into the hands of various law enforcement agencies worldwide, including British police and some US police departments. So far, there have been very few complaints about this rifle. The more common ones being the overheating of the handguards during sustained fire, and the loss of zero on the built in scope of G36KE rifles. Some German soldiers also complained about the position of the dual optical sights and it being easily fogged in bad weather. Otherwise, it is accurate, reliable and simple in maintenance.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 5.56x45 compatible suppressor\n \n</text>
+	</string>
+	<string id="st_wpn_g36new_k">
+		<text>G36K</text>
+	</string>
+	<string id="st_wpn_g36new_k_descr">
+		<text>The Carbine (K stands for "kurz", short) version of the G36. Having a shorter barrel than the original, it gives better handling and lower weight while having a slightly worse recoil and accuracy, but still not detrimental. It also has no integrated scope, instead, it comes with ironsights packed with picatinny rails fit for many NATO scopes. This variant is the most popular amongst every user, be it Military or Law Enforcement, considered a massive improvement over the G36. \n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 5.56x45 compatible suppressor\n
+		%c[d_purple] • %c[ui_gray_2] ACOG, Barska ES AC10632, C-MORE, EOTech scopes\n \n</text>
+	</string>
+	<string id="st_wpn_g36new_c">
+		<text>G36C</text>
+	</string>
+	<string id="st_wpn_g36new_c_descr">
+		<text>Compact version of the G36. Having a much shorter barrel than the original, it gives better handling and much lower weight while having worse recoil and accuracy. Best used for close encounters, though not a bad gun for long-range combat still. The G36C was made to further compact the already compact G36K itself, it is a true favourite amongst SWAT operatives and has shown to be very useful in Urban Combat. It comes with a peculiar ironsight, from the Lithuanian version of the G36, indicating that this is a missmash of the original G36C and the Lithuanian version, such is scavenging in The Zone. \n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 5.56x45 compatible suppressor\n
+		%c[d_purple] • %c[ui_gray_2] ACOG, Barska ES AC10632, C-MORE, EOTech scopes\n \n</text>
+	</string>
+	<string id="st_wpn_g36new_nimble">
+		<text>G36L "F34R"</text>
+	</string>
+	<string id="st_wpn_g36new_nimble_descr">
+		<text>One strange variant of the G36. It appears that an ex-military of the Lithuanian Armed Forces used it, making some personal changes on the go. The gun is similar to the G36K, but much more lightweight, yet despite so has no reduction in accuracy and the recoil is just as bearable. The bolt was personally modified to fire even faster than average. The Handguard is a Lithuanian version of the G36K, which is lighter and has picatinny rails, this allows attaching the M203 Grenade Launcher on it. It also has KAC ironsights with integrated Tritium sights, the front being much higher in contrast than the rear for better view. The KAC itself includes picatinny rails for scope attachment. A marvel if a bit peculiar of a G36 gun variant. \n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 5.56x45 compatible suppressor\n
+		%c[d_purple] • %c[ui_gray_2] ACOG, Barska ES AC10632, C-MORE, EOTech scopes\n
+		%c[d_purple] • %c[ui_gray_2] M203 grenade launcher\n \n</text>
+	</string>
+</string_table>

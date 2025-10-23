@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Weapons
+-->
+
+<string_table>
+
+	<string id="st_wpn_beretta92fs">
+		<text>Beretta 92FS</text>
+	</string>
+
+	<string id="st_wpn_beretta92fs_descr">
+		<text>The 92FS is the latest evolution of the Beretta 92, an Italian semi-automatic 9x19 pistol made by Fabbrica d'Armi Pietro Beretta in 1975. One of its most important designs is the fact there's no feed ramp, it has massive iron sights for its time and it uses double-stacked magazines, which in its case it's 15 rounds each magazine. Used by many countries, be it for Military, Police or even Civilian use, this will be one of the most reliable, high-capacity 9x19 pistols you will ever see and use in The Zone.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 9x19 compatible suppressor (after modification)</text>
+	</string>
+
+	<string id="st_wpn_beretta92fs_inox">
+		<text>Beretta 92FS INOX</text>
+	</string>
+
+	<string id="st_wpn_beretta92fs_inox_descr">
+		<text>The 92FS is the latest evolution of the Beretta 92, an Italian semi-automatic 9x19 pistol made by Fabbrica d'Armi Pietro Beretta in 1975. One of its most important designs is the fact there's no feed ramp, it has massive iron sights for its time and it uses double-stacked magazines, which in its case it's 15 rounds each magazine. Used by many countries, be it for Military, Police or even Civilian use, this will be one of the most reliable, high-capacity 9x19 pistols you will ever see and use in The Zone. The Inox variant features a stainless steel construction instead of a blued carbon steel construction, it also has painted red dots on the ironsights.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 9x19 compatible suppressor (after modification)</text>
+	</string>
+
+	<string id="st_wpn_beretta_m9">
+		<text>Beretta M9</text>
+	</string>
+	<string id="st_wpn_beretta_m9_descr">
+		<text>This is the US Armed Forces version of the Italian Beretta 92FS, made by manufacture demands from said faction. Since this is the pre-M9A1 version, the changes are few, but visibly the magazine is beveled, has a straight squared trigger guard, much bigger sights with tritium coating as well as a squared dust cover that's on the bottom-front of the frame. Since it is famous around Mercenaries, Freedom and some strange mentioned recent faction, it's safe to say that the way this "semi-prototype" got in The Zone is through Western armies' deserters and ex-PMCs.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 9x19 compatible suppressor</text>
+	</string>
+
+	<string id="st_wpn_beretta_px4">
+		<text>Beretta Px4 Storm</text>
+	</string>
+	<string id="st_wpn_beretta_px4_descr">
+		<text>The Px4 Storm is an advancement of the Beretta 8000, meant to be as a replacer of the 92FS for personal defense and law enforcement use. Its rotating barrel allows for better recoil control and continuous shots, the lightframe also helps with the weight. This particular model seems to come with tritium sights as well. From the looks of it, these weapons were "illegally" exported from Armenia and Romania, by mercenaries that used to be part of the police force from said countries.\n \n
+		%c[ui_gray_2]ATTACHMENTS: \n
+		%c[d_purple] • %c[ui_gray_2] 9x19 compatible suppressor</text>
+	</string>
+	
+	<string id="st_up_px4_a1_name">
+		<text>Change of calibre to .45 ACP</text>
+	</string>
+	<string id="st_up_px4_a1_descr">
+		<text>A complex, integrated alteration of the weapon's mechanical and automated parts, which allows its calibre to be changed at the cost of reliability.</text>
+	</string>
+
+</string_table>

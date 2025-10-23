@@ -1,0 +1,162 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
+  <moduleName position="Left" colour="000000">Modular Miscellaneous Tweaks</moduleName>
+  <installSteps order="Explicit">
+    <installStep name="">
+      <optionalFileGroups order="Explicit">
+        <group name="All Optional - Select only what you want" type="SelectAny">
+          <plugins order="Ascending">
+            <plugin name="1L Bottled Water Uses Split">
+              <!--<designer.metadata.do.not.edit> {"name":"1L Bottled Water Uses Split"}-->
+              <description>The 1L Bottled Water's uses have been adjusted from 3 to 5. 
+
+Each bottle still provides the same amount of total hydration, satiation, and radiation removal - just less per each use, now (60% compared to previous).
+
+Compatible with FoodDrugDrink Animations. Will likely conflict with anything that changes drink items.
+
+Alters item_drink.ltx</description>
+              <files>
+                <folder source="Bottled Water Adjusted" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Companions Don't Ruin Disguises">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000001","name":"Companions Don't Ruin Disguises"}-->
+              <description>Extremely simple 2-line bugfix that stops companions from affecting the disguise system.
+
+Best used alongside "he is with me", otherwise your companion(s) might start shooting at random people or other weird stuff.
+
+Alters gameplay_disguise.script</description>
+              <files>
+                <folder source="Companions dont blow Disguises" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Higher NPC Wounding Percent">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000002","name":"Higher NPC Wounding Percent"}-->
+              <description>Human non-Monolith NPCs will enter the 'wounded' state at 30% total health instead of 20%.
+
+Suited for players who typically set high bullet_hit_power in their game settings, but find it weird that a leg shot can kill a person outright.</description>
+              <files>
+                <folder source="Higher Wound Percent" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Less NPC Jamming">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000003","name":"Less NPC Jamming"}-->
+              <description>Tones down NPC jamming to less-extreme levels, especially for more experienced STALKERs. It just seemed odd how an expert would be jamming every 10 rounds.</description>
+              <files>
+                <folder source="Less NPC Jamming" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Longer NPC Loot Range">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000004","name":"Longer NPC Loot Range"}-->
+              <description>Increases the AI loot range from 35m to 50m to make them better about looting corpses. They will still abide by the loot exclusion distance in the settings menu.</description>
+              <files>
+                <folder source="Longer NPC Loot Range" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Higher Surrender Chance + Faster Executes">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000005","name":"Higher Surrender Chance + Faster Executes"}-->
+              <description>Increases the chance for an injured NPC to surrender to 45% (originally 25%).
+
+Also makes NPCs much faster about putting down injured NPCs. This prevents the endless NPC strafing when a huge group is trying to execute a single injured guy.</description>
+              <files>
+                <folder source="More Surrenders + Faster Execute" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Remove Grey Radiation Effect">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000006","name":"Remove Grey Radiation Effect"}-->
+              <description>Gets rid of the grey radiation post-processing effect from entering radiation fields or getting close to 'old' mutants.
+
+You do not need this if you use Arszi Radiation Overhaul.
+
+Changes postprocess.ltx</description>
+              <files>
+                <folder source="No Grey Radiation PostProcess" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Remove Mutant Auto-aim">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000007","name":"Remove Mutant Auto-aim"}-->
+              <description>Removes auto-aim from the attacks of cats and pseudodogs. All other mutant types already had no auto-aim.
+
+REQUIRES Soundscape Overhaul - Real Mutant Sounds. If you use this option, load this addon after Soundscape Overhaul.</description>
+              <files>
+                <folder source="Remove Mutant AutoAim" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Space+Shift Take-All and Shift+Single-Click-to-Take">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000008","name":"Space+Shift Take-All and Shift+Single-Click-to-Take"}-->
+              <description>Changes the 'take-all' key combo to Shift+Space. Also changes menu functionality so that, while holding Shift, a single click on an item will transfer it between inventories or select it for buy/sell.
+
+Full credit goes to MrAus10. (visit Discord addons page for their alt+click variant).</description>
+              <files>
+                <folder source="Space+Shift TakeAll and Shift+SingleClickTake" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Suppressor Changes">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000009","name":"Suppressor Changes"}-->
+              <description>This changes how suppressors/silencers affect your weapon. Generally, they apply positive effects at the cost of increased maintenance. Thus, they are meant to be used by experienced STALKERs who can afford to pay the extra costs associated with them.
+
+Adding a suppressor to your gun now applies the following:
+
++3% bullet speed
++1% gun accuracy
+-18% hipfire recoil
+-18% aimed recoil
++5% hipfire accuracy (stationary)
+-10% hipfire accuracy (moving)
+-15% hipfire accuracy (turning)
+25% faster gun degradation (due to increased back-pressure and suppressor needing cleaning)
+
+These are all easily editable in the .ltx file.
+</description>
+              <files>
+                <folder source="Suppressor Changes" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Talk to Everyone">
+              <!--<designer.metadata.do.not.edit> {"user_sort":"0000010","name":"Talk to Everyone"}-->
+              <description>Allows you to talk to everyone, even if they aren't a squad leader. You can also trade and take quests from non-squad-leader NPCs.
+
+Full credit goes to Dawn/Strider for their original fix for Anomaly 1.5.0.</description>
+              <files>
+                <folder source="Talk to Everyone" destination="" priority="0" alwaysInstall="false" installIfUsable="false"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+          </plugins>
+          <!--<designer.metadata.do.not.edit> {"name":"All Optional - Select only what you want"}-->
+        </group>
+      </optionalFileGroups>
+    </installStep>
+  </installSteps>
+</config>
