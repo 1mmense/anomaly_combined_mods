@@ -38,12 +38,12 @@ function sip(camelbak, large)
     cond = clamp(camelbak_cond[id] - camelbak_drain, 0, 100)
     camelbak_cond[id] = cond
 
-    -- if cond == 0 and camelbak:condition() > MIN then
-    --     camelbak:set_condition(MIN)
-    -- elseif cond > 0 and camelbak:condition() < MAX then
-    --     camelbak:set_condition(MAX)
-    -- end
-    camelbak:set_condition(clamp(cond / 100, MIN, MAX))
+    if cond == 0 and camelbak:condition() > MIN then
+        camelbak:set_condition(MIN)
+    elseif cond > 0 and camelbak:condition() < MAX then
+        camelbak:set_condition(MAX)
+    end
+    -- camelbak:set_condition(clamp(cond / 100, MIN, MAX))
 
     news_manager.send_tip(db.actor, game.translate_string("st_camelbak_drink"), nil, "swiss_knife", 6000)
 
@@ -87,10 +87,10 @@ function on_item_drag_dropped(obj_1, obj_2, slot_from, slot_to)
         camelbak_cond[id] = clamp(current_capacity + water_table[water_sec], 0, 100)
         utils_item.discharge(water)
 
-        -- if camelbak:condition() < MAX then
-        --     camelbak:set_condition(MAX)
-        -- end
-        camelbak:set_condition(clamp(camelbak_cond[id] / 100, MIN, MAX))
+        if camelbak:condition() < MAX then
+            camelbak:set_condition(MAX)
+        end
+        -- camelbak:set_condition(clamp(camelbak_cond[id] / 100, MIN, MAX))
 
         news_manager.send_tip(db.actor, game.translate_string("st_camelbak_fill"), nil, "swiss_knife", 6000)
     else
@@ -159,12 +159,21 @@ function camelbak_binder:update(delta)
         self.first_update = true
         camelbak_last_sip = curr_time
 
+        -- if not camelbak_cond[id] then
+        --     -- first time initialization
+        --     camelbak_cond[id] = 100
+        -- end
+        -- obj:set_condition(clamp(camelbak_cond[id] / 100, MIN, MAX))
+
         if not camelbak_cond[id] then
             -- first time initialization
             camelbak_cond[id] = 100
+        elseif camelbak_cond[id] == 0 then
+            -- no water, no bonuses (or penalties)
+            obj:set_condition(MIN)
+        else
+            obj:set_condition(MAX)
         end
-
-        obj:set_condition(clamp(camelbak_cond[id] / 100, MIN, MAX))
     end
 
     if (get_console_cmd(1, "g_god")) or not on_belt(obj) then

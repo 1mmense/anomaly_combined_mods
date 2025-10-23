@@ -1,7 +1,7 @@
 function on_game_start()
     base_craft = ui_workshop.UIWorkshopCraft.Craft
     function ui_workshop.UIWorkshopCraft:Craft()
-        for idx,v in pairs(self.craft_item) do
+        for idx, v in pairs(self.craft_item) do
             local sec
 
             -- Save item section if it's degradable
@@ -22,14 +22,16 @@ function on_game_start()
                         cond_sort_list[item:id()] = item:condition()
                     end
                 end
-                db.actor:iterate_inventory(search,nil)
+                db.actor:iterate_inventory(search, nil)
 
                 -- Sort item list by condition ascending and add the first items to craft table
                 local counter = 1
                 for id, cond in spairs(cond_sort_list, value_sort_ascending) do
                     self.craft_item[idx][#self.craft_item[idx] + 1] = id
                     counter = counter + 1
-                    if counter > craft_cnt then break end
+                    if counter > craft_cnt then
+                        break
+                    end
                 end
             end
         end
