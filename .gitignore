@@ -31,3 +31,16 @@
 *.txt
 *.vs
 *.xr
+*.jpg
+*.png
+*.pdf
+*.seq
+*.rtf
+*.wav
+*.xmp
+*.rar
+*.zip
+*.7z
+*.blend*
+*.aup3
+*.xcf
